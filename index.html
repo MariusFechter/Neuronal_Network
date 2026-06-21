@@ -6,7 +6,6 @@
     <title>Neuronal Network</title>
 
     <style>
-        /* System-Fonts für 0ms Ladezeitverzögerung */
         html, body {
             background-color: #000000;
             color: #ffffff;
@@ -23,20 +22,19 @@
             margin: 0 auto;
         }
 
-        /* Das Logo rotiert jetzt wieder hocheffizient in 3D um die Y-Achse */
         .logo-image {
             width: 150px;  
             height: 150px; 
             object-fit: contain;
             display: block; 
-            margin: 0 auto 50px auto; 
             
-            /* Animation aktiv: 6 Sekunden pro Drehung, unendlich, flüssig */
+            /* Der letzte Wert (hier jetzt 25px statt 50px) steuert den Abstand nach unten zur Überschrift */
+            margin: 0 auto 25px auto; 
+            
             animation: spin3D 6s linear infinite;
-            will-change: transform; /* Sagt dem Grafikchip des Handys Bescheid */
+            will-change: transform; 
         }
 
-        /* Die mathematische Definition der räumlichen Drehung */
         @keyframes spin3D {
             from { transform: rotateY(0deg); }
             to { transform: rotateY(360deg); }
@@ -47,7 +45,7 @@
             font-size: 25px;
             font-weight: 700;
             line-height: 1.3;
-            margin-top: 0;
+            margin-top: 0; /* Verhindert, dass die Überschrift zusätzlichen eigenen Abstand nach oben erzeugt */
             margin-bottom: 24px;
         }
 
