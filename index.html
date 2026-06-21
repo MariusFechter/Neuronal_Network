@@ -8,14 +8,33 @@
     <style>
         html, body {
             background-color: #000000;
+            color: #ffffff;
+            font-family: sans-serif; /* Standard-Schriftart als Fallback */
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+        }
+        
+        .content-container {
+            padding: 40px 20px; /* Sicherer Abstand nach oben und zu den Seiten */
+            max-width: 600px;   /* Verhindert, dass der Text auf Desktop-Bildschirmen zu lang läuft */
+            margin: 0 auto;     /* Zentriert den Textblock horizontal auf der Seite */
+        }
+
+        p {
+            margin-bottom: 20px; /* Gleichmäßiger Abstand zwischen den Absätzen */
+            line-height: 1.6;    /* Erhöht die Lesbarkeit auf Mobilgeräten */
         }
     </style>
 </head>
 <body>
+
+    <div class="content-container">
+        <p>Was du gerade gesehen hast, ist nur ein Ausschnitt.</p>
+        <p>Die in der Anzeige beschriebenen Veränderungen folgen klaren neurochemischen Mechanismen im Gehirn.</p>
+        <p>Hier beginnt die vollständige Einordnung:</p>
+    </div>
+
 </body>
 </html>
