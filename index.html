@@ -22,17 +22,30 @@
         }
         
         .content-container {
-            /* Der erste Wert (hier jetzt 40px statt 100px) steuert den oberen Rand */
-            padding: 30px 20px 40px 20px;
+            padding: 40px 20px 40px 20px;
             max-width: 600px;
             margin: 0 auto;
         }
 
+        /* Styling für die dauerhafte Logo-Animation */
         .logo-image {
             max-width: 150px;
             height: auto;
             display: block; 
             margin: 0 auto 50px auto; 
+            
+            /* Aktiviert die permanente Drehung: 10 Sekunden pro Runde, flüssig (linear) */
+            animation: spin 10s linear infinite;
+        }
+
+        /* Die mathematische Definition der Drehung von 0 bis 360 Grad */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         h1 {
