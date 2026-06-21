@@ -14,7 +14,6 @@
         html, body {
             background-color: #000000;
             color: #ffffff;
-            /* sans-serif sorgt für den sofortigen Fallback beim Laden */
             font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 0;
@@ -28,22 +27,13 @@
             margin: 0 auto;
         }
 
-        /* Optimiertes Logo-Styling für schnellen FCP */
+        /* Komplett statisches Logo ohne jegliche Animations-Logik */
         .logo-image {
-            width: 150px;  /* Feste Breite verhindert Layout-Verschiebungen (CLS) */
-            height: 150px; /* Feste Höhe hilft dem Browser, den Text sofort darunter zu rendern */
+            width: 150px;  
+            height: 150px; 
             object-fit: contain;
             display: block; 
             margin: 0 auto 50px auto; 
-            
-            /* CSS-Animationen sind hardwarebeschleunigt und belasten den FCP kaum */
-            animation: spin3D 6s linear infinite;
-            will-change: transform; /* Signalisiert dem Grafikchip die Animation vorab */
-        }
-
-        @keyframes spin3D {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
         }
 
         h1 {
