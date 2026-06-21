@@ -27,24 +27,24 @@
             margin: 0 auto;
         }
 
-        /* Styling für die dauerhafte Logo-Animation */
+        /* Styling für die 3D-Achsendrehung */
         .logo-image {
             max-width: 150px;
             height: auto;
             display: block; 
             margin: 0 auto 50px auto; 
             
-            /* Aktiviert die permanente Drehung: 10 Sekunden pro Runde, flüssig (linear) */
-            animation: spin 10s linear infinite;
+            /* Erzeugt den 3D-Effekt: Drehung um die Y-Achse, alle 6 Sekunden unendlich */
+            animation: spin3D 6s linear infinite;
         }
 
-        /* Die mathematische Definition der Drehung von 0 bis 360 Grad */
-        @keyframes spin {
+        /* Definition der räumlichen Drehung (Y-Achse = von links nach rechts) */
+        @keyframes spin3D {
             from {
-                transform: rotate(0deg);
+                transform: rotateY(0deg);
             }
             to {
-                transform: rotate(360deg);
+                transform: rotateY(360deg);
             }
         }
 
