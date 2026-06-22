@@ -26,7 +26,16 @@
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1988847275335071');
+        
+        // Basis-Event für den reinen Seitenaufruf
         fbq('track', 'PageView');
+
+        // Spezifisches Event für das Angebot der Analyse
+        fbq('track', 'ViewContent', {
+            content_name: 'Neuropsychologische Analyse',
+            value: 15.00,
+            currency: 'EUR'
+        });
     </script>
     <!-- End Meta Pixel Code -->
 
@@ -515,7 +524,7 @@
         </div>
 
         <p class="conclusion-text" style="margin-top: 35px; margin-bottom: 40px;">
-            Du verstehst nicht nur einzelne Mechanismen. Sondern erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.
+            Du verstehst nicht nur einzelne mechanismen. Sondern erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.
         </p>
 
         <!-- Technische Spezifikationen (Fach-Grid) -->
