@@ -101,21 +101,27 @@
             font-weight: 500;
         }
 
+        /* NEU: Zentrierte Box, die exakt so breit ist wie das Cover */
+        .meta-container {
+            max-width: 100%;
+            width: 320px;
+            margin: 30px auto 0 auto;
+        }
+
+        /* Bild nimmt jetzt die volle Breite der Box ein */
         .cover-container {
             display: block;
-            margin: 30px auto 0 auto;
-            max-width: 100%;
-            width: 320px; 
+            width: 100%;
             height: auto;
             border-radius: 4px; 
         }
 
-        /* Schriftgröße von 15px auf 13px verringert für einen feineren Look */
+        /* Garantiert die perfekte Linksbündigkeit exakt unter der Coverkante */
         .cover-facts-left {
             color: #f5f5f5;
             font-size: 13px;
-            margin: 25px auto 25px auto;
-            max-width: 320px; 
+            margin-top: 25px;
+            margin-bottom: 25px;
             line-height: 1.7;
             letter-spacing: 0.5px;
             border-left: 1px solid #38b6ff; 
@@ -159,13 +165,16 @@
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
         <p>Strukturierte Einordnung der Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
-        <!-- Dein zentriertes Analyse-Cover -->
-        <img src="cover.webp" alt="Analyse Cover" class="cover-container">
+        <!-- Gemeinsame, zentrierte Box für Cover und Fakten -->
+        <div class="meta-container">
+            <!-- Dein Analyse-Cover -->
+            <img src="cover.webp" alt="Analyse Cover" class="cover-container">
 
-        <!-- Fakten-Block in feiner 13px Schriftgröße -->
-        <div class="cover-facts-left">
-            · 26 Seiten Analyse<br>
-            · 27 wissenschaftliche Quellen
+            <!-- Absolut linksbündig bündig mit der Bildkante -->
+            <div class="cover-facts-left">
+                · 26 Seiten Analyse<br>
+                · 27 wissenschaftliche Quellen
+            </div>
         </div>
     </div>
  
