@@ -17,7 +17,7 @@
         }
         
         .content-container {
-            padding: 40px 20px 40px 20px;
+            padding: 40px 20px 60px 20px;
             max-width: 600px;
             margin: 0 auto;
         }
@@ -101,14 +101,12 @@
             font-weight: 500;
         }
 
-        /* NEU: Zentrierte Box, die exakt so breit ist wie das Cover */
         .meta-container {
             max-width: 100%;
             width: 320px;
-            margin: 30px auto 0 auto;
+            margin: 30px 0 0 0; 
         }
 
-        /* Bild nimmt jetzt die volle Breite der Box ein */
         .cover-container {
             display: block;
             width: 100%;
@@ -116,7 +114,6 @@
             border-radius: 4px; 
         }
 
-        /* Garantiert die perfekte Linksbündigkeit exakt unter der Coverkante */
         .cover-facts-left {
             color: #f5f5f5;
             font-size: 13px;
@@ -126,6 +123,88 @@
             letter-spacing: 0.5px;
             border-left: 1px solid #38b6ff; 
             padding-left: 15px;
+        }
+
+        /* --- STYLES FÜR INHALTSVERZEICHNIS & CTA --- */
+
+        .toc-section {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .toc-main-title {
+            color: #ff9500;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toc-block {
+            margin-bottom: 25px;
+        }
+
+        .toc-chapter {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .toc-chapter-num {
+            color: #38b6ff;
+            font-weight: 500;
+        }
+
+        .toc-sub-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0 32px; 
+        }
+
+        .toc-sub-list li {
+            font-size: 13px;
+            color: #aaaaaa;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .toc-divider {
+            border: 0;
+            border-top: 1px solid #111111;
+            margin: 30px 0;
+        }
+
+        .cta-container {
+            margin-top: 45px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            max-width: 340px; 
+            margin: 0 auto;
+            box-sizing: border-box;
+            background-color: #38b6ff;
+            color: #ffffff;
+            text-align: center;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+            background-color: #29a3eb;
         }
     </style>
 </head>
@@ -165,17 +244,91 @@
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
         <p>Strukturierte Einordnung der Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
-        <!-- Gemeinsame, zentrierte Box für Cover und Fakten -->
+        <!-- Gemeinsame Box für Cover und Fakten -->
         <div class="meta-container">
             <!-- Dein Analyse-Cover -->
             <img src="cover.webp" alt="Analyse Cover" class="cover-container">
 
-            <!-- Absolut linksbündig bündig mit der Bildkante -->
+            <!-- Perfekt bündig unter der linken Coverkante und dem Text darüber -->
             <div class="cover-facts-left">
                 · 26 Seiten Analyse<br>
                 · 27 wissenschaftliche Quellen
             </div>
         </div>
+
+        <!-- --- KAPITELÜBERSICHT --- -->
+        <div class="toc-section">
+            <div class="toc-main-title">Kapitelübersicht</div>
+
+            <!-- 1. LSD -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
+                <ul class="toc-sub-list">
+                    <li>· Wirkung auf das Bewusstsein</li>
+                    <li>· Neuropsychologische Mechanismen</li>
+                    <li>· Bewusstseinseffekte</li>
+                </ul>
+            </div>
+
+            <!-- 2. Psilocybin -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">02</span> Psilocybin: Introspektives Bewusstsein</div>
+                <ul class="toc-sub-list">
+                    <li>· Wirkung auf das Bewusstsein</li>
+                    <li>· Neuropsychologische Mechanismen</li>
+                    <li>· Bewusstseinseffekte</li>
+                </ul>
+            </div>
+
+            <!-- 3. Kokain -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">03</span> Kokain: Fokussiertes Bewusstsein</div>
+                <ul class="toc-sub-list">
+                    <li>· Wirkung auf das Bewusstsein</li>
+                    <li>· Neuropsychologische Mechanismen</li>
+                    <li>· Bewusstseinseffekte</li>
+                </ul>
+            </div>
+
+            <!-- 4. Alkohol -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">04</span> Alkohol: Enthemmtes Bewusstsein</div>
+                <ul class="toc-sub-list">
+                    <li>· Wirkung auf das Bewusstsein</li>
+                    <li>· Neuropsychologische Mechanismen</li>
+                    <li>· Bewusstseinseffekte</li>
+                </ul>
+            </div>
+
+            <!-- 5. Cannabis -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">05</span> Cannabis: Assoziatives Bewusstsein</div>
+                <ul class="toc-sub-list">
+                    <li>· Wirkung auf das Bewusstsein</li>
+                    <li>· Neuropsychologische Mechanismen</li>
+                    <li>· Bewusstseinseffekte</li>
+                </ul>
+            </div>
+
+            <hr class="toc-divider">
+
+            <!-- 6. Überblick -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">06</span> Psychoaktive Effekte im Überblick</div>
+            </div>
+
+            <!-- 7. Literaturverzeichnis -->
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">07</span> Literaturverzeichnis</div>
+            </div>
+        </div>
+
+        <!-- --- FINALE CTA-ZONE --- -->
+        <div class="cta-container">
+            <!-- Zielgerichteter Link zu deiner Publikation hinterlegt -->
+            <a href="https://publikationen.neuronalnetwork.de/buy?s=1&cart_links%5B%5D=CfIph&qty%5BCfIph%5D=1" class="cta-button">Analyse jetzt freischalten</a>
+        </div>
+
     </div>
  
 </body>
