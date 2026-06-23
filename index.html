@@ -168,4 +168,426 @@
         }
 
         .conclusion-text {
-            font-size
+            font-size: 18px;
+            line-height: 1.6;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .meta-container {
+            max-width: 100%;
+            width: 320px;
+            margin: 30px 0 0 0; 
+        }
+
+        .cover-container {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px; 
+        }
+
+        .cover-facts-left {
+            color: #f5f5f5;
+            font-size: 13px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            letter-spacing: 0.5px;
+            border-left: 1px solid #38b6ff; 
+            padding-left: 15px;
+        }
+
+        /* --- INHALTSVERZEICHNIS & CTA --- */
+
+        .toc-section {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .toc-main-title {
+            color: #ff9500;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toc-block {
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding: 0;
+            position: relative;
+        }
+
+        .toc-block.has-divider::before {
+            content: "";
+            position: absolute;
+            top: -13px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #111111;
+        }
+
+        .toc-chapter {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 12px;
+            line-height: 1.2;
+        }
+
+        .toc-chapter-num {
+            color: #38b6ff;
+            font-weight: 500;
+        }
+
+        .toc-sub-items {
+            font-size: 13px;
+            color: #aaaaaa;
+            line-height: 1.8;
+            margin-left: 32px;
+        }
+
+        .cta-container {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            max-width: 340px; 
+            margin: 0 auto;
+            box-sizing: border-box;
+            background-color: #38b6ff;
+            color: #ffffff;
+            text-align: center;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+            background-color: #29a3eb;
+        }
+
+        .cta-subtext {
+            color: #777777;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* --- DEEP DIVE ABSCHNITT (TEIL 2) --- */
+
+        .section-separator {
+            height: 1px;
+            background-color: #111111;
+            margin: 60px 0;
+            border: none;
+        }
+
+        .premium-list {
+            margin: 20px 0 30px 0;
+            padding: 0;
+        }
+
+        .premium-list-item {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #f5f5f5;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .premium-list-bullet {
+            color: #38b6ff;
+            font-weight: 700;
+        }
+
+        .specs-grid {
+            margin: 35px 0;
+            border-top: 1px solid #111111;
+        }
+
+        .spec-row {
+            padding: 16px 0;
+            border-bottom: 1px solid #111111;
+        }
+
+        .spec-label {
+            color: #ff9500;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            color: #ffffff;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .price-pitch-box {
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 1px solid #38b6ff;
+            padding-left: 18px;
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff9500;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .old-price {
+            font-size: 16px;
+            font-weight: 500;
+            color: #777777;
+            text-decoration: line-through;
+        }
+
+        .disclaimer-text {
+            color: #555555;
+            font-size: 11px;
+            font-style: italic;
+            line-height: 1.6;
+            margin-top: 60px;
+            text-align: left;
+            border-top: 1px solid #111111;
+            padding-top: 15px;
+        }
+
+        /* --- FOOTER LEGAL LINKS --- */
+
+        .footer-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 25px;
+            justify-content: flex-start;
+        }
+
+        .footer-link {
+            color: #aaaaaa;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.1s ease;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+
+        <img src="logo_neuronal_network.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
+        
+        <h1>Was du gerade gesehen hast, ist nur ein Ausschnitt.</h1>
+        <p>Die in der Anzeige beschriebenen Veränderungen folgen klaren neurochemischen Mechanismen im Gehirn.</p>
+        <p class="bold-text">Hier beginnt die vollständige Einordnung:</p>
+      
+        <p class="subtitle-orange">Neuropsychologische Mechanismen</p>
+        <p class="highlight-blue">Alkohol: „Enthemmtes Bewusstsein“</p>
+
+        <div class="mechanism-block">
+            <div class="mechanism-title">1. Verstärkung der GABA-Aktivität</div>
+            <p>Alkohol verstärkt die Wirkung von GABA (<i>Gamma-Aminobuttersäure</i>), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die Aktivität der Nervenzellen gedämpft wird.</p>
+            <p><span class="bold-text">Die Folge davon ist:</span> Entspannung, sinkende Hemmschwellen und ein lockeres Verhalten.</p>
+            <p>Hierdurch fühlen sich Menschen sozial offener, spontaner und weniger gehemmt in ihrer Interaktion mit anderen Personen.</p>
+            <div class="source-text">(Koob & Volkow, 2010)</div>
+        </div>
+
+        <div class="mechanism-block">
+            <div class="mechanism-title">2. Hemmung der Glutamat-Aktivität</div>
+            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn fördert.</p>
+            <p><span class="bold-text">Die Folge davon ist:</span> Die bewusste Steuerung des Verhaltens (<i>kognitive Kontrolle</i>) lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
+            <p>Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
+            <div class="source-text">(Lovinger, 1997)</div>
+        </div>
+
+        <p class="conclusion-text">Die vollständige Analyse zeigt die neurochemischen Prozesse aller Substanzen im Detail – <br>
+          und wie sie dein Verhalten systematisch beeinflussen.<br></p>
+
+        <p class="subtitle-orange">Neuropsychologische Analyse</p>
+        <p>Strukturierte Einordnung der Mechanismen hinter veränderten Bewusstseinszuständen.</p>
+
+        <div class="meta-container">
+            <img src="cover.webp" alt="Analyse Cover" class="cover-container">
+            <div class="cover-facts-left">
+                · 26 Seiten Analyse<br>
+                · 27 wissenschaftliche Quellen
+            </div>
+        </div>
+
+        <div class="toc-section">
+            <div class="toc-main-title">Kapitelübersicht</div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
+                <div class="toc-sub-items">· Wirkung auf das Bewusstsein<br>· Neuropsychologische Mechanismen<br>· Bewusstseinseffekte</div>
+            </div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">02</span> Psilocybin: Introspektives Bewusstsein</div>
+                <div class="toc-sub-items">· Wirkung auf das Bewusstsein<br>· Neuropsychologische Mechanismen<br>· Bewusstseinseffekte</div>
+            </div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">03</span> Kokain: Fokussiertes Bewusstsein</div>
+                <div class="toc-sub-items">· Wirkung auf das Bewusstsein<br>· Neuropsychologische Mechanismen<br>· Bewusstseinseffekte</div>
+            </div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">04</span> Alkohol: Enthemmtes Bewusstsein</div>
+                <div class="toc-sub-items">· Wirkung auf das Bewusstsein<br>· Neuropsychologische Mechanismen<br>· Bewusstseinseffekte</div>
+            </div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">05</span> Cannabis: Assoziatives Bewusstsein</div>
+                <div class="toc-sub-items">· Wirkung auf das Bewusstsein<br>· Neuropsychologische Mechanismen<br>· Bewusstseinseffekte</div>
+            </div>
+
+            <div class="toc-block has-divider">
+                <div class="toc-chapter"><span class="toc-chapter-num">06</span> Psychoaktive Effekte im Überblick</div>
+            </div>
+
+            <div class="toc-block">
+                <div class="toc-chapter"><span class="toc-chapter-num">07</span> Literaturverzeichnis</div>
+            </div>
+        </div>
+
+        <div class="cta-container">
+            <a href="https://publikationen.neuronalnetwork.de/buy?s=1&cart_links%5B%5D=CfIph&qty%5BCfIph%5D=1" class="cta-button">Analyse jetzt freischalten</a>
+        </div>
+
+
+        <div class="section-separator"></div>
+
+        <h2>Warum diese Analyse relevant ist</h2>
+        
+        <p>Diese Analyse macht sichtbar, wie neuropsychologische Prozesse in veränderten Bewusstseinszuständen konkret dein Wahrnehmen, Entscheiden und Verhalten beeinflussen.</p>
+        <p>Viele dieser Veränderungen laufen automatisch ab – oft bevor sie bewusst eingeordnet oder verstanden werden.</p>
+        <p class="bold-text">Du fühlst dich nicht zufällig anders.</p>
+        <p>In diesen Momenten verändert sich die Art, wie dein Gehirn Informationen verarbeitet und Entscheidungen trifft.</p>
+
+        <p class="subtitle-orange" style="margin-top: 40px;">Diese Analyse zeigt dir:</p>
+        <div class="premium-list">
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span>warum sich dein Verhalten in bestimmten Zuständen verändert</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span>warum kontrolle in diesen Momenten oft nur eingeschränkt greift</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span>wie unterschiedliche neurochemische Systeme dein Erleben beeinflussen</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span>warum sich diese Zustände subjektiv oft stabil und „normal“ anfühlen</span>
+            </div>
+        </div>
+
+        <p class="subtitle-orange" style="margin-top: 35px;">In dieser Analyse erkennst du die Muster von:</p>
+        <div class="premium-list">
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span><span class="bold-text">Alkohol</span> &rarr; Enthemmung + Impulsivität</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span><span class="bold-text">Cannabis</span> &rarr; Assoziatives Denken + Überverknüpfung</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span><span class="bold-text">LSD</span> &rarr; Ich-Distanz + Wahrnehmungsverschiebung</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span><span class="bold-text">Kokain</span> &rarr; Fokus + Kontrollillusion</span>
+            </div>
+            <div class="premium-list-item">
+                <span class="premium-list-bullet">·</span>
+                <span><span class="bold-text">Psilocybin</span> &rarr; emotionale Verstärkung + Selbstreflexion</span>
+            </div>
+        </div>
+
+        <p class="conclusion-text" style="margin-top: 35px; margin-bottom: 40px;">
+            Du verstehst nicht nur einzelne Mechanismen.<br> 
+            Sondern erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.<br>
+        </p>
+
+        <div class="specs-grid">
+            <div class="spec-row">
+                <div class="spec-label">Umfang</div>
+                <div class="spec-value">26 Seiten digitale Fach-Publikation</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-label">Wissenschaftliche Grundlage</div>
+                <div class="spec-value">27 wissenschaftliche Quellen</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-label">System-Garantie</div>
+                <div class="spec-value">Diese Analyse wird laufend erweitert.<br>
+                  Alle zukünftigen Versionen sind für Käufer dauerhaft kostenfrei enthalten.<br></div>
+            </div>
+        </div>
+
+        <div class="price-pitch-box">
+            <div class="price-tag">
+                Für 15 € <span class="old-price">statt 25 €</span>
+            </div>
+            <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
+                erhältst du ein strukturiertes Verständnis der neuropsychologischen Mechanismen hinter veränderten Bewusstseinszuständen.<br>
+                Du hast viele dieser Effekte wahrscheinlich bereits erlebt.<br>
+                Diese Analyse zeigt dir, warum sie entstehen.
+            </p>
+        </div>
+
+        <div class="cta-container" style="margin-top: 40px;">
+            <a href="https://publikationen.neuronalnetwork.de/buy?s=1&cart_links%5B%5D=CfIph&qty%5BCfIph%5D=1" class="cta-button">Analyse jetzt freischalten</a>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+        </div>
+
+        <div class="disclaimer-text">
+            Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Keine medizinische, therapeutische oder praktische Empfehlung.
+        </div>
+
+        <div class="footer-links">
+            <a href="https://www.dropbox.com/scl/fi/hlhpumtrxczedgx629rb9/Impressum_Neuronal_Network.pdf?rlkey=hgo7p46aa17dv2x1aq1yerjv0&dl=0" class="footer-link" target="_blank">Impressum</a>
+            <a href="https://www.dropbox.com/scl/fi/74yjneyai9zbbj52slj4u/Neuronal_Network_Datenschutzerkl-rung.pdf?rlkey=29eq4y37yf5cij3qm336008rp&dl=0" class="footer-link" target="_blank">Datenschutzerklärung</a>
+        </div>
+
+    </div>
+ 
+</body>
+</html>
