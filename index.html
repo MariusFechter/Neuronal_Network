@@ -1,9 +1,15 @@
+
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Analyse</title>
+
+    <!-- LemonSqueezy Overlay-Skript -->
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <!-- Microsoft Clarity Tracking -->
     <script type="text/javascript">
@@ -13,86 +19,6 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "xbhzt1331m");
     </script>
-
-    <!-- Meta Pixel & Non-Blocking Asset Initializer -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-
-        // Event-ID für browser- und serverseitige Deduplikation
-        const uniqueEventId = 'nn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-
-        fbq('init', '1988847275335071');
-        fbq('track', 'PageView', {}, { eventID: uniqueEventId });
-        fbq('track', 'ViewContent', {
-            content_name: 'Neuropsychologische Analyse',
-            value: 15.00,
-            currency: 'EUR'
-        }, { eventID: uniqueEventId });
-
-        // Absolute Kontrolle: Overlay erzwingen, sobald LemonSqueezy bereit ist
-        function initializeLemonOverlay() {
-            if (window.LemonSqueezy) {
-                window.LemonSqueezy.Setup();
-            }
-        }
-
-        // Ressourcen erst im echten Leerlauf nachladen (0 ms Total Blocking Time)
-        function loadNonCriticalAssets() {
-            // 1. LemonSqueezy Overlay-Skript asynchron injizieren
-            const lemonScript = document.createElement('script');
-            lemonScript.src = "https://assets.lemonsqueezy.com/lemon.js";
-            lemonScript.async = true;
-            lemonScript.onload = initializeLemonOverlay; // Direkt initialisieren nach dem Laden
-            document.head.appendChild(lemonScript);
-
-            // 2. Server-Side Meta CAPI-Trigger abfeuern
-            fetch('https://meta-capi-bridge.theneuronalnetwork.workers.dev', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    eventName: 'ViewContent',
-                    eventId: uniqueEventId,
-                    url: window.location.href
-                }),
-                mode: 'cors'
-            }).catch(err => console.error('CAPI Bridge Error:', err));
-        }
-
-        // Falls das Skript noch nicht geladen wurde, verhindert das hier den harten Redirect im selben Fenster
-        document.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('lemonsqueezy-button')) {
-                if (!window.LemonSqueezy) {
-                    e.preventDefault(); // Verhindert das Neuladen/Redirect
-                    
-                    // Lädt das Skript sofort mit Priorität, falls der User schneller geklickt hat
-                    const lemonScript = document.createElement('script');
-                    lemonScript.src = "https://assets.lemonsqueezy.com/lemon.js";
-                    lemonScript.onload = function() {
-                        window.LemonSqueezy.Setup();
-                        e.target.click(); // Triggert den Klick erneut, jetzt mit aktivem Overlay
-                    };
-                    document.head.appendChild(lemonScript);
-                }
-            }
-        });
-
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(loadNonCriticalAssets);
-        } else {
-            setTimeout(loadNonCriticalAssets, 1000);
-        }
-    </script>
-    
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1" alt="" />
-    </noscript>
     
     <style>
         html, body {
@@ -509,6 +435,7 @@
             </div>
         </div>
 
+        <!-- Erster optimierter LemonSqueezy CTA Container -->
         <div class="cta-container">
             <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
         </div>
@@ -599,6 +526,7 @@
             </p>
         </div>
 
+        <!-- Zweiter optimierter LemonSqueezy CTA Container -->
         <div class="cta-container" style="margin-top: 40px;">
             <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
