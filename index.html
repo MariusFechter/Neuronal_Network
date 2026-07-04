@@ -386,56 +386,6 @@
         }
     </style>
 
-    <script>
-        let checkoutStarted = false;
-        let qualifiedFired = false;
-        let checkoutTimer = null;
-
-        function trackCheckout() {
-            // 1. InitiateCheckout feuert immer sofort beim Klick
-            fbq('track', 'InitiateCheckout');
-
-            if (checkoutStarted) return;
-            checkoutStarted = true;
-
-            const start = Date.now();
-
-            // 2. Timer startet im Hintergrund
-            checkoutTimer = setInterval(() => {
-                const elapsed = Date.now() - start;
-
-                if (elapsed >= 10000) {
-                    if (!qualifiedFired) {
-                        fbq('track', 'QualifiedCheckout');
-                        qualifiedFired = true;
-                    }
-                    clearInterval(checkoutTimer);
-                }
-            }, 500);
-        }
-
-        // 3. Systemischer Schutz: Wenn das Lemon Squeezy Popup geschlossen wird
-        window.createLemonSqueezy = function() {
-            if (window.LemonSqueezy) {
-                window.LemonSqueezy.Setup({
-                    eventHandler: (event) => {
-                        // Falls das Fenster geschlossen wird, bevor die 10 Sekunden um sind:
-                        if (event.event === 'LemonSqueezy.Url.Close') {
-                            if (checkoutTimer) {
-                                clearInterval(checkoutTimer); // Timer hart zerstören
-                                checkoutTimer = null;
-                            }
-                            checkoutStarted = false; // Zurücksetzen für den nächsten Klick
-                        }
-                    }
-                });
-            }
-        };
-
-        // Event-Listener für das asynchrone Laden der LS Extensions
-        window.addEventListener('lemonSqueezyExtensionsLoaded', window.createLemonSqueezy);
-    </script>
-
 </head>
 
 <body>
@@ -519,7 +469,7 @@
         </div>
 
         <div class="cta-container">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="trackCheckout();">Analyse jetzt freischalten</a>
+            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
         </div>
 
@@ -609,7 +559,7 @@
         </div>
 
         <div class="cta-container" style="margin-top: 40px;">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="trackCheckout();">Analyse jetzt freischalten</a>
+            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
         </div>
 
