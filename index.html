@@ -1,6 +1,10 @@
+
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -10,12 +14,24 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Pixel initialisieren
     fbq('init', '1988847275335071');
+
+    // PageView genau 1x manuell steuern
     fbq('track', 'PageView');
+
+    // ViewContent nach 10 Sekunden Verweildauer
+    setTimeout(function() {
+        fbq('track', 'ViewContent');
+    }, 10000);
     </script>
-    <noscript><img height="1" width="1" stroke="0" style="display:none"
-    src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
-    /></noscript>
+
+    <noscript>
+        <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
+    </noscript>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Analyse</title>
@@ -32,13 +48,6 @@
         })(window, document, "clarity", "script", "xbhzt1331m");
     </script>
 
-    <script>
-      // Verzögerung für ausgehende Klicks zur Event-Erfassung
-      function delay(URL) {
-        setTimeout(function() { window.location = URL }, 500);
-      }
-    </script>
-
     <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
     <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
 
@@ -51,6 +60,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
+            perspective: 1000px;
         }
 
         .content-container {
@@ -59,38 +69,86 @@
             margin: 0 auto;
         }
 
-        /* Hero-Image: Optimierte Skalierung & sanfter Glow für System 1 */
+        .hero-title {
+            color: #ff9500;
+            font-size: 23px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .hero-subtitle {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: left;
+            max-width: 340px;
+        }
+
         .logo-image {
             width: 45%;  
             max-width: 180px; 
             height: auto; 
             object-fit: contain;
             display: block; 
-            margin: 10px auto 25px auto; 
+            margin: -10px auto 15px auto;
+            
             filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
+            transform-origin: center center;
+            animation: slowOrbitY 60s linear infinite;
+            will-change: transform;
         }
 
-        /* Hero Headline: Dominant & linksbündig */
-        .hero-title {
-            color: #ff9500;
-            font-size: 32px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-top: 0;
-            margin-bottom: 12px;
-            text-align: left;
+        @keyframes slowOrbitY {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
         }
 
-        /* Hero Subtitle: Saubere visuelle Hierarchie & linksbündig */
-        .hero-subtitle {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-top: 0;
-            margin-bottom: 30px;
-            text-align: left;
-            max-width: 340px;
+        /* Subtiler, ruhiger Hero-CTA (Kein Button-Block) */
+        .hero-soft-cta {
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 45px;
+        }
+
+        .hero-soft-link {
+            display: inline-block;
+            color: #38b6ff;
+            font-size: 13px; 
+            font-weight: 500; 
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            letter-spacing: 0.3px;
+            transition: opacity 0.1s ease;
+        }
+
+        .hero-soft-link:active {
+            opacity: 0.7;
+        }
+
+        .hero-soft-subtext {
+            color: #888888;
+            font-size: 10px; 
+            font-style: italic;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* Styling für den Einleitungssatz des Auszugs */
+        .intro-teaser-text {
+            font-size: 16px;
+            font-weight: 600; 
+            color: #f5f5f5; 
+            margin-bottom: 25px;
         }
 
         h2 {
@@ -123,7 +181,6 @@
             margin-bottom: 15px;
         }
 
-        /* Highlight Blue: Symmetrie mit .mechanism-title */
         .highlight-blue {
             color: #38b6ff;
             font-size: 21px;
@@ -183,8 +240,6 @@
             border-left: 1px solid #38b6ff; 
             padding-left: 15px;
         }
-
-        /* --- INHALTSVERZEICHNIS & CTA --- */
 
         .toc-section {
             margin-top: 50px;
@@ -263,6 +318,7 @@
             letter-spacing: 0.5px;
             box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
             transition: transform 0.1s ease, background-color 0.1s ease;
+            cursor: pointer;
         }
 
         .cta-button:active {
@@ -271,14 +327,15 @@
         }
 
         .cta-subtext {
-            color: #777777;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: 10px;
+            color: #888888; 
+            font-size: 11px; 
+            font-style: normal; 
+            letter-spacing: 0.3px; 
+            margin-top: 12px;
             display: block;
+            opacity: 0.8;
+            text-align: center; /* Macht es perfekt symmetrisch */
         }
-
-        /* --- DEEP DIVE ABSCHNITT (TEIL 2) --- */
 
         .section-separator {
             height: 1px;
@@ -367,8 +424,6 @@
             padding-top: 15px;
         }
 
-        /* --- FOOTER LEGAL LINKS --- */
-
         .footer-links {
             margin-top: 25px;
             display: flex;
@@ -387,21 +442,27 @@
             color: #ffffff;
         }
         .footer-link:active {
-            opacity:
             opacity: 0.7;
         }
     </style>
+
 </head>
+
 <body>
 
     <div class="content-container">
 
+        <h1 class="hero-title">Was du als Veränderung wahrnimmst, folgt klaren neuropsychologischen Mustern in deinem Gehirn.</h1>
+        <p class="hero-subtitle">Diese Analyse zeigt dir, <br>wie sich Wahrnehmung, Kontrolle <br> und Verhalten in veränderten Bewusstseinszuständen systematisch verändern - oft bevor du sie bewusst einordnen kannst.</p>
+      
         <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
-
-        <h1 class="hero-title">Gehirn auf 2.0 Promille</h1>
-        <p class="hero-subtitle">Warum sich dein Verhalten nicht zufällig verändert</p>
-
-        <p>Die vollständige wissenschaftliche Analyse zeigt, welche neurochemischen Mechanismen hinter diesen Veränderungen stehen –<br>und warum Wahrnehmung, Entscheidungen und Verhalten sich systematisch verändern.</p>
+        
+        <div class="hero-soft-cta">
+            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="hero-soft-link lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Zugang zur vollständigen Analyse</a>
+            <span class="hero-soft-subtext">(Direkter Zugriff nach dem Kauf.)</span>
+        </div>
+      
+        <p class="intro-teaser-text">Im Folgenden siehst du einen Auszug aus der vollständigen Analyse:</p>
 
         <p class="highlight-blue">Alkohol: „Enthemmtes Bewusstsein“</p>
 
@@ -415,23 +476,22 @@
 
         <div class="mechanism-block">
             <div class="mechanism-title">2. Hemmung der Glutamat-Aktivität</div>
-            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung and Informationsverarbeitung im Gehirn fördert.</p>
-            <p><span class="bold-text">Die Folge davon ist:</span> Die bewusste Steuerung des Verhaltens (<i>kognitive Kontrolle</i>) lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
+            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn vorantreibt.</p>
+            <p><span class="bold-text">Die Folge davon ist:</span> Die kognitive Kontrolle lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
             <p>Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
             <div class="source-text">(Lovinger, 1997)</div>
         </div>
 
-        <p class="conclusion-text">Die vollständige Analyse zeigt die neurochemischen Prozesse aller Substanzen im Detail – <br>
-          und wie sie dein Verhalten systematisch beeinflussen.<br></p>
-
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
-        <p>Strukturierte Einordnung der Mechanismen hinter veränderten Bewusstseinszuständen.</p>
+        <p>Diese Analyse ist keine Meinung oder Interpretation.<br> Sie ist eine strukturierte neuropsychologische Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
         <div class="meta-container">
             <img src="cover.webp" alt="Analyse Cover" class="cover-container">
             <div class="cover-facts-left">
                 · 26 Seiten Analyse<br>
-                · 27 wissenschaftliche Quellen
+                · 27 wissenschaftliche Quellen<br>
+                · Analyse neurochemischer Systeme<br>
+                · Vergleich mehrerer Substanzklassen
             </div>
         </div>
 
@@ -472,16 +532,18 @@
             </div>
         </div>
 
+        <p>Wenn du diese Muster einmal verstanden hast, verändert sich die Art, wie du dein eigenes Verhalten einordnest -<br> nicht nur intuitiv, sondern auf einer nachvollziehbaren, wissenschaftlich-neuropsycholgischen Grundlage.</p>
+        
         <div class="cta-container">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
-              <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+            <a href="javascript:void(0);" class="cta-button" onclick="fbq('track', 'InitiateCheckout'); LemonSqueezy.Url.Open('https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75');">Analyse jetzt freischalten</a>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="section-separator"></div>
 
         <h2>Warum diese Analyse relevant ist</h2>
 
-        <p>Diese Analyse macht sichtbar, wie neuropsychologische Prozesse in veränderten Bewusstseinszuständen konkret dein Wahrnehmen, Entscheiden und Verhalten beeinflussen.</p>
+        <p>Diese Analyse makes sichtbar, wie neuropsychologische Prozesse in veränderten Bewusstseinszuständen konkret dein Wahrnehmen, Entscheiden und Verhalten beeinflussen.</p>
         <p>Viele dieser Veränderungen laufen automatisch ab – oft bevor sie bewusst eingeordnet oder verstanden werden.</p>
         <p class="bold-text">Du fühlst dich nicht zufällig anders.</p>
         <p>In diesen Momenten verändert sich die Art, wie dein Gehirn Informationen verarbeitet und Entscheidungen trifft.</p>
@@ -563,8 +625,8 @@
         </div>
 
         <div class="cta-container" style="margin-top: 40px;">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+            <a href="javascript:void(0);" class="cta-button" onclick="fbq('track', 'InitiateCheckout'); LemonSqueezy.Url.Open('https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75');">Analyse jetzt freischalten</a>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="disclaimer-text">
