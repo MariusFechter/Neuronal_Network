@@ -2,7 +2,6 @@
 <html lang="de">
 <head>
 
-    <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -83,7 +82,7 @@
             font-weight: 600;
             line-height: 1.4;
             margin-top: 0;
-            margin-bottom: 10px; /* Reduziert für engeren Anschluss zum Logo */
+            margin-bottom: 10px;
             text-align: left;
             max-width: 340px;
         }
@@ -94,7 +93,7 @@
             height: auto; 
             object-fit: contain;
             display: block; 
-            margin: -10px auto 15px auto; /* Enge Führung nach oben und sanfter Abstand nach unten */
+            margin: -10px auto 15px auto;
             
             filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
             transform-origin: center center;
@@ -115,14 +114,14 @@
         .hero-soft-cta {
             text-align: center;
             margin-top: 5px;
-            margin-bottom: 45px; /* Schafft sauberen Übergang zum Scroll-Einstieg */
+            margin-bottom: 45px;
         }
 
         .hero-soft-link {
             display: inline-block;
             color: #38b6ff;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 13px; 
+            font-weight: 500; 
             text-decoration: underline;
             text-underline-offset: 4px;
             letter-spacing: 0.3px;
@@ -134,11 +133,19 @@
         }
 
         .hero-soft-subtext {
-            color: #555555;
-            font-size: 11px;
+            color: #888888;
+            font-size: 10px; 
             font-style: italic;
             margin-top: 6px;
             display: block;
+        }
+
+        /* Styling für den Einleitungssatz des Auszugs */
+        .intro-teaser-text {
+            font-size: 16px;
+            font-weight: 600; 
+            color: #f5f5f5; 
+            margin-bottom: 25px;
         }
 
         h2 {
@@ -316,11 +323,14 @@
         }
 
         .cta-subtext {
-            color: #777777;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: 10px;
+            color: #888888; /* Edles, mattes Grau */
+            font-size: 10px; /* Feinerer Schriftschnitt */
+            font-style: normal; /* Aufrecht wirkt im Fundament stabiler */
+            letter-spacing: 0.3px; /* High-End Spationierung */
+            margin-top: 12px;
             display: block;
+            opacity: 0.8;
+          text-align: center; /* Macht es perfekt symmetrisch */
         }
 
         .section-separator {
@@ -443,13 +453,12 @@
       
         <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
         
-        <!-- Ruhiger, subtiler Hero-CTA (Wegöffner ohne finalen Verkaufsdruck) -->
         <div class="hero-soft-cta">
             <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="hero-soft-link lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Zugang zur vollständigen Analyse</a>
             <span class="hero-soft-subtext">(Direkter Zugriff nach dem Kauf.)</span>
         </div>
       
-        <p>Im folgenden siehst du einen Auszug aus der vollständigen Analyse:</p>
+        <p class="intro-teaser-text">Im Folgenden siehst du einen Auszug aus der vollständigen Analyse:</p>
 
         <p class="highlight-blue">Alkohol: „Enthemmtes Bewusstsein“</p>
 
@@ -463,23 +472,22 @@
 
         <div class="mechanism-block">
             <div class="mechanism-title">2. Hemmung der Glutamat-Aktivität</div>
-            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn fördert.</p>
-            <p><span class="bold-text">Die Folge davon ist:</span> Die bewusste Steuerung des Verhaltens (<i>kognitive Kontrolle</i>) lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
+            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn vorantreibt.</p>
+            <p><span class="bold-text">Die Folge davon ist:</span> Die kognitive Kontrolle lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
             <p>Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
             <div class="source-text">(Lovinger, 1997)</div>
         </div>
 
-        <p class="conclusion-text">Die vollständige Analyse zeigt die neurochemischen Prozesse aller Substanzen im Detail – <br>
-          und wie sie dein Verhalten systematisch beeinflussen.<br></p>
-
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
-        <p>Strukturierte Einordnung der Mechanismen hinter veränderten Bewusstseinszuständen.</p>
+        <p>Diese Analyse ist keine Meinung oder Interpretation.<br> Sie ist eine strukturierte neuropsychologische Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
         <div class="meta-container">
             <img src="cover.webp" alt="Analyse Cover" class="cover-container">
             <div class="cover-facts-left">
                 · 26 Seiten Analyse<br>
-                · 27 wissenschaftliche Quellen
+                · 27 wissenschaftliche Quellen<br>
+                · Analyse neurochemischer Systeme<br>
+                · Vergleich mehrerer Substanzklassen
             </div>
         </div>
 
@@ -520,9 +528,11 @@
             </div>
         </div>
 
+        <p>Wenn du diese Muster einmal verstanden hast, verändert sich die Art, wie du dein eigenes Verhalten einordnest -<br> nicht nur intuitiv, sondern auf einer nachvollziehbaren, wissenschaftlich-neuropsycholgischen Grundlage.</p>
+        
         <div class="cta-container">
             <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Analyse jetzt freischalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="section-separator"></div>
@@ -580,7 +590,7 @@
 
         <p class="conclusion-text" style="margin-top: 35px; margin-bottom: 40px;">
             Du verstehst nicht nur einzelne Mechanismen.<br> 
-            Sonderrn erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.<br>
+            Sondern erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.<br>
         </p>
 
         <div class="specs-grid">
@@ -612,7 +622,7 @@
 
         <div class="cta-container" style="margin-top: 40px;">
             <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Analyse jetzt freischalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="disclaimer-text">
