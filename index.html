@@ -10,19 +10,20 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
+
     fbq('init', '1988847275335071');
-    
-    // 1. PageView feuert sofort
     fbq('track', 'PageView');
 
-    // 2. ViewContent feuert verzögert nach 10 Sekunden Verweildauer
     setTimeout(function() {
         fbq('track', 'ViewContent');
     }, 10000);
     </script>
-    <noscript><img height="1" width="1" stroke="0" style="display:none"
-    src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
-    /></noscript>
+
+    <noscript>
+        <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
+    </noscript>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Analyse</title>
@@ -59,7 +60,6 @@
             margin: 0 auto;
         }
 
-        /* Hero-Image: Optimierte Skalierung & sanfter Glow für System 1 */
         .logo-image {
             width: 45%;  
             max-width: 180px; 
@@ -70,7 +70,6 @@
             filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
         }
 
-        /* Hero Headline: Dominant & linksbündig */
         .hero-title {
             color: #ff9500;
             font-size: 32px;
@@ -81,7 +80,6 @@
             text-align: left;
         }
 
-        /* Hero Subtitle: Saubere visuelle Hierarchie & linksbündig */
         .hero-subtitle {
             color: #ffffff;
             font-size: 20px;
@@ -123,7 +121,6 @@
             margin-bottom: 15px;
         }
 
-        /* Highlight Blue: Symmetrie mit .mechanism-title */
         .highlight-blue {
             color: #38b6ff;
             font-size: 21px;
@@ -183,8 +180,6 @@
             border-left: 1px solid #38b6ff; 
             padding-left: 15px;
         }
-
-        /* --- INHALTSVERZEICHNIS & CTA --- */
 
         .toc-section {
             margin-top: 50px;
@@ -278,8 +273,6 @@
             display: block;
         }
 
-        /* --- DEEP DIVE ABSCHNITT (TEIL 2) --- */
-
         .section-separator {
             height: 1px;
             background-color: #111111;
@@ -367,8 +360,6 @@
             padding-top: 15px;
         }
 
-        /* --- FOOTER LEGAL LINKS --- */
-
         .footer-links {
             margin-top: 25px;
             display: flex;
@@ -390,7 +381,35 @@
             opacity: 0.7;
         }
     </style>
+
+    <!-- TRACKING FIX -->
+    <script>
+        let checkoutStarted = false;
+        let qualifiedFired = false;
+        let timer = null;
+
+        function trackCheckout() {
+            fbq('track', 'InitiateCheckout');
+
+            if (checkoutStarted) return;
+            checkoutStarted = true;
+
+            const start = Date.now();
+
+            timer = setInterval(() => {
+                const elapsed = Date.now() - start;
+
+                if (elapsed >= 10000 && !qualifiedFired) {
+                    fbq('track', 'QualifiedCheckout');
+                    qualifiedFired = true;
+                    clearInterval(timer);
+                }
+            }, 500);
+        }
+    </script>
+
 </head>
+
 <body>
 
     <div class="content-container">
