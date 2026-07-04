@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
+    <!-- META PIXEL (FIXED) -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -12,8 +14,11 @@
     'https://connect.facebook.net/en_US/fbevents.js');
 
     fbq('init', '1988847275335071');
+
+    // PageView sofort
     fbq('track', 'PageView');
 
+    // ViewContent nach 10 Sekunden
     setTimeout(function() {
         fbq('track', 'ViewContent');
     }, 10000);
@@ -32,6 +37,7 @@
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
+    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -42,6 +48,8 @@
 
     <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
     <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
+
+    <style>
 
     <style>
         html, body {
