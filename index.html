@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 
+    <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -12,9 +13,13 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
+    // Verhindert das doppelte Feuern des PageView-Events durch automatische Erfassung
+    fbq('set', 'autoConfig', false, '1988847275335071');
+    
+    // Pixel initialisieren
     fbq('init', '1988847275335071');
 
-    // PageView sofort
+    // PageView genau 1x manuell steuern
     fbq('track', 'PageView');
 
     // ViewContent nach 10 Sekunden Verweildauer
@@ -528,7 +533,7 @@
 
         <p class="conclusion-text" style="margin-top: 35px; margin-bottom: 40px;">
             Du verstehst nicht nur einzelne Mechanismen.<br> 
-            Sondern erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.<br>
+            Sonderrn erkennst die wiederkehrenden Muster hinter deinem Verhalten in diesen Zuständen.<br>
         </p>
 
         <div class="specs-grid">
