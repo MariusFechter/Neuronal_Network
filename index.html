@@ -1,22 +1,393 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1BSY9Q4Z0W"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-1BSY9Q4Z0W');
-    </script>
-
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-@@ -396,195 +387,4 @@
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1988847275335071');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" stroke="0" style="display:none"
+    src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
+    /></noscript>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuronal Network - Analyse</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "xbhzt1331m");
+    </script>
+
+    <script>
+      // Verzögerung für ausgehende Klicks zur Event-Erfassung
+      function delay(URL) {
+        setTimeout(function() { window.location = URL }, 500);
+      }
+    </script>
+
+    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
+
+    <style>
+        html, body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-container {
+            padding: 40px 20px 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Hero-Image: Optimierte Skalierung & sanfter Glow für System 1 */
+        .logo-image {
+            width: 45%;  
+            max-width: 180px; 
+            height: auto; 
+            object-fit: contain;
+            display: block; 
+            margin: 10px auto 25px auto; 
+            filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
+        }
+
+        /* Hero Headline: Dominant & linksbündig */
+        .hero-title {
+            color: #ff9500;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        /* Hero Subtitle: Saubere visuelle Hierarchie & linksbündig */
+        .hero-subtitle {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-align: left;
+            max-width: 340px;
+        }
+
+        h2 {
+            color: #ff9500;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #ffffff;
+        }
+
+        .bold-text {
+            font-weight: 700;
+        }
+
+        .subtitle-orange {
+            color: #ff9500;
+            font-weight: 700;
+            font-size: 21px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* Highlight Blue: Symmetrie mit .mechanism-title */
+        .highlight-blue {
+            color: #38b6ff;
+            font-size: 21px;
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 12px;
+        }
+
+        .mechanism-block {
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .mechanism-title {
+            color: #38b6ff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .source-text {
+            color: #777777;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .conclusion-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .meta-container {
+            max-width: 100%;
+            width: 320px;
+            margin: 30px 0 0 0; 
+        }
+
+        .cover-container {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px; 
+        }
+
+        .cover-facts-left {
+            color: #f5f5f5;
+            font-size: 13px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            letter-spacing: 0.5px;
+            border-left: 1px solid #38b6ff; 
+            padding-left: 15px;
+        }
+
+        /* --- INHALTSVERZEICHNIS & CTA --- */
+
+        .toc-section {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .toc-main-title {
+            color: #ff9500;
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toc-block {
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding: 0;
+            position: relative;
+        }
+
+        .toc-block.has-divider::before {
+            content: "";
+            position: absolute;
+            top: -13px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #111111;
+        }
+
+        .toc-chapter {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 12px;
+            line-height: 1.2;
+        }
+
+        .toc-chapter-num {
+            color: #38b6ff;
+            font-weight: 500;
+        }
+
+        .toc-sub-items {
+            font-size: 13px;
+            color: #aaaaaa;
+            line-height: 1.8;
+            margin-left: 32px;
+        }
+
+        .cta-container {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            max-width: 340px; 
+            margin: 0 auto;
+            box-sizing: border-box;
+            background-color: #38b6ff;
+            color: #ffffff;
+            text-align: center;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+            background-color: #29a3eb;
+        }
+
+        .cta-subtext {
+            color: #777777;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* --- DEEP DIVE ABSCHNITT (TEIL 2) --- */
+
+        .section-separator {
+            height: 1px;
+            background-color: #111111;
+            margin: 60px 0;
+            border: none;
+        }
+
+        .premium-list {
+            margin: 20px 0 30px 0;
+            padding: 0;
+        }
+
+        .premium-list-item {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #f5f5f5;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .premium-list-bullet {
+            color: #38b6ff;
+            font-weight: 700;
+        }
+
+        .specs-grid {
+            margin: 35px 0;
+            border-top: 1px solid #111111;
+        }
+
+        .spec-row {
+            padding: 16px 0;
+            border-bottom: 1px solid #111111;
+        }
+
+        .spec-label {
+            color: #ff9500;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            color: #ffffff;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .price-pitch-box {
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 1px solid #38b6ff;
+            padding-left: 18px;
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff9500;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .old-price {
+            font-size: 16px;
+            font-weight: 500;
+            color: #777777;
+            text-decoration: line-through;
+        }
+
+        .disclaimer-text {
+            color: #555555;
+            font-size: 11px;
+            font-style: italic;
+            line-height: 1.6;
+            margin-top: 60px;
+            text-align: left;
+            border-top: 1px solid #111111;
+            padding-top: 15px;
+        }
+
+        /* --- FOOTER LEGAL LINKS --- */
+
+        .footer-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 25px;
+            justify-content: flex-start;
+        }
+
+        .footer-link {
+            color: #aaaaaa;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.1s ease;
+        }
+
+        .footer-link:hover {
             color: #ffffff;
         }
         .footer-link:active {
+            opacity:
             opacity: 0.7;
         }
     </style>
@@ -44,7 +415,7 @@
 
         <div class="mechanism-block">
             <div class="mechanism-title">2. Hemmung der Glutamat-Aktivität</div>
-            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn fördert.</p>
+            <p>Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung and Informationsverarbeitung im Gehirn fördert.</p>
             <p><span class="bold-text">Die Folge davon ist:</span> Die bewusste Steuerung des Verhaltens (<i>kognitive Kontrolle</i>) lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.</p>
             <p>Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
             <div class="source-text">(Lovinger, 1997)</div>
@@ -110,8 +481,8 @@
 
         <h2>Warum diese Analyse relevant ist</h2>
 
-        <p>Diese Analyse makes sichtbar, wie neuropsychologische Prozesse in veränderten Bewusstseinszuständen konkret dein Wahrnehmen, Entscheiden und Verhalten beeinflussen.</p>
-        <p>Many dieser Veränderungen laufen automatisch ab – oft bevor sie bewusst eingeordnet oder verstanden werden.</p>
+        <p>Diese Analyse macht sichtbar, wie neuropsychologische Prozesse in veränderten Bewusstseinszuständen konkret dein Wahrnehmen, Entscheiden und Verhalten beeinflussen.</p>
+        <p>Viele dieser Veränderungen laufen automatisch ab – oft bevor sie bewusst eingeordnet oder verstanden werden.</p>
         <p class="bold-text">Du fühlst dich nicht zufällig anders.</p>
         <p>In diesen Momenten verändert sich die Art, wie dein Gehirn Informationen verarbeitet und Entscheidungen trifft.</p>
 
@@ -173,7 +544,7 @@
                 <div class="spec-label">Wissenschaftliche Grundlage</div>
                 <div class="spec-value">27 wissenschaftliche Quellen</div>
             </div>
-            <div class="specs-row" style="padding: 16px 0; border-bottom: 1px solid #111111;">
+            <div class="spec-row">
                 <div class="spec-label">System-Garantie</div>
                 <div class="spec-value">Diese Analyse wird laufend erweitert.<br>
                   Alle zukünftigen Versionen sind für Käufer dauerhaft kostenfrei enthalten.<br></div>
