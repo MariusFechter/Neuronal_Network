@@ -11,7 +11,14 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1988847275335071');
+    
+    // 1. PageView feuert sofort
     fbq('track', 'PageView');
+
+    // 2. ViewContent feuert verzögert nach 10 Sekunden Verweildauer
+    setTimeout(function() {
+        fbq('track', 'ViewContent');
+    }, 10000);
     </script>
     <noscript><img height="1" width="1" stroke="0" style="display:none"
     src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
@@ -30,13 +37,6 @@
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "xbhzt1331m");
-    </script>
-
-    <script>
-      // Verzögerung für ausgehende Klicks zur Event-Erfassung
-      function delay(URL) {
-        setTimeout(function() { window.location = URL }, 500);
-      }
     </script>
 
     <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
@@ -420,7 +420,7 @@
             <div class="source-text">(Lovinger, 1997)</div>
         </div>
 
-        <p class="conclusion-text">Die vollständige Analyse zeigt die neurochemischen Prozesse aller Substanzen im Detail – <br>
+        <p class="conclusion-text">Die vollständige Analyse shows die neurochemischen Prozesse aller Substanzen im Detail – <br>
           und wie sie dein Verhalten systematisch beeinflussen.<br></p>
 
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
@@ -472,8 +472,8 @@
         </div>
 
         <div class="cta-container">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
-              <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
+            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'AddToCart'); setTimeout(function() { fbq('track', 'InitiateCheckout'); }, 10000);">Analyse jetzt freischalten</a>
+            <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
         </div>
 
         <div class="section-separator"></div>
@@ -562,7 +562,7 @@
         </div>
 
         <div class="cta-container" style="margin-top: 40px;">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button">Analyse jetzt freischalten</a>
+            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="cta-button lemonsqueezy-button" onclick="fbq('track', 'AddToCart'); setTimeout(function() { fbq('track', 'InitiateCheckout'); }, 10000);">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf.</span>
         </div>
 
