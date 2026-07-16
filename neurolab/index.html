@@ -16,7 +16,6 @@
             padding: 40px 20px;
         }
 
-        /* Branding linksbündig */
         .header-container {
             width: 100%;
             max-width: 800px;
@@ -26,7 +25,6 @@
         h1 { font-size: 1.2rem; font-weight: 800; color: #ff7517; text-transform: uppercase; }
         p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
-        /* Kompaktes Grid (2 Spalten Potenzial) */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -37,7 +35,6 @@
 
         .product-card {
             background-color: #080808;
-            /* Rahmen etwas aufgehellt und Schatten für Tiefe */
             border: 1px solid #222222;
             border-radius: 18px;
             overflow: hidden;
@@ -67,6 +64,22 @@
             font-weight: 700;
             text-align: center;
         }
+
+        .footer-nav {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-nav a {
+            color: #d9d9d9;
+            font-size: 0.65rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .footer-nav a:hover { color: #ffffff; }
     </style>
 </head>
 <body>
@@ -91,7 +104,11 @@
                 </div>
             </div>
         </div>
-        <!-- Platzhalter für die zweite Kachel bleibt frei -->
+    </div>
+
+    <div class="footer-nav">
+        <a href="https://www.neuronalnetwork.de/impressum/" target="_blank">Impressum</a>
+        <a href="https://www.dropbox.com/scl/fi/74yjneyai9zbbj52slj4u/Neuronal_Network_Datenschutzerkl-rung.pdf?rlkey=29eq4y37yf5cij3qm336008rp&dl=0" target="_blank">Datenschutz</a>
     </div>
 
 </body>
