@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEUROLAB | Neuronal Network</title>
-    <!-- Modern, blocky, high-end geometric sans-serif font -->
+    <!-- Standard Clean Sans-Serif (Inter is clean, timeless, and standard) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -18,6 +18,7 @@
         body {
             background-color: #000000;
             color: #F5F5F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -32,22 +33,38 @@
             max-width: 1200px;
         }
 
-        /* High-end blocky title forced onto a single line */
+        /* Clean, standard uppercase headline on a single line */
         h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: 4vw; /* Fluid typography so it scales perfectly on all screens */
+            font-size: 3.5vw; /* Fluid scaling to keep it on one line */
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
             color: #ff7517;
-            line-height: 1.0;
-            white-space: nowrap; /* Forces text to stay on a single line */
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        /* Standard clean subline in the requested d9d9d9 grey */
+        p.subline {
+            font-size: 1.5vw;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #d9d9d9;
+            text-transform: uppercase;
+            margin-top: 12px;
+            white-space: nowrap;
         }
 
         /* Responsive adjustments for mobile viewports */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem; /* Scaled down for mobile to prevent overflow */
+                font-size: 1.8rem;
+                white-space: normal; /* Allow wrapping on mobile so it doesn't clip */
+            }
+            p.subline {
+                font-size: 0.9rem;
+                white-space: normal;
+                margin-top: 8px;
             }
         }
     </style>
@@ -56,6 +73,7 @@
 
     <div class="container">
         <h1>NEUROLAB | NEURONAL NETWORK</h1>
+        <p class="subline">Neuropsychologie & Muster</p>
     </div>
 
 </body>
