@@ -16,32 +16,17 @@
             padding: 40px 20px;
         }
 
-        /* Kopfzeile mit Logo rechts */
-        .header-wrapper {
+        /* Branding linksbündig */
+        .header-container {
+            width: 100%;
             max-width: 800px;
             margin: 0 auto 30px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: left;
         }
+        h1 { font-size: 1.2rem; font-weight: 800; color: #ff7517; text-transform: uppercase; }
+        p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
-        .header-text h1 { font-size: 1.2rem; font-weight: 800; color: #ff7517; text-transform: uppercase; }
-        .header-text p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
-
-        .logo-image {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
-            animation: slowOrbitY 60s linear infinite;
-        }
-
-        @keyframes slowOrbitY {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-
-        /* Grid für Kacheln */
+        /* Kompaktes Grid (2 Spalten Potenzial) */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -52,6 +37,7 @@
 
         .product-card {
             background-color: #080808;
+            /* Rahmen etwas aufgehellt und Schatten für Tiefe */
             border: 1px solid #222222;
             border-radius: 18px;
             overflow: hidden;
@@ -81,28 +67,13 @@
             font-weight: 700;
             text-align: center;
         }
-
-        /* Footer Links */
-        .footer-nav {
-            max-width: 800px;
-            margin: 40px auto 0 auto;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-        }
-        .footer-link { color: #555; font-size: 0.7rem; text-decoration: none; }
-        .footer-link:hover { color: #888; }
     </style>
 </head>
 <body>
 
-    <div class="header-wrapper">
-        <div class="header-text">
-            <h1>NEUROLAB</h1>
-            <p class="subline">Neuronal Network | Neuropsychologie & Muster</p>
-        </div>
-        <img src="logo_neuronal_network.webp" alt="Logo" class="logo-image">
+    <div class="header-container">
+        <h1>NEUROLAB | NEURONAL NETWORK</h1>
+        <p class="subline">Neuropsychologie & Muster</p>
     </div>
 
     <div class="product-grid">
@@ -120,11 +91,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="footer-nav">
-        <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link" target="_blank">Impressum</a>
-        <a href="https://www.dropbox.com/scl/fi/74yjneyai9zbbj52slj4u/Neuronal_Network_Datenschutzerkl-rung.pdf?rlkey=29eq4y37yf5cij3qm336008rp&dl=0" class="footer-link" target="_blank">Datenschutz</a>
+        <!-- Platzhalter für die zweite Kachel bleibt frei -->
     </div>
 
 </body>
