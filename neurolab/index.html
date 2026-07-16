@@ -16,14 +16,29 @@
             padding: 40px 20px;
         }
 
-        /* Branding linksbündig */
+        /* Branding linksbündig mit responsiver Schriftgröße */
         .header-container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto 32px auto;
             text-align: left;
         }
-        h1 { font-size: 1.1rem; font-weight: 800; color: #ff7517; text-transform: uppercase; }
+        
+        h1 { 
+            font-size: 1.2rem; 
+            font-weight: 800; 
+            color: #ff7517; 
+            text-transform: uppercase; 
+        }
+
+        @media (min-width: 400px) {
+            h1 { font-size: 1.6rem; }
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 2.2rem; }
+        }
+
         p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
         /* Kompaktes Grid (2 Spalten Potenzial) */
@@ -70,7 +85,7 @@
 <body>
 
     <div class="header-container">
-        <h1>NEUROLAB | Neuronal Network </h1>
+        <h1>NEUROLAB | Neuronal Network</h1>
         <p class="subline">Neuropsychologie & Muster</p>
     </div>
 
