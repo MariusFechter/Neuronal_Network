@@ -14,6 +14,16 @@
             color: #F5F5F5;
             font-family: 'Inter', sans-serif;
             padding: 40px 20px;
+            position: relative; /* Wichtig für die Logo-Positionierung */
+        }
+
+        /* Das Logo-Style */
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px; /* Anpassen nach Bedarf */
+            opacity: 0.8;
         }
 
         .header-container {
@@ -83,6 +93,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Logo eingefügt -->
+    <img src="logo_neuronal_network.webp" alt="Logo" class="header-logo">
 
     <div class="header-container">
         <h1>NEUROLAB | NEURONAL NETWORK</h1>
