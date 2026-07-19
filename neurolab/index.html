@@ -4,84 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEUROLAB | Neuronal Network</title>
-    <!-- Favicon hinzugefügt -->
     <link rel="icon" type="image/png" href="favicon_logo.png">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1988847275335071');
+    fbq('track', 'PageView');
+
+    setTimeout(function() {
+        fbq('track', 'ViewContent');
+    }, 10000);
+
+    function triggerPixelAndRedirect(event, url) {
+        if (event) event.preventDefault();
+        if (typeof fbq === 'function') {
+            fbq('track', 'InitiateCheckout');
+        }
+        setTimeout(function() {
+            window.location.href = url;
+        }, 150);
+    }
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
+    </noscript>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ... Dein bestehendes CSS bleibt unverändert ... */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: #000000;
-            color: #F5F5F5;
-            font-family: 'Inter', sans-serif;
-            padding: 40px 20px;
-        }
-
-        .header-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto 30px auto;
-            text-align: left;
-        }
+        body { background-color: #000000; color: #F5F5F5; font-family: 'Inter', sans-serif; padding: 40px 20px; }
+        .header-container { width: 100%; max-width: 800px; margin: 0 auto 30px auto; text-align: left; }
         h1 { font-size: 1.2rem; font-weight: 800; color: #ff7517; text-transform: uppercase; }
         p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .product-card {
-            background-color: #080808;
-            border: 2px solid #333333;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 800px; margin: 0 auto; }
+        .product-card { background-color: #080808; border: 2px solid #333333; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; }
         .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-
         .card-content { padding: 14px; }
         .tag { font-size: 0.55rem; font-weight: 700; color: #ff7517; text-transform: uppercase; margin-bottom: 6px; display: block; }
-        .product-title { 
-            font-size: 0.9rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .product-title { font-size: 0.9rem; font-weight: 700; color: #ffffff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .product-subtitle { font-size: 0.7rem; color: #999; margin-bottom: 14px; line-height: 1.3; }
-
         .card-footer { display: flex; flex-direction: column; gap: 8px; }
         .price-tag { font-size: 0.9rem; font-weight: 700; }
-        .checkout-btn {
-            background-color: #38b6ff;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .footer-nav {
-            margin-top: 40px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .footer-nav a {
-            color: #d9d9d9;
-            font-size: 0.65rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+        .checkout-btn { background-color: #38b6ff; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; }
+        .footer-nav { margin-top: 40px; text-align: center; display: flex; justify-content: center; gap: 20px; }
+        .footer-nav a { color: #d9d9d9; font-size: 0.65rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
         .footer-nav a:hover { color: #ffffff; }
     </style>
 </head>
@@ -103,7 +82,10 @@
                 <p class="product-subtitle">Warum Substanzen dein Verhalten verändern.</p>
                 <div class="card-footer">
                     <div class="price-tag">15,00 €</div>
-                    <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="checkout-btn">Analyse freischalten</a>
+                    <!-- Button angepasst für die Tracking-Funktion -->
+                    <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" 
+                       class="checkout-btn" 
+                       onclick="triggerPixelAndRedirect(event, this.href);">Analyse freischalten</a>
                 </div>
             </div>
         </div>
