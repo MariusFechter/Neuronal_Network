@@ -418,15 +418,25 @@
             background-color: #29a3eb;
         }
 
+        /* Korrigierter Stil für die Trust-Badges unter den Haupt-CTAs (erzwingt saubere Zeile) */
         .cta-subtext {
             color: #888888; 
-            font-size: 11px; 
+            font-size: 10px; 
             font-style: normal; 
-            letter-spacing: 0.3px; 
-            margin-top: 12px;
+            letter-spacing: 0.1px; 
+            margin-top: 10px;
             display: block;
-            opacity: 0.8;
             text-align: center;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+
+        .cta-subtext span {
+            color: #38b6ff;
+            padding: 0 3px;
         }
 
         .section-separator {
@@ -561,7 +571,7 @@
         <h1 class="hero-title">Die vollständige <br> neuropsychologische Analyse <br> zu dem Ausschnitt,<br> den du gerade gesehen hast.</h1>
             <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
         <p class="hero-subtitle">Erfahre, wie Alkohol, Cannabis, Kokain, LSD und Psilocybin<br> deine Wahrnehmung, Entscheidungen und Verhalten verändern – <br> erklärt durch neuropsychologische <br>Mechanismen.</p>
-          <!-- CTA 1: Oberer Soft-Link (direkte Weiterleitung mit Pixel-Trigger) -->
+          
           <div class="cover-facts-left">
                 · 26 Seiten digitale Fach-Publikation<br>
                 · 27 wissenschaftliche Quellen<br>
@@ -574,7 +584,7 @@
 
         <p class="highlight-blue" style="margin-bottom: 25px;">Alkohol:<br> „Enthemmtes Bewusstsein“</p>
 
-        <!-- DAS NEUE ADAPTIVE BUCH-LAYOUT -->
+        <!-- DAS ADAPTIVE BUCH-LAYOUT -->
         <div class="book-container">
 
             <!-- Linke Buchseite (Punkt 1) -->
@@ -582,7 +592,6 @@
                 <span class="page-number">01</span>
                 <h4 class="page-heading">Verminderung der GABA-Aktivität</h4>
                 <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die Aktivität der Nervenzellen gedämpft wird.</p>
-                <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die activity der Nervenzellen gedämpft wird.</p>
                 <div class="consequence-box">
                     <span class="bold-text">Die Folge davon ist:</span> Entspannung, sinkende Hemmschwellen und ein lockeres Verhalten.
                 </div>
@@ -609,8 +618,8 @@
 
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
 
-      <p style="margin-bottom: 5px;">Diese Analyse basiert auf neuropsychologischen Erkenntnissen und wissenschaftlicher Literatur.</p>
-<p style="margin-top: 0;">Sie bietet eine strukturierte Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
+        <p style="margin-bottom: 5px;">Diese Analyse basiert auf neuropsychologischen Erkenntnissen und wissenschaftlicher Literatur.</p>
+        <p style="margin-top: 0;">Sie bietet eine strukturierte Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
         <div class="meta-container">
             <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
@@ -625,21 +634,20 @@
         <div class="toc-section">
             <div class="toc-main-title">Kapitelübersicht</div>
 
-<!-- Die zentrale, edle Erklärung für den Aufbau jedes Kapitels -->
-<div style="font-size: 15px; color: #d9d9d9; margin-top: 20px; margin-bottom: 35px; line-height: 1.6;">
-    <div class="bold-text" style="color: #ffffff; margin-bottom: 12px; font-size: 17px;">
-        Jedes der Substanz-Kapitel analysiert systematisch:
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Wirkung auf das Bewusstsein
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Neuropsychologische Mechanismen
-    </div>
-    <div style="margin-bottom: 0; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Bewusstseinseffekte
-    </div>
-</div>
+            <div style="font-size: 15px; color: #d9d9d9; margin-top: 20px; margin-bottom: 35px; line-height: 1.6;">
+                <div class="bold-text" style="color: #ffffff; margin-bottom: 12px; font-size: 17px;">
+                    Jedes der Substanz-Kapitel analysiert systematisch:
+                </div>
+                <div style="margin-bottom: 8px; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Wirkung auf das Bewusstsein
+                </div>
+                <div style="margin-bottom: 8px; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Neuropsychologische Mechanismen
+                </div>
+                <div style="margin-bottom: 0; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Bewusstseinseffekte
+                </div>
+            </div>
 
             <div class="toc-block">
                 <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
@@ -672,19 +680,17 @@
 
         <p>Wenn du diese Muster einmal <br> verstanden hast, <br>verändert sich die Art, wie du dein eigenes <br> Verhalten einordnest – <br> nicht nur intuitiv, sondern auf einer <br> wissenschaftlich fundierten Grundlage.</p>
 
-        <!-- CTA 2: Erster Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA 2 -->
         <div class="cta-container">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Vollständige Analyse erhalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
+            <span class="cta-subtext">15 € einmalig <span>·</span> Direkter Zugriff nach dem Kauf <span>·</span> 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="section-separator"></div>
 
         <h2>Warum diese Analyse relevant ist</h2>
 
-
-   <p>Veränderte Bewusstseinszustände entstehen durch automatische neuropsychologische Prozesse, die beeinflussen, wie du wahrnimmst, bewertest und entscheidest.</p>
-
+        <p>Veränderte Bewusstseinszustände entstehen durch automatische neuropsychologische Prozesse, die beeinflussen, wie du wahrnimmst, bewertest und entscheidest.</p>
 
         <p>Viele dieser Prozesse wirken, bevor du sie bewusst <br> einordnen und verstehen kannst.</p>
 
@@ -742,15 +748,15 @@
         <div class="specs-grid">
             <div class="spec-row">
              <div class="spec-label" style="font-size: 16px;">Umfang</div>
-                <div class="spec-value"style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
+                <div class="spec-value" style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
             </div>
             <div class="spec-row">
                <div class="spec-label" style="font-size: 16px;">Wissenschaftliche Grundlage</div>
                 <div class="spec-value" style="font-size: 15px;"> Gestützt durch 27 wissenschaftliche Quellen</div>
             </div>
             <div class="spec-row">     
-      <div class="spec-label" style="font-size: 16px;">Fortlaufende Weiterentwicklung</div>
-                <div class="spec-value"style="font-size: 15px;">Die Publikation wird kontinuierlich erweitert.<br>
+                <div class="spec-label" style="font-size: 16px;">Fortlaufende Weiterentwicklung</div>
+                <div class="spec-value" style="font-size: 15px;">Die Publikation wird kontinuierlich erweitert.<br>
                   Alle zukünftigen Versionen erhältst du als Käufer dauerhaft kostenfrei.<br></div>
             </div>
         </div>
@@ -759,20 +765,19 @@
             <div class="price-tag">
                 Für 15 € <span class="old-price">statt 20 €</span>
             </div>
-          <p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    erhältst du eine strukturierte Einordnung der neuropsychologischen Mechanismen hinter veränderten Bewusstseinszuständen.
-</p>
-<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    Viele dieser Veränderungen hast du wahrscheinlich bereits erlebt.<br>
-    Jetzt kannst du die Prozesse dahinter nachvollziehen. 
-</p>
-
+            <p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
+                erhältst du eine strukturierte Einordnung der neuropsychologischen Mechanismen hinter veränderten Bewusstseinszuständen.
+            </p>
+            <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
+                Viele dieser Veränderungen hast du wahrscheinlich bereits erlebt.<br>
+                Jetzt kannst du die Prozesse dahinter nachvollziehen. 
+            </p>
         </div>
 
-        <!-- CTA 3: Unterer Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA 3 -->
         <div class="cta-container" style="margin-top: 40px;">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Jetzt vollständige Analyse erhalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
+            <span class="cta-subtext">15 € einmalig <span>·</span> Direkter Zugriff nach dem Kauf <span>·</span> 14 Tage Geld-zurück-Garantie</span>
         </div>
 
         <div class="disclaimer-text">
