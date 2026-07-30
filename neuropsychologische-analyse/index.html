@@ -1,40 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-
-    // Pixel initialisieren
-    fbq('init', '1988847275335071');
-
-    // PageView genau 1x manuell steuern
-    fbq('track', 'PageView');
-
-    // ViewContent nach 10 Sekunden Verweildauer
-    setTimeout(function() {
-        fbq('track', 'ViewContent');
-    }, 10000);
-    </script>
-
-    <noscript>
-        <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
-    </noscript>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Neuropsychologische Analyse</title>
 
     <link rel="icon" type="image/png" href="favicon.png">
 
-    <!-- Speculation Rules API für echtes Prerendering des Checkouts auf eigener Subdomain -->
+    <!-- 1. Kritisches LCP-Asset priorisieren (Nur das Hero-Logo) -->
+    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
+
+    <!-- 2. Früher Verbindungsaufbau zur Checkout-Subdomain -->
+    <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
+    <link rel="dns-prefetch" href="https://zugang.neuronalnetwork.de">
+
+    <!-- Speculation Rules API für echtes Prerendering des Checkouts -->
     <script type="speculationrules">
     {
       "prerender": [
@@ -45,21 +25,8 @@
       ]
     }
     </script>
-    <!-- Optimierter Verbindungsaufbau zur Checkout-Subdomain ohne verfrühtes Prerendering -->
-    <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
-    <link rel="dns-prefetch" href="https://zugang.neuronalnetwork.de">
 
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "xocaikjz5c");
-    </script>
-
-    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
-    <link rel="preload" fetchpriority="high" as="image" href="analyse_cover_100kb.webp" type="image/webp">
-
+    <!-- Inline-CSS -->
     <style>
         html, body {
             background-color: #000000;
@@ -261,7 +228,6 @@
                 display: block;
             }
         }
-        /* -------------------------------------------- */
 
         .conclusion-text {
             font-size: 18px;
@@ -290,7 +256,7 @@
             color: #f5f5f5;
             font-size: 13px;
             margin-top: 35px;
-            margin-bottom: 35px; /* Exakt 35 px Abstand nach oben und nach unten zum Button */
+            margin-bottom: 35px;
             line-height: 1.6;
             letter-spacing: 0.5px;
             border-left: 1px solid #38b6ff; 
@@ -375,7 +341,6 @@
             background-color: #29a3eb;
         }
 
-        /* Subtext für Buttons mit sauberem, optisch ausbalanciertem Zentrieren */
         .cta-subtext {
             color: #777777; 
             font-size: 9px; 
@@ -507,20 +472,49 @@
         }
     </style>
 
+    <!-- 3. Drittanbieter-Skripte nach dem CSS ausführen -->
+    <script defer>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '1988847275335071');
+        fbq('track', 'PageView');
+
+        setTimeout(function() {
+            fbq('track', 'ViewContent');
+        }, 10000);
+    </script>
+
+    <script type="text/javascript" defer>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "xocaikjz5c");
+    </script>
+
     <script>
         function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
 
-            // Meta Pixel absenden
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
 
-            // Sofortige Weiterleitung zum Checkout
             window.location.href = url;
         }
     </script>
 
+    <noscript>
+        <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
+    </noscript>
 </head>
 
 <body>
@@ -540,7 +534,7 @@
             · 25 Seiten digitale Fachpublikation
         </div>
         <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
-             <span class="cta-subtext"><span>·</span>15 € einmalig<span>·</span>Direkter Zugriff nach dem Kauf<span>·</span>14 Tage Geld-zurück-Garantie</span>
+            <span class="cta-subtext"><span>·</span>15 € einmalig<span>·</span>Direkter Zugriff nach dem Kauf<span>·</span>14 Tage Geld-zurück-Garantie</span>
         <p class="intro-teaser-text">Ein Ausschnitt aus der vollständigen Analyse:</p>
 
         <p class="highlight-blue" style="margin-bottom: 25px;">Alkohol:<br> „Enthemmtes Bewusstsein“</p>
@@ -583,8 +577,8 @@
         <p style="margin-top: 0;">Sie verbindet aktuelle <br> neuropsychologische Forschung <br> mit einer strukturierten Einordnung <br> der Prozesse hinter veränderten <br> Bewusstseinszuständen.</p>
 
         <div class="meta-container">
-            <img src="analyse_cover_100kb.webp" alt="Analyse Cover" class="cover-container">
-          
+            <!-- Asynchron / verzögert geladenes Cover-Bild -->
+            <img src="analyse_cover_100kb.webp" alt="Analyse Cover" class="cover-container" loading="lazy" width="320" height="453">
         </div>
 
         <div class="toc-section">
