@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Analyse</title>
 
-    <!-- Favicon (Hier deinen Pfad/Dateinamen anpassen) -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Preload für das LCP-Logo -->
+    <link rel="preload" fetchpriority="high" as="image" href="logo_neuronalnetwork.webp" type="image/webp">
 
     <!-- Preconnect für deinen schnellen Checkout -->
     <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
@@ -29,12 +32,39 @@
             padding: 20px;
             box-sizing: border-box;
         }
+
+        /* Zentriertes Logo mit Performance-Glow */
+        .header-logo {
+            width: 38%;  
+            max-width: 150px;  
+            height: auto;  
+            object-fit: contain;
+            display: block;  
+            margin: 10px auto 25px auto;
+
+            filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
+            transform-origin: center center;
+            animation: slowOrbitY 60s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes slowOrbitY {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Hier kommt dein Content rein -->
+        <!-- Zentriertes Logo ganz oben -->
+        <img src="logo_neuronalnetwork.webp" alt="Neuronal Network Logo" class="header-logo" width="150" height="150" fetchpriority="high">
+
+        <!-- Hier kommt dein weiterer Content rein -->
     </div>
 
 </body>
