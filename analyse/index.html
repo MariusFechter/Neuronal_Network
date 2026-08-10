@@ -33,7 +33,7 @@
             box-sizing: border-box;
         }
 
-        /* Zentriertes Logo mit Performance-Glow */
+        /* Zentriertes Logo sauber integriert */
         .header-logo {
             width: 20%;  
             max-width: 150px;  
@@ -41,19 +41,8 @@
             object-fit: contain;
             display: block;  
             margin: 10px auto 25px auto;
-
-            filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
             transform-origin: center center;
             will-change: transform;
-        }
-
-        @keyframes slowOrbitY {
-            from {
-                transform: rotateY(0deg);
-            }
-            to {
-                transform: rotateY(360deg);
-            }
         }
     </style>
 </head>
