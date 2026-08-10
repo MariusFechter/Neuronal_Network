@@ -40,91 +40,77 @@
             height: auto;  
             object-fit: contain;
             display: block;  
-            margin: 10px auto 25px auto;
+            margin: 10px auto 20px auto;
             transform-origin: center center;
             will-change: transform;
         }
 
-        /* --- High-End Karussell Styles --- */
-        .carousel-wrapper {
+        /* --- Buch-Flip Wrapper Styles --- */
+        .book-wrapper {
             position: relative;
             width: 100%;
-            max-width: 440px;
+            max-width: 400px;
             margin: 0 auto 30px auto;
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
-        }
-
-        .carousel-track {
             display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .carousel-track::-webkit-scrollbar {
-            display: none;
+        /* Container für das Canvas-Buch */
+        #book-container {
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(56, 182, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
         }
 
-        .carousel-slide {
-            flex: 0 0 100%;
+        /* Einzelne Buchseiten */
+        .my-page {
+            background-color: #000000;
             width: 100%;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            box-sizing: border-box;
+            height: 100%;
+            overflow: hidden;
         }
 
-        .carousel-slide img {
+        .my-page img {
             width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
             object-fit: cover;
+            display: block;
         }
 
-        /* Navigationspfeile wie bei Payhip */
-        .nav-btn {
+        /* Navigationspfeile über dem Buch */
+        .book-nav-btn {
             position: absolute;
-            top: 50%;
+            top: 45%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10;
+            z-index: 20;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             transition: all 0.2s ease;
         }
 
-        .nav-btn:active {
-            transform: translateY(-50%) scale(0.92);
-            background: rgba(56, 182, 255, 0.3);
+        .book-nav-btn:active {
+            transform: translateY(-50%) scale(0.9);
+            background: rgba(56, 182, 255, 0.4);
         }
 
-        .nav-btn.prev { left: 12px; }
-        .nav-btn.next { right: 12px; }
+        .book-nav-btn.prev { left: 5px; }
+        .book-nav-btn.next { right: 5px; }
 
-        .nav-btn svg {
-            width: 18px;
-            height: 18px;
+        .book-nav-btn svg {
+            width: 20px;
+            height: 20px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -138,7 +124,7 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            margin-top: 16px;
+            margin-top: 15px;
         }
 
         .dot {
@@ -157,6 +143,9 @@
             border-radius: 4px;
         }
     </style>
+
+    <!-- Page-Flip Bibliothek (Sehr leicht & schnell) -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 </head>
 <body>
 
@@ -164,36 +153,37 @@
         <!-- Zentriertes Logo ganz oben -->
         <img src="logo_neuronal_network-3.webp" alt="Neuronal Network Logo" class="header-logo" width="150" height="150" fetchpriority="high">
 
-        <!-- Preview Karussell -->
-        <div class="carousel-wrapper">
-            <div class="carousel-container">
-                <!-- Pfeil Links -->
-                <button class="nav-btn prev" id="prevBtn" aria-label="Vorheriges Bild">
-                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
+        <!-- Interaktiver Buch-Flip -->
+        <div class="book-wrapper">
+            
+            <!-- Pfeil Links -->
+            <button class="book-nav-btn prev" id="prevBookBtn" aria-label="Vorherige Seite">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
 
-                <!-- Track -->
-                <div class="carousel-track" id="carouselTrack">
-                    <div class="carousel-slide">
-                        <!-- Hier deinen echten Dateinamen eintragen -->
-                        <img src="analyse_cover Kopie.webp" alt="Analyse Cover" width="600" height="800" loading="eager">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1" width="600" height="800" loading="lazy">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2" width="600" height="800" loading="lazy">
-                    </div>
+            <!-- Das Buch -->
+            <div id="book-container">
+                <div class="my-page" data-density="hard">
+                    <!-- Seite 1: Cover -->
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Cover">
                 </div>
-
-                <!-- Pfeil Rechts -->
-                <button class="nav-btn next" id="nextBtn" aria-label="Nächstes Bild">
-                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
+                <div class="my-page" data-density="soft">
+                    <!-- Seite 2: Einblick 1 -->
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1">
+                </div>
+                <div class="my-page" data-density="soft">
+                    <!-- Seite 3: Einblick 2 -->
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2">
+                </div>
             </div>
 
+            <!-- Pfeil Rechts -->
+            <button class="book-nav-btn next" id="nextBookBtn" aria-label="Nächste Seite">
+                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
             <!-- Dots -->
-            <div class="carousel-dots" id="carouselDots">
+            <div class="carousel-dots" id="bookDots">
                 <span class="dot active" data-index="0"></span>
                 <span class="dot" data-index="1"></span>
                 <span class="dot" data-index="2"></span>
@@ -202,41 +192,54 @@
 
     </div>
 
-    <!-- Leichtgewichtiges Script für Klicks & Punkt-Synchronisation -->
+    <!-- Script zur Initialisierung des 3D-Buchs -->
     <script>
-        const track = document.getElementById('carouselTrack');
-        const dots = document.querySelectorAll('.dot');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        function updateDots() {
-            const slideWidth = track.clientWidth;
-            const currentIndex = Math.round(track.scrollLeft / slideWidth);
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageFlip = new St.PageFlip(document.getElementById('book-container'), {
+                width: 380, // Breite einer Seite
+                height: 520, // Höhe einer Seite
+                size: "fixed",
+                minWidth: 280,
+                maxWidth: 420,
+                minHeight: 380,
+                maxHeight: 580,
+                maxShadowOpacity: 0.8, // Sorgt für realistischen Schattenwurf
+                showCover: true,
+                mobileScrollSupport: false // Verhindert ungewolltes Scrollen beim Biegen
             });
-        }
 
-        // Klick auf Pfeile
-        prevBtn.addEventListener('click', () => {
-            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
-        });
+            // Seiten aus dem DOM laden
+            pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
 
-        nextBtn.addEventListener('click', () => {
-            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
-        });
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prevBookBtn');
+            const nextBtn = document.getElementById('nextBookBtn');
 
-        // Klick auf Punkte
-        dots.forEach(dot => {
-            dot.addEventListener('click', (e) => {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
+            // Events für Pfeile
+            prevBtn.addEventListener('click', () => {
+                pageFlip.flipPrev();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                pageFlip.flipNext();
+            });
+
+            // Dots mit Seitenzahl synchronisieren
+            pageFlip.on('flip', (e) => {
+                const currentPage = e.data;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentPage);
+                });
+            });
+
+            // Klick auf Dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const targetIndex = parseInt(e.target.getAttribute('data-index'));
+                    pageFlip.flip(targetIndex);
+                });
             });
         });
-
-        // Beim Wischen Punkte aktualisieren
-        track.addEventListener('scroll', updateDots);
     </script>
 
 </body>
