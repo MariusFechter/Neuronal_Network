@@ -114,10 +114,17 @@
             z-index: 10;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
 
         .nav-btn.prev { left: 8px; }
         .nav-btn.next { right: 8px; }
+
+        .nav-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
 
         .nav-btn svg {
             width: 18px;
@@ -161,19 +168,19 @@
 
         <!-- Karussell -->
         <div class="carousel-wrapper">
-            <button class="nav-btn prev" id="prevBtn" aria-label="Vorheriges Bild">
+            <button class="nav-btn prev hidden" id="prevBtn" aria-label="Vorheriges Bild">
                 <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
 
             <div class="carousel-track" id="carouselTrack">
                 <div class="carousel-slide">
-                    <img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800" loading="eager" fetchpriority="high">
+                    <img src="cover.webp" alt="Analyse Cover" width="600" height="800" loading="eager" fetchpriority="high">
                 </div>
                 <div class="carousel-slide">
-                    <img src="analyse_einblick.webp" alt="Analyse Einblick 1" width="600" height="800" loading="lazy">
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1" width="600" height="800" loading="lazy">
                 </div>
                 <div class="carousel-slide">
-                    <img src="analyse_inhaltsverzeichnis.webp" alt="Analyse Einblick 2" width="600" height="800" loading="lazy">
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2" width="600" height="800" loading="lazy">
                 </div>
             </div>
 
@@ -194,24 +201,36 @@
     <script>
         const track = document.getElementById('carouselTrack');
         const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = document.querySelectorAll('.carousel-slide').length;
 
-        function updateDots() {
+        function updateUI() {
             const slideWidth = track.clientWidth;
             const currentIndex = Math.round(track.scrollLeft / slideWidth);
+
+            // Dots aktualisieren
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentIndex);
             });
+
+            // Links-Pfeil verbergen auf der 1. Seite
+            prevBtn.classList.toggle('hidden', currentIndex === 0);
+
+            // Rechts-Pfeil verbergen auf der letzten Seite
+            nextBtn.classList.toggle('hidden', currentIndex === totalSlides - 1);
         }
 
-        document.getElementById('prevBtn').addEventListener('click', () => {
+        prevBtn.addEventListener('click', () => {
             track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
         });
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
+        nextBtn.addEventListener('click', () => {
             track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
         });
 
-        track.addEventListener('scroll', updateDots);
+        track.addEventListener('scroll', updateUI);
+        window.addEventListener('resize', updateUI);
     </script>
 
 </body>
