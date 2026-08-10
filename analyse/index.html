@@ -44,6 +44,65 @@
             transform-origin: center center;
             will-change: transform;
         }
+
+        /* --- Preview Karussell Styles --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto 30px auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            border-radius: 12px;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #38b6ff;
+            box-shadow: 0 0 8px #38b6ff;
+            width: 20px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +111,31 @@
         <!-- Zentriertes Logo ganz oben -->
         <img src="logo_neuronal_network-3.webp" alt="Neuronal Network Logo" class="header-logo" width="150" height="150" fetchpriority="high">
 
-        <!-- Hier kommt dein weiterer Content rein -->
+        <!-- Preview Karussell -->
+        <div class="carousel-wrapper">
+            <div class="carousel-track">
+                <!-- Slide 1: Hauptcover -->
+                <div class="carousel-slide">
+                    <img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800" loading="eager">
+                </div>
+                <!-- Slide 2: Einblick 1 -->
+                <div class="carousel-slide">
+                    <img src="einblick_1.webp" alt="Analyse Einblick Inhaltsverzeichnis" width="600" height="800" loading="lazy">
+                </div>
+                <!-- Slide 3: Einblick 2 -->
+                <div class="carousel-slide">
+                    <img src="einblick_2.webp" alt="Analyse Einblick Vorschau" width="600" height="800" loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Indikator Punkte -->
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
     </div>
 
 </body>
