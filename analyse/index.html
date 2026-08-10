@@ -33,84 +33,94 @@
             box-sizing: border-box;
         }
 
-        /* Zentriertes Logo sauber integriert */
+        /* Logo */
         .header-logo {
             width: 20%;  
             max-width: 150px;  
             height: auto;  
             object-fit: contain;
             display: block;  
-            margin: 10px auto 20px auto;
+            margin: 10px auto 25px auto;
             transform-origin: center center;
             will-change: transform;
         }
 
-        /* --- Buch-Flip Wrapper Styles --- */
-        .book-wrapper {
+        /* High-Speed Karussell mit Buch-Optik */
+        .carousel-wrapper {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto 30px auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .carousel-track {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            border-radius: 8px;
         }
 
-        /* Container für das Canvas-Buch */
-        #book-container {
-            margin: 0 auto;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(56, 182, 255, 0.1);
-            border-radius: 6px;
-            overflow: hidden;
+        .carousel-track::-webkit-scrollbar {
+            display: none;
         }
 
-        /* Einzelne Buchseiten */
-        .my-page {
-            background-color: #000000;
+        .carousel-slide {
+            flex: 0 0 100%;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            box-sizing: border-box;
+            padding: 5px;
         }
 
-        .my-page img {
+        /* 3D-Buch-Schatten und Falz via reines CSS */
+        .carousel-slide img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             display: block;
+            border-radius: 6px;
+            /* Optischer Bucheffekt: Kanten-Highlights & Tiefenschatten */
+            border-left: 2px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 
+                -8px 0 18px rgba(0, 0, 0, 0.9), 
+                0 10px 25px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(56, 182, 255, 0.08);
         }
 
-        /* Navigationspfeile über dem Buch */
-        .book-nav-btn {
+        /* Pfeile */
+        .nav-btn {
             position: absolute;
-            top: 45%;
+            top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ffffff;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 20;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            transition: all 0.2s ease;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
-        .book-nav-btn:active {
-            transform: translateY(-50%) scale(0.9);
-            background: rgba(56, 182, 255, 0.4);
-        }
+        .nav-btn.prev { left: 18px; }
+        .nav-btn.next { right: 18px; }
 
-        .book-nav-btn.prev { left: 5px; }
-        .book-nav-btn.next { right: 5px; }
-
-        .book-nav-btn svg {
-            width: 20px;
-            height: 20px;
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -118,11 +128,10 @@
             stroke-linejoin: round;
         }
 
-        /* Indikator Punkte */
+        /* Dots */
         .carousel-dots {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 8px;
             margin-top: 15px;
         }
@@ -132,114 +141,76 @@
             height: 8px;
             background-color: rgba(255, 255, 255, 0.25);
             border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
 
         .dot.active {
             background-color: #38b6ff;
-            box-shadow: 0 0 10px rgba(56, 182, 255, 0.6);
-            width: 22px;
+            box-shadow: 0 0 8px rgba(56, 182, 255, 0.6);
+            width: 20px;
             border-radius: 4px;
         }
     </style>
-
-    <!-- Page-Flip Bibliothek (Sehr leicht & schnell) -->
-    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <!-- Zentriertes Logo ganz oben -->
+        <!-- Logo -->
         <img src="logo_neuronal_network-3.webp" alt="Neuronal Network Logo" class="header-logo" width="150" height="150" fetchpriority="high">
 
-        <!-- Interaktiver Buch-Flip -->
-        <div class="book-wrapper">
-            
-            <!-- Pfeil Links -->
-            <button class="book-nav-btn prev" id="prevBookBtn" aria-label="Vorherige Seite">
+        <!-- Karussell -->
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev" id="prevBtn" aria-label="Vorheriges Bild">
                 <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
 
-            <!-- Das Buch -->
-            <div id="book-container">
-                <div class="my-page" data-density="hard">
-                    <!-- Seite 1: Cover -->
-                    <img src="analyse_cover Kopie.webp" alt="Analyse Cover">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Cover" width="600" height="800" loading="eager">
                 </div>
-                <div class="my-page" data-density="soft">
-                    <!-- Seite 2: Einblick 1 -->
-                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1">
+                <div class="carousel-slide">
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1" width="600" height="800" loading="lazy">
                 </div>
-                <div class="my-page" data-density="soft">
-                    <!-- Seite 3: Einblick 2 -->
-                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2">
+                <div class="carousel-slide">
+                    <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2" width="600" height="800" loading="lazy">
                 </div>
             </div>
 
-            <!-- Pfeil Rechts -->
-            <button class="book-nav-btn next" id="nextBookBtn" aria-label="Nächste Seite">
+            <button class="nav-btn next" id="nextBtn" aria-label="Nächstes Bild">
                 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
 
-            <!-- Dots -->
-            <div class="carousel-dots" id="bookDots">
-                <span class="dot active" data-index="0"></span>
-                <span class="dot" data-index="1"></span>
-                <span class="dot" data-index="2"></span>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
         </div>
 
     </div>
 
-    <!-- Script zur Initialisierung des 3D-Buchs -->
+    <!-- Minimal-JS (Inline, 0kb zusätzliche Downloads) -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pageFlip = new St.PageFlip(document.getElementById('book-container'), {
-                width: 380, // Breite einer Seite
-                height: 520, // Höhe einer Seite
-                size: "fixed",
-                minWidth: 280,
-                maxWidth: 420,
-                minHeight: 380,
-                maxHeight: 580,
-                maxShadowOpacity: 0.8, // Sorgt für realistischen Schattenwurf
-                showCover: true,
-                mobileScrollSupport: false // Verhindert ungewolltes Scrollen beim Biegen
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateDots() {
+            const slideWidth = track.clientWidth;
+            const currentIndex = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
             });
+        }
 
-            // Seiten aus dem DOM laden
-            pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
-
-            const dots = document.querySelectorAll('.dot');
-            const prevBtn = document.getElementById('prevBookBtn');
-            const nextBtn = document.getElementById('nextBookBtn');
-
-            // Events für Pfeile
-            prevBtn.addEventListener('click', () => {
-                pageFlip.flipPrev();
-            });
-
-            nextBtn.addEventListener('click', () => {
-                pageFlip.flipNext();
-            });
-
-            // Dots mit Seitenzahl synchronisieren
-            pageFlip.on('flip', (e) => {
-                const currentPage = e.data;
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentPage);
-                });
-            });
-
-            // Klick auf Dots
-            dots.forEach(dot => {
-                dot.addEventListener('click', (e) => {
-                    const targetIndex = parseInt(e.target.getAttribute('data-index'));
-                    pageFlip.flip(targetIndex);
-                });
-            });
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
         });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        });
+
+        track.addEventListener('scroll', updateDots);
     </script>
 
 </body>
