@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -11,7 +10,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    
+
     // Pixel initialisieren
     fbq('init', '1988847275335071');
 
@@ -35,14 +34,27 @@
 
     <link rel="icon" type="image/png" href="favicon.png">
 
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <!-- Speculation Rules API für echtes Prerendering des Checkouts auf eigener Subdomain -->
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": ["https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d"]
+        }
+      ]
+    }
+    </script>
+    <!-- Optimierter Verbindungsaufbau zur Checkout-Subdomain ohne verfrühtes Prerendering -->
+    <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
+    <link rel="dns-prefetch" href="https://zugang.neuronalnetwork.de">
 
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "xbhzt1331m");
+        })(window, document, "clarity", "script", "xocaikjz5c");
     </script>
 
     <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
@@ -94,7 +106,7 @@
             object-fit: contain;
             display: block; 
             margin: -10px auto 15px auto;
-            
+
             filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
             transform-origin: center center;
             animation: slowOrbitY 60s linear infinite;
@@ -525,23 +537,16 @@
     </style>
 
     <script>
-        function openCheckout(event) {
+        function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
-            
+
             // Meta Pixel absenden
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
-            
-            const checkoutUrl = 'https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75';
-            
-            // Wenn LemonSqueezy bereit ist, öffne das Overlay direkt vor Ort
-            if (typeof LemonSqueezy !== 'undefined' && LemonSqueezy.Url && typeof LemonSqueezy.Url.Open === 'function') {
-                LemonSqueezy.Url.Open(checkoutUrl);
-            } else {
-                // Andernfalls direkt weiterleiten (kein Bug, kein Scrollen nach oben)
-                window.location.href = checkoutUrl;
-            }
+
+            // Sofortige Weiterleitung zum Checkout
+            window.location.href = url;
         }
     </script>
 
@@ -551,28 +556,36 @@
 
     <div class="content-container">
 
+<<<<<<< HEAD:neuropsychologische-analyse/index.html
         <h1 class="hero-title">Das ist die vollständige neuropsychologische Analyse hinter dem Ausschnitt, <br> den du gerade gesehen hast.</h1>
         <p class="hero-subtitle">Erfahre, wie Alkohol, Cannabis, Kokain, LSD und Psilocybin Wahrnehmung, Entscheidungen und Verhalten verändern – erklärt durch neuropsychologische Mechanismen.</p>
       
+=======
+        <h1 class="hero-title">Was du als Veränderung wahrnimmst, folgt klaren neuropsychologischen Mustern in deinem Gehirn.</h1>
+        <p class="hero-subtitle">Diese Analyse zeigt dir, <br>wie sich Wahrnehmung, Kontrolle <br> und Verhalten in veränderten <br> Bewusstseinszuständen <br> verschieben - oft bevor du es bewusst einordnen kannst.</p>
+
+>>>>>>> ed9dbb5eef45c9ed44911151b0d2e72af5622a85:analyse/index.html
         <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
-        
+
+        <!-- CTA 1: Oberer Soft-Link (direkte Weiterleitung mit Pixel-Trigger) -->
         <div class="hero-soft-cta">
-            <a href="https://neuronalnetwork.lemonsqueezy.com/checkout/buy/7069910f-b9b9-42e2-8365-00565b3f0f75" class="hero-soft-link lemonsqueezy-button" onclick="fbq('track', 'InitiateCheckout');">Vollständige Analyse freischalten</a>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="hero-soft-link" onclick="triggerPixelAndRedirect(event, this.href);">Vollständige Analyse freischalten</a>
             <span class="hero-soft-subtext">(Sofortiger Zugriff nach dem Kauf.)</span>
         </div>
-      
+
         <p class="intro-teaser-text">Ein Einblick in die vollständige Analyse:</p>
 
         <p class="highlight-blue" style="margin-bottom: 25px;">Alkohol:<br> „Enthemmtes Bewusstsein“</p>
 
         <!-- DAS NEUE ADAPTIVE BUCH-LAYOUT -->
         <div class="book-container">
-            
+
             <!-- Linke Buchseite (Punkt 1) -->
             <div class="book-page">
                 <span class="page-number">01</span>
                 <h4 class="page-heading">Verminderung der GABA-Aktivität</h4>
                 <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die Aktivität der Nervenzellen gedämpft wird.</p>
+                <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die activity der Nervenzellen gedämpft wird.</p>
                 <div class="consequence-box">
                     <span class="bold-text">Die Folge davon ist:</span> Entspannung, sinkende Hemmschwellen und ein lockeres Verhalten.
                 </div>
@@ -598,12 +611,12 @@
         <div class="swipe-hint">Weiter zu Punkt 02 →</div>
 
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
-      
+
       <p style="margin-bottom: 5px;">Diese Analyse basiert auf neuropsychologischen Erkenntnissen und wissenschaftlicher Literatur.</p>
 <p style="margin-top: 0;">Sie bietet eine strukturierte Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
 
         <div class="meta-container">
-            <img src="cover.webp" alt="Analyse Cover" class="cover-container">
+            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
             <div class="cover-facts-left">
                 · 26 Seiten fundierte Analyse<br>
                 · 27 wissenschaftliche Quellen<br>
@@ -630,7 +643,7 @@
         <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Bewusstseinseffekte
     </div>
 </div>
-   
+
             <div class="toc-block">
                 <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
             </div>
@@ -661,9 +674,10 @@
         </div>
 
         <p>Wenn du diese Muster einmal <br> verstanden hast, <br>verändert sich die Art, wie du dein eigenes <br> Verhalten einordnest – <br> nicht nur intuitiv, sondern auf einer <br> wissenschaftlich fundierten Grundlage.</p>
-        
+
+        <!-- CTA 2: Erster Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
         <div class="cta-container">
-            <a href="#" class="cta-button" onclick="openCheckout(event);">Analyse jetzt freischalten</a>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
@@ -671,7 +685,7 @@
 
         <h2>Warum diese Analyse relevant ist</h2>
 
-     
+
    <p>Veränderte Bewusstseinszustände entstehen durch automatische neuropsychologische Prozesse, die beeinflussen, wie du wahrnimmst, bewertest und entscheidest.</p>
 
 
@@ -679,7 +693,7 @@
 
         <p class="bold-text">Du fühlst dich nicht zufällig anders.</p>
         <p>In diesen Momenten verarbeitet dein Gehirn Informationen anders – und beeinflusst dadurch dein Erleben und Verhalten.  </p>
-        
+
         <p class="subtitle-orange" style="margin-top: 40px;">Diese Analyse zeigt dir:</p>
         <div class="premium-list">
             <div class="premium-list-item">
@@ -758,8 +772,9 @@
 
         </div>
 
+        <!-- CTA 3: Unterer Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
         <div class="cta-container" style="margin-top: 40px;">
-            <a href="#" class="cta-button" onclick="openCheckout(event);">Analyse jetzt freischalten</a>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Analyse jetzt freischalten</a>
             <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
         </div>
 
@@ -769,7 +784,7 @@
 
         <div class="footer-links">
             <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link" target="_blank">Impressum</a>
-            <a href="https://www.dropbox.com/scl/fi/74yjneyai9zbbj52slj4u/Neuronal_Network_Datenschutzerkl-rung.pdf?rlkey=29eq4y37yf5cij3qm336008rp&dl=0" class="footer-link" target="_blank">Datenschutzerklärung</a>
+            <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" class="footer-link" target="_blank">Datenschutzerklärung</a>
         </div>
 
     </div>

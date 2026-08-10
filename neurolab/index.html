@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEUROLAB | Neuronal Network</title>
+    <link rel="icon" type="image/png" href="favicon_logo.png">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1988847275335071');
+    fbq('track', 'PageView');
+
+    setTimeout(function() {
+        fbq('track', 'ViewContent');
+    }, 10000);
+
+    function triggerPixelAndRedirect(event, url) {
+        if (event) event.preventDefault();
+        if (typeof fbq === 'function') {
+            fbq('track', 'InitiateCheckout');
+        }
+        setTimeout(function() {
+            window.location.href = url;
+        }, 150);
+    }
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
+    </noscript>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #000000; color: #F5F5F5; font-family: 'Inter', sans-serif; padding: 40px 20px; }
+        .header-container { width: 100%; max-width: 800px; margin: 0 auto 30px auto; text-align: left; }
+        
+        /* Header Style */
+        h1 { font-size: 1.2rem; text-transform: uppercase; }
+        .brand-light { font-weight: 400; color: #ff7517; }
+        .separator { color: #5ce1e6; margin: 0 6px; }
+        .brand-bold { font-weight: 800; color: #ff7517; }
+        
+        p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 800px; margin: 0 auto; }
+        .product-card { background-color: #080808; border: 2px solid #333333; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; background-color: #000000; }
+        .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
+        .card-content { padding: 14px; }
+        
+        /* Tag in Türkis (#5ce1e6) */
+        .tag { font-size: 0.55rem; font-weight: 700; color: #5ce1e6; text-transform: uppercase; margin-bottom: 6px; display: block; }
+        
+        /* Titel in Cover-Blau (#38b6ff), Zeilenumbruch erlaubt */
+        .product-title { font-size: 0.9rem; font-weight: 700; color: #38b6ff; margin-bottom: 4px; white-space: normal; line-height: 1.2; }
+        
+        /* Subline in dezentem Grau */
+        .product-subtitle { font-size: 0.7rem; color: #d9d9d9; margin-bottom: 14px; line-height: 1.3; }
+        
+        .card-footer { display: flex; flex-direction: column; gap: 8px; }
+        .price-tag { font-size: 0.9rem; font-weight: 700; }
+        .checkout-btn { background-color: #38b6ff; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; }
+        .footer-nav { margin-top: 40px; text-align: center; display: flex; justify-content: center; gap: 20px; }
+        .footer-nav a { color: #d9d9d9; font-size: 0.65rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-nav a:hover { color: #ffffff; }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1><span class="brand-light">NEUROLAB</span><span class="separator">|</span><span class="brand-bold">NEURONAL NETWORK</span></h1>
+        <p class="subline">Neuropsychologie & Muster</p>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="card-image-wrapper">
+                <img src="analyse_cover.webp" alt="Analyse" class="card-image">
+            </div>
+            <div class="card-content">
+                <span class="tag">Neuropsychologische Analyse</span>
+                <h2 class="product-title">Rausch oder Realität?</h2>
+                <p class="product-subtitle">Warum Substanzen dein Verhalten verändern.</p>
+                <div class="card-footer">
+                    <div class="price-tag">15,00 €</div>
+                    <a href="https://zugang.neuronalnetwork.de/checkout/buy/827e3aac-130e-4dd3-994c-c9b5dab367c7" 
+                       class="checkout-btn" 
+                       onclick="triggerPixelAndRedirect(event, this.href);">Analyse freischalten</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <a href="https://www.neuronalnetwork.de/impressum/" target="_blank">Impressum</a>
+        <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" target="_blank">datenschutzerklärung</a>
+    </div>
+</body>
+</html>
