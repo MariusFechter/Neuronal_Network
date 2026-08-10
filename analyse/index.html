@@ -45,12 +45,22 @@
             will-change: transform;
         }
 
-        /* --- Preview Karussell Styles --- */
+        /* --- High-End Karussell Styles --- */
         .carousel-wrapper {
             position: relative;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             margin: 0 auto 30px auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
         }
 
         .carousel-track {
@@ -59,48 +69,91 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            border-radius: 12px;
+            scrollbar-width: none;
         }
 
         .carousel-track::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
         }
 
         .carousel-slide {
             flex: 0 0 100%;
-            scroll-snap-align: center;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
             box-sizing: border-box;
-            padding: 5px;
         }
 
         .carousel-slide img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            object-fit: cover;
         }
 
+        /* Navigationspfeile wie bei Payhip */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:active {
+            transform: translateY(-50%) scale(0.92);
+            background: rgba(56, 182, 255, 0.3);
+        }
+
+        .nav-btn.prev { left: 12px; }
+        .nav-btn.next { right: 12px; }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Indikator Punkte */
         .carousel-dots {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 8px;
-            margin-top: 15px;
+            margin-top: 16px;
         }
 
         .dot {
             width: 8px;
             height: 8px;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.25);
             border-radius: 50%;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .dot.active {
             background-color: #38b6ff;
-            box-shadow: 0 0 8px #38b6ff;
-            width: 20px;
+            box-shadow: 0 0 10px rgba(56, 182, 255, 0.6);
+            width: 22px;
             border-radius: 4px;
         }
     </style>
@@ -113,30 +166,78 @@
 
         <!-- Preview Karussell -->
         <div class="carousel-wrapper">
-            <div class="carousel-track">
-                <!-- Slide 1: Hauptcover -->
-                <div class="carousel-slide">
-                    <img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800" loading="eager">
+            <div class="carousel-container">
+                <!-- Pfeil Links -->
+                <button class="nav-btn prev" id="prevBtn" aria-label="Vorheriges Bild">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+
+                <!-- Track -->
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <!-- Hier deinen echten Dateinamen eintragen -->
+                        <img src="analyse_cover Kopie.webp" alt="Analyse Cover" width="600" height="800" loading="eager">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 1" width="600" height="800" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="analyse_cover Kopie.webp" alt="Analyse Einblick 2" width="600" height="800" loading="lazy">
+                    </div>
                 </div>
-                <!-- Slide 2: Einblick 1 -->
-                <div class="carousel-slide">
-                    <img src="einblick_1.webp" alt="Analyse Einblick Inhaltsverzeichnis" width="600" height="800" loading="lazy">
-                </div>
-                <!-- Slide 3: Einblick 2 -->
-                <div class="carousel-slide">
-                    <img src="einblick_2.webp" alt="Analyse Einblick Vorschau" width="600" height="800" loading="lazy">
-                </div>
+
+                <!-- Pfeil Rechts -->
+                <button class="nav-btn next" id="nextBtn" aria-label="Nächstes Bild">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
             </div>
-            
-            <!-- Indikator Punkte -->
-            <div class="carousel-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+
+            <!-- Dots -->
+            <div class="carousel-dots" id="carouselDots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
             </div>
         </div>
 
     </div>
+
+    <!-- Leichtgewichtiges Script für Klicks & Punkt-Synchronisation -->
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateDots() {
+            const slideWidth = track.clientWidth;
+            const currentIndex = Math.round(track.scrollLeft / slideWidth);
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        // Klick auf Pfeile
+        prevBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        });
+
+        // Klick auf Punkte
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
+            });
+        });
+
+        // Beim Wischen Punkte aktualisieren
+        track.addEventListener('scroll', updateDots);
+    </script>
 
 </body>
 </html>
