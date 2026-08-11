@@ -51,7 +51,7 @@
             position: relative;
             width: 100%;
             max-width: 420px;
-            margin: 0 auto 30px auto;
+            margin: 0 auto 25px auto;
             padding: 0 10px;
             box-sizing: border-box;
         }
@@ -85,7 +85,6 @@
             height: auto;
             display: block;
             border-radius: 6px;
-            /* Optischer Bucheffekt: Cyan-Kanten-Highlight & Tiefenschatten */
             border-left: 2px solid rgba(56, 182, 255, 0.3);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
@@ -158,6 +157,38 @@
             width: 20px;
             border-radius: 4px;
         }
+
+        /* Produkt-Head / Textblock unter dem Karussell */
+        .product-header {
+            text-align: center;
+            padding: 0 20px 30px 20px;
+            box-sizing: border-box;
+        }
+
+        .product-kicker {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #F5F5F5;
+            line-height: 1.25;
+            margin: 0 0 12px 0;
+        }
+
+        .product-subtitle {
+            font-size: 15px;
+            font-weight: 400;
+            color: #C8C8CD;
+            line-height: 1.5;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -193,6 +224,13 @@
                 <span class="dot"></span>
                 <span class="dot"></span>
             </div>
+        </div>
+
+        <!-- Titel und Struktur unter dem Karussell -->
+        <div class="product-header">
+            <div class="product-kicker">NEUROPSYCHOLOGISCHE FACHPUBLIKATION</div>
+            <h1 class="product-title">Rausch oder Realität?</h1>
+            <p class="product-subtitle">Wie Substanzen Wahrnehmung, Emotionen und Verhalten verändern.</p>
         </div>
 
     </div>
