@@ -141,7 +141,7 @@
             text-align: left;
             max-width: 420px;
             margin: 0 auto;
-            padding: 0 15px 25px 15px;
+            padding: 0 15px 30px 15px;
             box-sizing: border-box;
         }
 
@@ -151,15 +151,15 @@
             color: #8F8F96;
             letter-spacing: 1.8px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .product-title {
-            font-size: 21px;
+            font-size: 19px;
             font-weight: 600;
             color: #F5F5F5;
             line-height: 1.3;
-            margin: 0 0 4px 0;
+            margin: 0 0 6px 0;
         }
 
         .product-subtitle {
@@ -167,28 +167,14 @@
             font-weight: 400;
             color: #C8C8CD;
             line-height: 1.6;
-            margin: 0 0 12px 0;
-        }
-
-        /* Preis direkt unter der Subline platziert mit reduziertem Abstand zum Button */
-        .header-price-info {
-            font-size: 14px;
-            font-weight: 400;
-            color: #ffffff;
             margin: 0;
-            letter-spacing: 0.2px;
         }
 
-        .header-price-info span {
-            color: #ffffff;
-            padding: 0 4px;
-        }
-
-        /* CTA Bereich */
+        /* CTA & Preis Bereich */
         .cta-container {
-            margin-top: 10px;
+            margin-top: 0px;
             margin-bottom: 40px;
-            text-align: center;
+            text-align: left;
             padding: 0 15px;
             box-sizing: border-box;
             max-width: 420px;
@@ -196,11 +182,31 @@
             margin-right: auto;
         }
 
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .price-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff9900;
+            line-height: 1;
+        }
+
+        .price-details {
+            font-size: 14px;
+            color: #aaaaaa;
+            font-weight: 400;
+        }
+
         .cta-button {
             display: block;
             width: 100%;
             max-width: 390px; 
-            margin: 12px auto 0 auto; /* Reduzierter Abstand zum Preis oben */
+            margin: 0;
             box-sizing: border-box;
             background-color: #38b6ff;
             color: #ffffff;
@@ -222,26 +228,34 @@
             background-color: #29a3eb;
         }
 
-        .cta-subtext {
-            color: #777777; 
-            font-size: 11px; 
-            font-style: normal; 
-            letter-spacing: 0px; 
-            margin-top: 10px;
+        /* Trust-Zeile auf einer Zeile mit hellerem Grau für Icons & Text */
+        .trust-row {
+            margin-top: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #aaaaaa; /* Helleres Grau für bessere Lesbarkeit */
+            font-weight: 400;
             text-align: center;
             max-width: 390px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.4;
             white-space: nowrap;
         }
 
-        .cta-subtext span {
-            color: #38b6ff;
-            padding: 0 4px;
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trust-item svg {
+            width: 13px;
+            height: 13px;
+            stroke: #aaaaaa; /* Angepasst an das hellere Grau */
+            flex-shrink: 0;
         }
     </style>
 
@@ -283,12 +297,27 @@
             <div class="product-kicker">NEUROPSYCHOLOGISCHE FACHPUBLIKATION</div>
             <h1 class="product-title">Rausch oder Realität?</h1>
             <p class="product-subtitle">Wie Substanzen Wahrnehmung, Emotionen und Verhalten verändern.</p>
-            <div class="header-price-info">15 € einmalig <span>·</span> Kein Abo</div>
-            
-            <!-- CTA Bereich direkt in den Header integriert für den perfekten, kompakten Abstand -->
+        </div>
+
+        <!-- CTA & Kauf-Block -->
+        <div class="cta-container">
+            <div class="price-row">
+                <span class="price-amount">15 €</span>
+                <span class="price-details">einmalig · kein Abo</span>
+            </div>
+
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
-            
-            <div class="cta-subtext"><span style="color: #38b6ff; padding-right: 4px;">·</span>Direkter Zugriff nach dem Kauf<span>·</span>14 Tage Geld-zurück-Garantie</div>
+
+            <div class="trust-row">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
+            </div>
         </div>
     </div>
 
