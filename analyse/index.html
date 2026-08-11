@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuronal Network - Analyse</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Preload für Performance -->
+    <link rel="preload" fetchpriority="high" as="image" href="logo_neuronal_network-3.webp" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
+
+    <!-- Speculation Rules API für echtes Prerendering des Checkouts -->
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": ["https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d"]
+        }
+      ]
+    }
+    </script>
+
     <style>
         html, body {
             background-color: #000000;
@@ -22,22 +41,22 @@
             box-sizing: border-box;
         }
 
-        /* Logo: Abstand radikal reduziert */
+        /* Logo */
         .header-logo {
-            width: 8%;  
-            max-width: 45px;  
+            width: 12%;  
+            max-width: 80px;  
             height: auto;  
             object-fit: contain;
             display: block;  
-            margin: 8px auto 8px auto;
+            margin: 20px auto 20px auto;
         }
 
-        /* Karussell: Deutlich kleiner für 'Above-the-Fold' Sichtbarkeit */
+        /* Karussell - Etwas kompakter gemacht, damit der CTA im First Screen sichtbar ist */
         .carousel-wrapper {
             position: relative;
             width: 100%;
-            max-width: 320px; /* Kompakter */
-            margin: 0 auto 15px auto;
+            max-width: 320px;
+            margin: 0 auto 20px auto;
             padding: 0 10px;
             box-sizing: border-box;
         }
@@ -49,7 +68,7 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .carousel-track::-webkit-scrollbar { display: none; }
@@ -58,7 +77,7 @@
             flex: 0 0 100%;
             width: 100%;
             scroll-snap-align: start;
-            padding: 4px;
+            padding: 5px;
             box-sizing: border-box;
         }
 
@@ -66,120 +85,210 @@
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 4px;
+            border-radius: 6px;
+            border-left: 2px solid rgba(56, 182, 255, 0.3);
+            box-shadow: -8px 0 18px rgba(0, 0, 0, 0.9), 0 10px 25px rgba(0, 0, 0, 0.8);
         }
+
+        /* Navigation */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.25s ease;
+        }
+        .nav-btn.prev { left: 8px; }
+        .nav-btn.next { right: 8px; }
+        .nav-btn.hidden { opacity: 0; pointer-events: none; }
 
         /* Dots */
         .carousel-dots {
             display: flex;
             justify-content: center;
-            gap: 6px;
-            margin-top: 8px;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background-color: rgba(255, 255, 255, 0.25);
             border-radius: 50%;
+            transition: all 0.25s ease;
         }
 
         .dot.active {
             background-color: #38b6ff;
-            width: 16px;
-            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(56, 182, 255, 0.6);
+            width: 20px;
+            border-radius: 4px;
         }
 
-        /* Produkt-Head: Noch kompakter */
+        /* Produkt-Head: Linksündig */
         .product-header {
             text-align: left;
             max-width: 420px;
             margin: 0 auto;
-            padding: 0 15px 15px 15px;
+            padding: 0 15px 30px 15px;
+            box-sizing: border-box;
         }
 
         .product-kicker {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             color: #8F8F96;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         .product-title {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 600;
             color: #F5F5F5;
-            margin: 0 0 4px 0;
+            line-height: 1.3;
+            margin: 0 0 6px 0;
         }
 
         .product-subtitle {
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 400;
             color: #C8C8CD;
+            line-height: 1.6;
             margin: 0;
         }
 
-        /* CTA & Preis */
+        /* CTA & Preis Bereich */
         .cta-container {
-            padding: 0 15px 20px 15px;
+            margin-top: 0px;
+            margin-bottom: 40px;
+            text-align: left;
+            padding: 0 15px;
+            box-sizing: border-box;
             max-width: 420px;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .price-row {
             display: flex;
             align-items: baseline;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .price-amount {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: #ff9900;
+            line-height: 1;
+        }
+
+        .price-details {
+            font-size: 14px;
+            color: #aaaaaa;
+            font-weight: 400;
         }
 
         .cta-button {
             display: block;
             width: 100%;
+            max-width: 390px; 
+            margin: 0;
+            box-sizing: border-box;
             background-color: #38b6ff;
             color: #ffffff;
             text-align: center;
-            padding: 14px;
-            font-size: 14px;
+            padding: 15px 10px;
+            font-size: 15px;
             font-weight: 700;
             text-decoration: none;
             border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(56, 182, 255, 0.2);
+            letter-spacing: 0px;
+            box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
-        /* Trust */
+        .cta-button:active {
+            transform: scale(0.98);
+            background-color: #29a3eb;
+        }
+
+        /* Trust-Zeile auf einer Zeile mit hellerem Grau für Icons & Text */
         .trust-row {
-            margin-top: 10px;
+            margin-top: 12px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 10px;
-            color: #aaaaaa;
+            gap: 12px;
+            font-size: 11px;
+            color: #aaaaaa; /* Helleres Grau für bessere Lesbarkeit */
+            font-weight: 400;
+            text-align: center;
+            max-width: 390px;
+            margin-left: auto;
+            margin-right: auto;
+            white-space: nowrap;
         }
 
-        .trust-item { display: flex; align-items: center; gap: 4px; }
-        .trust-item svg { width: 12px; height: 12px; stroke: #aaaaaa; }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trust-item svg {
+            width: 13px;
+            height: 13px;
+            stroke: #aaaaaa; /* Angepasst an das hellere Grau */
+            flex-shrink: 0;
+        }
     </style>
+
+    <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
+    <script>
+        function triggerPixelAndRedirect(event, url) {
+            if (event) event.preventDefault();
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout');
+            }
+            window.location.href = url;
+        }
+    </script>
 </head>
 <body>
 
     <div class="container">
-        <img src="logo_neuronal_network-3.webp" alt="Logo" class="header-logo">
+        <img src="logo_neuronal_network-3.webp" alt="Neuronal Network Logo" class="header-logo" width="80" height="80">
 
         <div class="carousel-wrapper">
+            <button class="nav-btn prev hidden" id="prevBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+
             <div class="carousel-track" id="carouselTrack">
-                <div class="carousel-slide"><img src="analyse_cover.webp" alt="Cover"></div>
-                <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Inhalt"></div>
+                <div class="carousel-slide"><img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Einblick 1" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="600" height="800"></div>
             </div>
+
+            <button class="nav-btn next" id="nextBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+
             <div class="carousel-dots">
                 <span class="dot active"></span>
+                <span class="dot"></span>
                 <span class="dot"></span>
             </div>
         </div>
@@ -190,23 +299,49 @@
             <p class="product-subtitle">Wie Substanzen Wahrnehmung, Emotionen und Verhalten verändern.</p>
         </div>
 
+        <!-- CTA & Kauf-Block -->
         <div class="cta-container">
             <div class="price-row">
                 <span class="price-amount">15 €</span>
-                <span style="font-size: 13px; color: #aaaaaa;">einmalig · kein Abo</span>
+                <span class="price-details">einmalig · kein Abo</span>
             </div>
-            <a href="#" class="cta-button">Zugang zur vollständigen Analyse</a>
+
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
+
             <div class="trust-row">
                 <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    Sofort-Zugriff
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
                 </div>
                 <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    14 Tage Garantie
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+        function updateUI() {
+            const slideWidth = track.clientWidth;
+            const currentIndex = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+            prevBtn.classList.toggle('hidden', currentIndex === 0);
+            nextBtn.classList.toggle('hidden', currentIndex === totalSlides - 1);
+        }
+
+        prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+        track.addEventListener('scroll', updateUI);
+        window.addEventListener('resize', updateUI);
+    </script>
 </body>
 </html>
