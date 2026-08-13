@@ -278,6 +278,50 @@
             line-height: 1.35;
             margin: 0 0 24px 0;
         }
+
+        /* Zusätzliche Stile für die strukturierten Blöcke */
+        .block-kicker {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .model-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 35px 0;
+        }
+
+        .model-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #C8C8CD;
+        }
+
+        .model-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .model-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff9900;
+            font-weight: 700;
+        }
+
+        .section-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            margin: 35px 0;
+            width: 100%;
+        }
     </style>
 
     <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
@@ -340,9 +384,10 @@
         </div>
     </div>
 
-    <!-- Neuer Textbereich mit kombiniertem Stil (Option 2 & 3) -->
+    <!-- Neuer Textbereich mit erstem Teil und den beiden neuen Blöcken -->
     <div class="content-section">
         <div class="content-inner">
+            <!-- Erster Teil (wiederhergestellt) -->
             <p class="editorial-lead">Du hältst deine Wahrnehmung für die Realität.</p>
             <p>Du siehst, fühlst, entscheidest –<br>
             und denkst dabei:<br>
@@ -355,6 +400,34 @@
             <p>Dann können sich Wahrnehmung, Emotionen und Verhalten verändern.</p>
             <p>Diese Veränderung bemerkst du jedoch nicht immer.<br>
             Vieles davon läuft automatisch ab – <br>bevor es dir überhaupt bewusst wird.</p>
+
+            <!-- Dezent getrennte Linie -->
+            <div class="section-divider"></div>
+
+            <!-- Block 1: Das Denkmodell dahinter -->
+            <div class="block-kicker">DAS DENKMODELL DAHINTER</div>
+            <ul class="model-list">
+                <li>Wie biologische Mechanismen dein emotionales Erleben mitbestimmen — und was sich verändert, wenn Substanzen in diese Systeme eingreifen</li>
+                <li>Warum bestimmte Kontrollsysteme unter veränderten neurochemischen Bedingungen anders funktionieren</li>
+                <li>Warum sich selbst deutlich veränderte Bewusstseinszustände subjektiv weiterhin stimmig und „normal“ anfühlen können</li>
+                <li>Welche wiederkehrenden Muster sich über verschiedene Substanzen hinweg erkennen und ableiten lassen</li>
+            </ul>
+
+            <!-- Dezent getrennte Linie -->
+            <div class="section-divider"></div>
+
+            <!-- Block 2: Was du danach anders erkennst -->
+            <div class="block-kicker">WAS DU DANACH ANDERS ERKENNST</div>
+            
+            <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Viele dieser Prozesse laufen automatisch ab, bevor sie dir überhaupt bewusst werden.</p>
+            
+            <p>Du fühlst dich in diesen Zuständen nicht zufällig anders: In diesen Momenten verändert sich, wie dein Gehirn Informationen verarbeitet, Situationen bewertet und Entscheidungen beeinflusst.</p>
+            
+            <p>Wenn du diese Muster einmal verstanden hast, verändert sich dein Blick auf dich selbst und das Verhalten anderer.</p>
+            
+            <p>Du reagierst nicht mehr nur auf das, was du beobachtest.<br>
+            Du kannst besser einordnen, was darunter passiert.</p>
+
         </div>
     </div>
 
