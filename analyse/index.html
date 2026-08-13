@@ -11,15 +11,15 @@
     <!-- Preload für Performance -->
     <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
-    <!-- Speculation Rules API für echtes Prerendering beider Checkouts -->
+    <!-- Speculation Rules API für echtes Prerendering beider Checkouts inkl. locale=de -->
     <script type="speculationrules">
     {
       "prerender": [
         {
           "source": "list",
           "urls": [
-            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0",
-            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0"
+            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de",
+            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de"
           ]
         }
       ]
@@ -43,7 +43,7 @@
             box-sizing: border-box;
         }
 
-        /* Karussell - Etwas kompakter gemacht, damit der CTA im First Screen sichtbar ist */
+        /* Karussell */
         .carousel-wrapper {
             position: relative;
             width: 100%;
@@ -220,7 +220,7 @@
             background-color: #29a3eb;
         }
 
-        /* Trust-Zeile auf einer Zeile mit hellerem Grau für Icons & Text */
+        /* Trust-Zeile */
         .trust-row {
             margin-top: 12px;
             display: flex;
@@ -324,7 +324,7 @@
             width: 100%;
         }
 
-        /* Sehr kompakte Substanz-Karten mit minimalem Abstand */
+        /* Substanz-Karten */
         .substance-list {
             list-style: none;
             padding: 0;
@@ -474,14 +474,14 @@
             <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
         </div>
 
-        <!-- CTA & Kauf-Block -->
+        <!-- CTA & Kauf-Block (Top) -->
         <div class="cta-container">
             <div class="price-row">
                 <span class="price-amount">15 €</span>
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
             <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
             <div class="trust-row">
@@ -497,10 +497,9 @@
         </div>
     </div>
 
-    <!-- Neuer Textbereich mit erstem Teil und den beiden neuen Blöcken -->
+    <!-- Content-Section -->
     <div class="content-section">
         <div class="content-inner">
-            <!-- Erster Teil (wiederhergestellt) -->
             <p class="editorial-lead">Du hältst deine Wahrnehmung für die Realität.</p>
             <p>Du siehst, fühlst, entscheidest –<br>
             und denkst dabei:<br>
@@ -514,7 +513,6 @@
             <p>Diese Veränderung bemerkst du jedoch nicht immer.<br>
             Vieles davon läuft automatisch ab – <br>bevor es dir überhaupt bewusst wird.</p>
 
-            <!-- Dezent getrennte Linie -->
             <div class="section-divider"></div>
 
             <!-- Block 1: Das Denkmodell dahinter -->
@@ -526,7 +524,6 @@
                 <li>Welche wiederkehrenden Muster sich über verschiedene Substanzen hinweg erkennen und ableiten lassen</li>
             </ul>
 
-            <!-- Dezent getrennte Linie -->
             <div class="section-divider"></div>
 
             <!-- Block 2: Was du danach anders erkennst -->
@@ -541,7 +538,6 @@
             <p>Du reagierst nicht mehr nur auf das, was du beobachtest.<br>
             Du kannst besser einordnen, was darunter passiert.</p>
 
-            <!-- Dezent getrennte Linie -->
             <div class="section-divider"></div>
 
             <!-- Block 3: Fünf Substanzen. Ein Denkmodell. -->
@@ -601,7 +597,6 @@
             <p>Du lernst hierdurch nicht fünf isolierte Wirkungsprofile –
             sondern ein übergeordnetes Muster dahinter zu erkennen.</p>
 
-            <!-- Dezent getrennte Linie -->
             <div class="fact-divider"></div>
 
             <!-- Block 4: Trust-Facts -->
@@ -627,13 +622,13 @@
                     <span class="price-details">einmalig · kein Abo</span>
                 </div>
                 <p>erhältst du Zugang zu einer wissenschaftlich fundierten Analyse einer zentralen Frage:</p>
-              <p><strong>„Wie entsteht das, was wir als unsere Realität erleben?"</strong></p>
+                <p><strong>„Wie entsteht das, was wir als unsere Realität erleben?"</strong></p>
                 <p>Du lernst, die neuropsychologischen Muster hinter verändertem Erleben zu erkennen –  <br>und sie über verschiedene Zustände hinweg einzuordnen.</p>
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
-            <!-- Finaler CTA ohne Overlay (direkter Link mit Tracking-Funktion) -->
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+            <!-- Finaler CTA unten (Direkt-Redirect, prerendered & deutsch) -->
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
