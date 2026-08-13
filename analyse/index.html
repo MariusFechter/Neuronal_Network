@@ -11,13 +11,16 @@
     <!-- Preload für Performance -->
     <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
-    <!-- Speculation Rules API für echtes Prerendering des Checkouts -->
+    <!-- Speculation Rules API für echtes Prerendering beider Checkouts -->
     <script type="speculationrules">
     {
       "prerender": [
         {
           "source": "list",
-          "urls": ["https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0"]
+          "urls": [
+            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0",
+            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0"
+          ]
         }
       ]
     }
@@ -629,8 +632,8 @@
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
-            <!-- Finaler CTA im exakt gleichen Stil wie oben im First Screen -->
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+            <!-- Finaler CTA ohne Overlay (direkter Link mit Tracking-Funktion) -->
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
