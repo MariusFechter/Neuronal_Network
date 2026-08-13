@@ -11,15 +11,15 @@
     <!-- Preload für Performance -->
     <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
-    <!-- Speculation Rules API für echtes Prerendering beider Checkouts inkl. locale=de -->
+    <!-- Speculation Rules API für echtes Prerendering beider Checkouts (inkl. Sprache DE + Land DE) -->
     <script type="speculationrules">
     {
       "prerender": [
         {
           "source": "list",
           "urls": [
-            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de",
-            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de"
+            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE",
+            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE"
           ]
         }
       ]
@@ -128,7 +128,7 @@
             border-radius: 4px;
         }
 
-        /* Produkt-Head: Linksündig */
+        /* Produkt-Head */
         .product-header {
             text-align: left;
             max-width: 420px;
@@ -481,7 +481,7 @@
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
             <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
             <div class="trust-row">
@@ -627,8 +627,8 @@
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
-            <!-- Finaler CTA unten (Direkt-Redirect, prerendered & deutsch) -->
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+            <!-- Finaler CTA unten (Direkt-Redirect, prerendered, DE-Standard) -->
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
