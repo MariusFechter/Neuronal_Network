@@ -375,6 +375,62 @@
             margin: 0px 0 0 0;
             line-height: 1.25;
         }
+
+        /* Abschluss-Sektion: Trust-Facts + Preis-Block */
+        .fact-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 28px 0;
+            width: 100%;
+        }
+
+        .fact-kicker {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ff9900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+
+        .fact-text {
+            font-size: 15px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .price-block {
+            border-left: 2px solid #38b6ff;
+            padding-left: 20px;
+            margin: 36px 0 28px 0;
+        }
+
+        .price-headline {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ff9900;
+            margin: 0 0 18px 0;
+        }
+
+        .price-old {
+            font-size: 18px;
+            font-weight: 600;
+            color: #777777;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+
+        .price-block p {
+            font-size: 15px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 0 0 18px 0;
+        }
+
+        .price-block p:last-child {
+            margin-bottom: 0;
+        }
     </style>
 
     <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
@@ -540,6 +596,51 @@
 
             <p>Du lernst hierdurch nicht fünf isolierte Wirkungsprofile –
             sondern ein übergeordnetes Muster dahinter zu erkennen.</p>
+
+            <!-- Dezent getrennte Linie -->
+            <div class="fact-divider"></div>
+
+            <!-- Block 4: Trust-Facts -->
+            <p class="fact-kicker">WISSENSCHAFTLICH FUNDIERT. KLAR AUFBEREITET.</p>
+            <p class="fact-text">27 wissenschaftliche Quellen aus Psychologie, Pharmakologie und Neurowissenschaften – transparent referenziert.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">DIE PUBLIKATION</p>
+            <p class="fact-text">25 Seiten – kompakt aufbereitet, klar strukturiert und mit interaktiver Navigation.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">INKLUSIVE ZUKÜNFTIGER ERWEITERUNGEN</p>
+            <p class="fact-text">Einmalige Zahlung. Alle kommenden Kapitel und Ergänzungen erhältst du automatisch ohne Zusatzkosten.</p>
+
+            <div class="fact-divider"></div>
+
+            <!-- Preis-Block mit vertikaler Akzentlinie -->
+            <div class="price-block">
+                <div class="price-row" style="margin-bottom: 18px;">
+                    <span class="price-amount">15 €</span>
+                    <span class="price-details">einmalig · kein Abo</span>
+                </div>
+                <p>erhältst du Zugang zu einer wissenschaftlich fundierten Analyse einer zentralen Frage:</p>
+                <p>„Wie entsteht das, was wir als unsere Realität erleben?"</p>
+                <p>Du lernst, die neuropsychologischen Muster hinter verändertem Erleben zu erkennen – und sie über verschiedene Zustände hinweg einzuordnen.</p>
+                <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
+            </div>
+
+            <!-- Finaler CTA im exakt gleichen Stil wie oben im First Screen -->
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+
+            <div class="trust-row" style="margin-top: 12px;">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
+            </div>
 
         </div>
     </div>
