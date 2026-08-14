@@ -8,6 +8,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
 
+    <!-- Stripe SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+
     <style>
         html, body {
             background-color: #000000;
@@ -28,13 +31,43 @@
             box-sizing: border-box;
             padding: 20px;
         }
+
+        /* Container für das reine Stripe Formular */
+        #checkout {
+            width: 100%;
+            max-width: 500px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Inhalt hier einfügen -->
+        <!-- HIER WIRD NUR DAS STRIPE FORMULAR GERENDERT -->
+        <div id="checkout"></div>
     </div>
+
+    <script>
+        // Deinen Publishable Key eintragen (pk_test_...)
+        const stripe = Stripe('pk_test_DEIN_SCHLUESSEL_HIER');
+
+        async function initialize() {
+            const fetchClientSecret = async () => {
+                const response = await fetch("DEINE_WORKER_URL/create-checkout-session", {
+                    method: "POST",
+                });
+                const { clientSecret } = await response.json();
+                return clientSecret;
+            };
+
+            const checkout = await stripe.initEmbeddedCheckout({
+                fetchClientSecret,
+            });
+
+            checkout.mount('#checkout');
+        }
+
+        initialize();
+    </script>
 
 </body>
 </html>
