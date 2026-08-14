@@ -47,12 +47,12 @@
     </div>
 
     <script>
-        // Deinen Publishable Key eintragen (pk_test_...)
-        const stripe = Stripe(pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r);
+        // Deinen Publishable Key mit Anführungszeichen eintragen
+        const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
 
         async function initialize() {
             const fetchClientSecret = async () => {
-                const response = await fetch("DEINE_WORKER_URL/create-checkout-session", {
+                const response = await fetch("https://stripe-checkout-bridge.theneuronalnetwork.workers.dev", {
                     method: "POST",
                 });
                 const { clientSecret } = await response.json();
