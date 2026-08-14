@@ -27,6 +27,18 @@
     </script>
 
     <style>
+        /* ==========================================
+           ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
+           ================================---------- */
+        :root {
+            --spacing-carousel-bottom: 20px;
+            --spacing-section-padding-top: 40px;
+            --spacing-section-padding-bottom: 60px;
+            --spacing-divider: 35px;
+            --spacing-block-margin: 36px;
+            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
+        }
+
         html, body {
             background-color: #000000;
             color: #ffffff;
@@ -39,7 +51,7 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 0px 0 0 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -48,7 +60,7 @@
             position: relative;
             width: 100%;
             max-width: 315px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto var(--spacing-carousel-bottom) auto;
             padding: 0 10px;
             box-sizing: border-box;
         }
@@ -255,7 +267,7 @@
             background-color: #08080a;
             width: 100%;
             box-sizing: border-box;
-            padding: 40px 15px 60px 15px;
+            padding: var(--spacing-section-padding-top) 15px var(--spacing-section-padding-bottom) 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -320,7 +332,7 @@
         .section-divider {
             height: 1px;
             background-color: rgba(255, 255, 255, 0.08);
-            margin: 35px 0;
+            margin: var(--spacing-divider) 0;
             width: 100%;
         }
 
@@ -329,25 +341,27 @@
             list-style: none;
             padding: 0;
             margin: 0 0 30px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
         }
 
         .substance-card {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             background-color: #000000;
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 7px;
-            padding: 0px 10px;
+            padding: 0px 14px;
+            margin-bottom: var(--spacing-substance-card);
             box-sizing: border-box;
         }
 
+        .substance-card:last-child {
+            margin-bottom: 0;
+        }
+
         .substance-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -356,27 +370,36 @@
         }
 
         .substance-icon svg {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             fill: none;
             stroke-width: 1.8;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
+        .substance-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
         .substance-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            margin: 0;
-            line-height: 1.1;
+            font-size: 12.5px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1;
+    position: relative;   /* neu */
+    top: 15px;             /* neu — schiebt den Titel visuell nach unten, 
+                              ohne dass andere Elemente sich mitbewegen */
         }
 
         .substance-effect {
             font-size: 11.5px;
             color: #999999;
-            margin: 0px 0 0 0;
-            line-height: 1.25;
+            margin: 0;
+            line-height: 1.3;
         }
 
         /* Abschluss-Sektion: Trust-Facts + Preis-Block */
@@ -406,7 +429,7 @@
         .price-block {
             border-left: 2px solid #38b6ff;
             padding-left: 20px;
-            margin: 36px 0 28px 0;
+            margin: var(--spacing-block-margin) 0 28px 0;
         }
 
         .price-headline {
@@ -547,45 +570,45 @@
                     <div class="substance-icon" style="background-color: rgba(56, 182, 255, 0.12);">
                         <svg viewBox="0 0 24 24" stroke="#38b6ff"><path d="M9 2h6v4l3 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10l3-4V2z"></path><line x1="9" y1="2" x2="15" y2="2"></line></svg>
                     </div>
-                    <div>
+                    <div class="substance-content">
                         <p class="substance-name">Alkohol</p>
-                        <p class="substance-effect">Enthemmung +<br> reduzierte Selbstkontrolle</p>
+                        <p class="substance-effect">Enthemmung + <br>reduzierte Selbstkontrolle</p>
                     </div>
                 </li>
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(139, 195, 74, 0.12);">
-                        <svg viewBox="0 0 24 24" stroke="#8bc34a"><path d="M12 2c1 3 3 4 3 7a3 3 0 0 1-6 0c0-3 2-4 3-7z"></path><path d="M12 9v13"></path><path d="M12 13c-2-2-6-2-8 0 2 2 6 2 8 0z"></path><path d="M12 13c2-2 6-2 8 0-2 2-6 2-8 0z"></path><path d="M12 17c-1.5-1.5-4.5-1.5-6 0 1.5 1.5 4.5 1.5 6 0z"></path><path d="M12 17c1.5-1.5 4.5-1.5 6 0-1.5 1.5-4.5 1.5-6 0z"></path></svg>
+                        <svg viewBox="0 0 24 24" stroke="#8bc34a"><path d="M12 2c1 3 3 4 3 7a3 3 0 0 1-6 0c0-3 2-4 3-7z"></path><path d="M12 9v13"></path><path d="M12 13c-2-2-6-2-8 0 2 2 6 2 8 0z"></path></svg>
                     </div>
-                    <div>
+                    <div class="substance-content">
                         <p class="substance-name">Cannabis</p>
                         <p class="substance-effect">Assoziatives Denken + <br>veränderte Wahrnehmungsverarbeitung</p>
                     </div>
                 </li>
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(233, 117, 196, 0.12);">
-                        <svg viewBox="0 0 24 24" stroke="#e975c4"><circle cx="12" cy="12" r="2"></circle><ellipse cx="12" cy="12" rx="10" ry="4.5"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"></ellipse></svg>
+                        <svg viewBox="0 0 24 24" stroke="#e975c4"><circle cx="12" cy="12" r="2"></circle><ellipse cx="12" cy="12" rx="10" ry="4.5"></ellipse></svg>
                     </div>
-                    <div>
+                    <div class="substance-content">
                         <p class="substance-name">LSD</p>
                         <p class="substance-effect">Veränderte Ich-Wahrnehmung + <br>Wahrnehmungsverschiebung</p>
                     </div>
                 </li>
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(95, 212, 212, 0.12);">
-                        <svg viewBox="0 0 24 24" stroke="#5fd4d4"><path d="M6 3h12l4 6-10 12L2 9z"></path><path d="M2 9h20"></path><path d="M12 3l-3 6 3 12 3-12z"></path></svg>
+                        <svg viewBox="0 0 24 24" stroke="#5fd4d4"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
                     </div>
-                    <div>
+                    <div class="substance-content">
                         <p class="substance-name">Kokain</p>
                         <p class="substance-effect">Fokussierte Aufmerksamkeit +<br> gesteigertes Kontrollgefühl</p>
                     </div>
                 </li>
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(255, 153, 0, 0.12);">
-                        <svg viewBox="0 0 24 24" stroke="#ff9900"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7c0 1.5-1.5 2-3 1.5-1-1-2-1.5-5-1.5s-4 .5-5 1.5C5.5 13 4 12.5 4 11z"></path><line x1="12" y1="12" x2="12" y2="20"></line><line x1="9" y1="20" x2="15" y2="20"></line></svg>
+                        <svg viewBox="0 0 24 24" stroke="#ff9900"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7c0 1.5-1.5 2-3 1.5-1-1-2-1.5-5-1.5s-4 .5-5 1.5C5.5 13 4 12.5 4 11z"></path><line x1="12" y1="12" x2="12" y2="20"></line></svg>
                     </div>
-                    <div>
+                    <div class="substance-content">
                         <p class="substance-name">Psilocybin</p>
-                        <p class="substance-effect">Emotionale Verstärkung +<br> intensive Selbstreflexion</p>
+                        <p class="substance-effect">Emotionale Verstärkung + <br>intensive Selbstreflexion</p>
                     </div>
                 </li>
             </ul>
