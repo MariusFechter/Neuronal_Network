@@ -1,66 +1,44 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-
-    // Pixel initialisieren
-    fbq('init', '1988847275335071');
-
-    // PageView genau 1x manuell steuern
-    fbq('track', 'PageView');
-
-    // ViewContent nach 10 Sekunden Verweildauer
-    setTimeout(function() {
-        fbq('track', 'ViewContent');
-    }, 10000);
-    </script>
-
-    <noscript>
-        <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
-    </noscript>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neuronal Network - Neuropsychologische Analyse</title>
+    <title>Neuronal Network - Analyse</title>
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
 
-    <!-- Speculation Rules API für echtes Prerendering des Checkouts auf eigener Subdomain -->
+    <!-- Preload für Performance -->
+    <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
+
+    <!-- Speculation Rules API für echtes Prerendering beider Checkouts (inkl. Sprache DE + Land DE) -->
     <script type="speculationrules">
     {
       "prerender": [
         {
           "source": "list",
-          "urls": ["https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d"]
+          "urls": [
+            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE",
+            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE"
+          ]
         }
       ]
     }
     </script>
-    <!-- Optimierter Verbindungsaufbau zur Checkout-Subdomain ohne verfrühtes Prerendering -->
-    <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
-    <link rel="dns-prefetch" href="https://zugang.neuronalnetwork.de">
-
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "xocaikjz5c");
-    </script>
-
-    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
-    <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
 
     <style>
+        /* ==========================================
+           ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
+           ================================---------- */
+        :root {
+            --spacing-carousel-bottom: 20px;
+            --spacing-section-padding-top: 40px;
+            --spacing-section-padding-bottom: 60px;
+            --spacing-divider: 35px;
+            --spacing-block-margin: 36px;
+            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
+        }
+
         html, body {
             background-color: #000000;
             color: #ffffff;
@@ -68,347 +46,185 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            perspective: 1000px;
         }
 
-        .content-container {
-            padding: 40px 20px 60px 20px;
+        .container {
             max-width: 600px;
             margin: 0 auto;
-        }
-
-        .hero-title {
-            color: #ff9500;
-            font-size: 23px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-top: 0;
-            margin-bottom: 35px;
-            text-align: left;
-        }
-
-        .hero-subtitle {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-top: 0;
-            margin-bottom: 10px;
-            text-align: left;
-            max-width: 340px;
-        }
-
-        .logo-image {
-            width: 45%;  
-            max-width: 180px; 
-            height: auto; 
-            object-fit: contain;
-            display: block; 
-            margin: -10px auto 15px auto;
-
-            filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
-            transform-origin: center center;
-            animation: slowOrbitY 60s linear infinite;
-            will-change: transform;
-        }
-
-        @keyframes slowOrbitY {
-            from {
-                transform: rotateY(0deg);
-            }
-            to {
-                transform: rotateY(360deg);
-            }
-        }
-
-        /* Subtiler, ruhiger Hero-CTA (Kein Button-Block) */
-        .hero-soft-cta {
-            text-align: center;
-            margin-top: 5px;
-            margin-bottom: 45px;
-        }
-
-        .hero-soft-link {
-            display: inline-block;
-            color: #38b6ff;
-            font-size: 13px; 
-            font-weight: 500; 
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            letter-spacing: 0.3px;
-            transition: opacity 0.1s ease;
-        }
-
-        .hero-soft-link:active {
-            opacity: 0.7;
-        }
-
-        .hero-soft-subtext {
-            color: #888888;
-            font-size: 10px; 
-            font-style: italic;
-            margin-top: 6px;
-            display: block;
-        }
-
-        /* Styling für den Einleitungssatz des Auszugs */
-        .intro-teaser-text {
-            font-size: 19px;
-            font-weight: 600; 
-            color: #f5f5f5; 
-            margin-bottom: 25px;
-        }
-
-        h2 {
-            color: #ff9500;
-            font-size: 21px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-top: 50px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        p {
-            font-size: 16px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            color: #ffffff;
-        }
-
-        .bold-text {
-            font-weight: 700;
-        }
-
-        .subtitle-orange {
-            color: #ff9500;
-            font-weight: 700;
-            font-size: 21px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        .highlight-blue {
-            color: #38b6ff;
-            font-size: 21px;
-            font-weight: 700;
-            margin-top: 35px;
-            margin-bottom: 12px;
-        }
-
-        /* --- STYLING FÜR DAS ADAPTIVE BUCH-LAYOUT --- */
-        .book-container {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            margin: 0 0 35px 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        .book-page {
-            flex: 1;
-            background-color: #0A0A0C; 
-            border: 1px solid #1C1C1E; 
-            border-radius: 8px;
-            padding: 24px;
+        /* Karussell */
+        .carousel-wrapper {
             position: relative;
-            display: flex;
-            flex-direction: column;
+            width: 100%;
+            max-width: 315px;
+            margin: 0 auto var(--spacing-carousel-bottom) auto;
+            padding: 0 10px;
             box-sizing: border-box;
         }
 
-        .page-number {
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            border-radius: 8px;
+        }
+
+        .carousel-track::-webkit-scrollbar { display: none; }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            border-left: 2px solid rgba(56, 182, 255, 0.3);
+            box-shadow: -8px 0 18px rgba(0, 0, 0, 0.9), 0 10px 25px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Navigation */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.25s ease;
+        }
+        .nav-btn.prev { left: 8px; }
+        .nav-btn.next { right: 8px; }
+        .nav-btn.hidden { opacity: 0; pointer-events: none; }
+
+        /* Dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            transition: all 0.25s ease;
+        }
+
+        .dot.active {
+            background-color: #38b6ff;
+            box-shadow: 0 0 8px rgba(56, 182, 255, 0.6);
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        /* Produkt-Head */
+        .product-header {
+            text-align: left;
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 0 15px 15px 15px;
+            box-sizing: border-box;
+        }
+
+        .product-kicker {
             font-size: 11px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 19px;
             font-weight: 600;
-            color: #f5f5f5;
-            letter-spacing: 1px;
+            color: #FFFFFF;
+            line-height: 1.3;
+            margin: 0 0 6px 0;
+        }
+
+        .product-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: #C8C8CD;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* CTA & Preis Bereich */
+        .cta-container {
+            margin-top: 0px;
+            margin-bottom: 40px;
+            text-align: left;
+            padding: 0 15px;
+            box-sizing: border-box;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
             margin-bottom: 14px;
         }
 
-        .page-heading {
-            color: #38b6ff;
-            font-size: 19px;
+        .price-amount {
+            font-size: 24px;
             font-weight: 700;
-            margin: 0 0 14px 0;
-            line-height: 1.3;
+            color: #ff9900;
+            line-height: 1;
         }
 
-        .page-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #ffffff;
-            margin: 0 0 16px 0;
-        }
-
-        .page-text i {
+        .price-details {
+            font-size: 14px;
             color: #aaaaaa;
-        }
-
-        .consequence-box {
-            background-color: #121214;
-            border-left: 2px solid #ffffff;
-            padding: 14px;
-            border-radius: 0 6px 6px 0;
-            font-size: 15px;
-            line-height: 1.5;
-            color: #ffffff;
-            margin-bottom: 16px;
-        }
-
-        .source-text-book {
-            color: #777777;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: auto; 
-            padding-top: 10px;
-        }
-
-        .swipe-hint {
-            display: none;
-            text-align: center;
-            color: #555555;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: -15px;
-            margin-bottom: 35px;
-        }
-
-        @media (max-width: 768px) {
-            .book-container {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                gap: 14px;
-                padding-bottom: 8px;
-            }
-
-            .book-page {
-                min-width: 280px;
-                max-width: 280px;
-                scroll-snap-align: center;
-                padding: 20px;
-            }
-
-            .swipe-hint {
-                display: block;
-            }
-        }
-        /* -------------------------------------------- */
-
-        .conclusion-text {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-top: 35px;
-            margin-bottom: 40px;
-            font-weight: 500;
-            border-left: 1px solid #38b6ff;
-            padding-left: 15px;
-        }
-
-        .meta-container {
-            max-width: 100%;
-            width: 320px;
-            margin: 30px 0 0 0; 
-        }
-
-        .cover-container {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 4px; 
-        }
-
-        .cover-facts-left {
-            color: #f5f5f5;
-            font-size: 13px;
-            margin-top: 25px;
-            margin-bottom: 25px;
-            line-height: 1.7;
-            letter-spacing: 0.5px;
-            border-left: 1px solid #38b6ff; 
-            padding-left: 15px;
-        }
-
-        .toc-section {
-            margin-top: 50px;
-            margin-bottom: 40px;
-        }
-
-        .toc-main-title {
-            color: #ff9500;
-            font-size: 21px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .toc-block {
-            margin-top: 0;
-            margin-bottom: 25px;
-            padding: 0;
-            position: relative;
-        }
-
-        .toc-block.has-divider::before {
-            content: "";
-            position: absolute;
-            top: -13px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: #111111;
-        }
-
-        .toc-chapter {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-top: 0;
-            margin-bottom: 8px;
-            display: flex;
-            gap: 12px;
-            line-height: 1.2;
-        }
-
-        .toc-chapter-num {
-            color: #38b6ff;
-            font-weight: 500;
-        }
-
-        .toc-sub-items {
-            font-size: 13px;
-            color: #aaaaaa;
-            line-height: 1.8;
-            margin-left: 32px;
-        }
-
-        .cta-container {
-            margin-top: 40px;
-            margin-bottom: 40px;
-            text-align: center;
+            font-weight: 400;
         }
 
         .cta-button {
             display: block;
             width: 100%;
-            max-width: 340px; 
-            margin: 0 auto;
+            max-width: 390px; 
+            margin: 0;
             box-sizing: border-box;
             background-color: #38b6ff;
             color: #ffffff;
             text-align: center;
-            padding: 18px 20px;
-            font-size: 16px;
+            padding: 12px 10px;
+            font-size: 15px;
             font-weight: 700;
             text-decoration: none;
             border-radius: 6px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0px;
             box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
             transition: transform 0.1s ease, background-color 0.1s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .cta-button:active {
@@ -416,378 +232,462 @@
             background-color: #29a3eb;
         }
 
-        .cta-subtext {
-            color: #888888; 
-            font-size: 11px; 
-            font-style: normal; 
-            letter-spacing: 0.3px; 
+        /* Trust-Zeile */
+        .trust-row {
             margin-top: 12px;
-            display: block;
-            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #aaaaaa;
+            font-weight: 400;
             text-align: center;
+            max-width: 390px;
+            margin-left: auto;
+            margin-right: auto;
+            white-space: nowrap;
         }
 
-        .section-separator {
-            height: 1px;
-            background-color: #111111;
-            margin: 60px 0;
-            border: none;
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .premium-list {
-            margin: 20px 0 30px 0;
-            padding: 0;
+        .trust-item svg {
+            width: 13px;
+            height: 13px;
+            stroke: #aaaaaa;
+            flex-shrink: 0;
         }
 
-        .premium-list-item {
+        /* Content-Section */
+        .content-section {
+            background-color: #08080a;
+            width: 100%;
+            box-sizing: border-box;
+            padding: var(--spacing-section-padding-top) 15px var(--spacing-section-padding-bottom) 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .content-inner {
+            max-width: 420px;
+            margin: 0 auto;
+            text-align: left;
             font-size: 15px;
             line-height: 1.6;
-            color: #f5f5f5;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
+            color: #C8C8CD;
         }
 
-        .premium-list-bullet {
-            color: #38b6ff;
+        .content-inner p {
+            margin: 0 0 22px 0;
+        }
+
+        .editorial-lead {
+            font-size: 22px;
             font-weight: 700;
-        }
-
-        .specs-grid {
-            margin: 35px 0;
-            border-top: 1px solid #111111;
-        }
-
-        .spec-row {
-            padding: 16px 0;
-            border-bottom: 1px solid #111111;
-        }
-
-        .spec-label {
-            color: #ff9500;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .spec-value {
             color: #ffffff;
-            font-size: 12px;
-            line-height: 1.5;
+            line-height: 1.35;
+            margin: 0 0 24px 0;
         }
 
-        .price-pitch-box {
-            margin-top: 40px;
-            margin-bottom: 15px;
-            border-left: 1px solid #38b6ff;
-            padding-left: 18px;
-        }
-
-        .price-tag {
-            font-size: 24px;
+        .block-kicker {
+            font-size: 11px;
             font-weight: 700;
-            color: #ff9500;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
+            color: #8F8F96;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
         }
 
-        .old-price {
-            font-size: 16px;
-            font-weight: 500;
+        .model-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 35px 0;
+        }
+
+        .model-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #C8C8CD;
+        }
+
+        .model-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .model-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff9900;
+            font-weight: 700;
+        }
+
+        .section-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            margin: var(--spacing-divider) 0;
+            width: 100%;
+        }
+
+        /* Substanz-Karten */
+        .substance-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .substance-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 7px;
+            padding: 0px 14px;
+            margin-bottom: var(--spacing-substance-card);
+            box-sizing: border-box;
+        }
+
+        .substance-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .substance-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .substance-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .substance-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .substance-name {
+            font-size: 12.5px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    line-height: 0.5;
+    position: relative;   /* neu */
+    top: 15px;             /* neu — schiebt den Titel visuell nach unten, 
+                              ohne dass andere Elemente sich mitbewegen */
+        }
+
+        .substance-effect {
+            font-size: 11.5px;
+            color: #999999;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Abschluss-Sektion: Trust-Facts + Preis-Block */
+        .fact-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 28px 0;
+            width: 100%;
+        }
+
+        .fact-kicker {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ff9900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+
+        .fact-text {
+            font-size: 15px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .price-block {
+            border-left: 2px solid #38b6ff;
+            padding-left: 20px;
+            margin: var(--spacing-block-margin) 0 28px 0;
+        }
+
+        .price-headline {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ff9900;
+            margin: 0 0 18px 0;
+        }
+
+        .price-old {
+            font-size: 18px;
+            font-weight: 600;
             color: #777777;
             text-decoration: line-through;
+            margin-left: 6px;
         }
 
-        .disclaimer-text {
-            color: #555555;
-            font-size: 11px;
-            font-style: italic;
-            line-height: 1.6;
-            margin-top: 60px;
-            text-align: left;
-            border-top: 1px solid #111111;
-            padding-top: 15px;
-        }
-
-        .footer-links {
-            margin-top: 25px;
-            display: flex;
-            gap: 25px;
-            justify-content: flex-start;
-        }
-
-        .footer-link {
-            color: #aaaaaa;
-            font-size: 13px;
-            text-decoration: none;
-            transition: color 0.1s ease;
-        }
-
-        .footer-link:hover {
+        .price-block p {
+            font-size: 15px;
             color: #ffffff;
+            line-height: 1.6;
+            margin: 0 0 18px 0;
         }
-        .footer-link:active {
-            opacity: 0.7;
+
+        .price-block p:last-child {
+            margin-bottom: 0;
         }
     </style>
 
+    <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
     <script>
         function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
-
-            // Meta Pixel absenden
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
-
-            // Sofortige Weiterleitung zum Checkout
             window.location.href = url;
         }
     </script>
-
 </head>
-
 <body>
 
-    <div class="content-container">
+    <div class="container">
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev hidden" id="prevBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
 
-<<<<<<< HEAD:neuropsychologische-analyse/index.html
-        <h1 class="hero-title">Das ist die vollständige neuropsychologische Analyse hinter dem Ausschnitt, <br> den du gerade gesehen hast.</h1>
-        <p class="hero-subtitle">Erfahre, wie Alkohol, Cannabis, Kokain, LSD und Psilocybin Wahrnehmung, Entscheidungen und Verhalten verändern – erklärt durch neuropsychologische Mechanismen.</p>
-      
-=======
-        <h1 class="hero-title">Was du als Veränderung wahrnimmst, folgt klaren neuropsychologischen Mustern in deinem Gehirn.</h1>
-        <p class="hero-subtitle">Diese Analyse zeigt dir, <br>wie sich Wahrnehmung, Kontrolle <br> und Verhalten in veränderten <br> Bewusstseinszuständen <br> verschieben - oft bevor du es bewusst einordnen kannst.</p>
-
->>>>>>> ed9dbb5eef45c9ed44911151b0d2e72af5622a85:analyse/index.html
-        <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
-
-        <!-- CTA 1: Oberer Soft-Link (direkte Weiterleitung mit Pixel-Trigger) -->
-        <div class="hero-soft-cta">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="hero-soft-link" onclick="triggerPixelAndRedirect(event, this.href);">Vollständige Analyse freischalten</a>
-            <span class="hero-soft-subtext">(Sofortiger Zugriff nach dem Kauf.)</span>
-        </div>
-
-        <p class="intro-teaser-text">Ein Einblick in die vollständige Analyse:</p>
-
-        <p class="highlight-blue" style="margin-bottom: 25px;">Alkohol:<br> „Enthemmtes Bewusstsein“</p>
-
-        <!-- DAS NEUE ADAPTIVE BUCH-LAYOUT -->
-        <div class="book-container">
-
-            <!-- Linke Buchseite (Punkt 1) -->
-            <div class="book-page">
-                <span class="page-number">01</span>
-                <h4 class="page-heading">Verminderung der GABA-Aktivität</h4>
-                <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die Aktivität der Nervenzellen gedämpft wird.</p>
-                <p class="page-text">Alkohol verstärkt die Wirkung von GABA (Gamma-Aminobuttersäure), einem hemmenden Botenstoff im zentralen Nervensystem, wodurch die activity der Nervenzellen gedämpft wird.</p>
-                <div class="consequence-box">
-                    <span class="bold-text">Die Folge davon ist:</span> Entspannung, sinkende Hemmschwellen und ein lockeres Verhalten.
-                </div>
-                <p class="page-text">Hierdurch fühlen sich Menschen sozial offener, spontaner und weniger gehemmt in ihrer Interaktion mit anderen Personen.</p>
-                <div class="source-text-book">(Koob & Volkow, 2010)</div>
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide"><img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Einblick 1" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="600" height="800"></div>
             </div>
 
-            <!-- Rechte Buchseite (Punkt 2) -->
-            <div class="book-page">
-                <span class="page-number">02</span>
-                <h4 class="page-heading">Hemmung der Glutamat-Aktivität</h4>
-                <p class="page-text">Alkohol reduziert die Wirkung von Glutamat, das normalerweise Erregung und Informationsverarbeitung im Gehirn vorantreibt.</p>
-                <div class="consequence-box">
-                    <span class="bold-text">Die Folge davon ist:</span> Die kognitive Kontrolle lässt nach, das Denken wird träge und man hinterfragt das eigene Handeln kaum noch kritisch.
-                </div>
-                <p class="page-text">Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
-                <div class="source-text-book">(Lovinger, 1997)</div>
-            </div>
+            <button class="nav-btn next" id="nextBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
 
-        </div>
-
-        <!-- Visueller Hinweis auf Smartphones -->
-        <div class="swipe-hint">Weiter zu Punkt 02 →</div>
-
-        <p class="subtitle-orange">Neuropsychologische Analyse</p>
-
-      <p style="margin-bottom: 5px;">Diese Analyse basiert auf neuropsychologischen Erkenntnissen und wissenschaftlicher Literatur.</p>
-<p style="margin-top: 0;">Sie bietet eine strukturierte Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
-
-        <div class="meta-container">
-            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
-            <div class="cover-facts-left">
-                · 26 Seiten fundierte Analyse<br>
-                · 27 wissenschaftliche Quellen<br>
-                · Analyse neurochemischer Systeme<br>
-                · Vergleich verschiedener Substanzklassen
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
         </div>
 
-        <div class="toc-section">
-            <div class="toc-main-title">Kapitelübersicht</div>
-
-<!-- Die zentrale, edle Erklärung für den Aufbau jedes Kapitels -->
-<div style="font-size: 15px; color: #d9d9d9; margin-top: 20px; margin-bottom: 35px; line-height: 1.6;">
-    <div class="bold-text" style="color: #ffffff; margin-bottom: 12px; font-size: 17px;">
-        Jedes der Substanz-Kapitel analysiert systematisch:
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Wirkung auf das Bewusstsein
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Neuropsychologische Mechanismen
-    </div>
-    <div style="margin-bottom: 0; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Bewusstseinseffekte
-    </div>
-</div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
-            </div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">02</span> Psilocybin: Introspektives Bewusstsein</div>
-            </div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">03</span> Kokain: Fokussiertes Bewusstsein</div>
-            </div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">04</span> Alkohol: Enthemmtes Bewusstsein</div>
-            </div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">05</span> Cannabis: Assoziatives Bewusstsein</div>
-            </div>
-
-            <div class="toc-block has-divider">
-                <div class="toc-chapter"><span class="toc-chapter-num">06</span> Psychoaktive Effekte im Überblick</div>
-            </div>
-
-            <div class="toc-block">
-                <div class="toc-chapter"><span class="toc-chapter-num">07</span> Literaturverzeichnis</div>
-            </div>
+        <div class="product-header">
+            <div class="product-kicker">NEUROPSYCHOLOGISCHE FACHPUBLIKATION</div>
+            <h1 class="product-title">Rausch oder Realität?</h1>
+            <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
         </div>
 
-        <p>Wenn du diese Muster einmal <br> verstanden hast, <br>verändert sich die Art, wie du dein eigenes <br> Verhalten einordnest – <br> nicht nur intuitiv, sondern auf einer <br> wissenschaftlich fundierten Grundlage.</p>
-
-        <!-- CTA 2: Erster Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA & Kauf-Block (Top) -->
         <div class="cta-container">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Analyse jetzt freischalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
-        </div>
-
-        <div class="section-separator"></div>
-
-        <h2>Warum diese Analyse relevant ist</h2>
-
-
-   <p>Veränderte Bewusstseinszustände entstehen durch automatische neuropsychologische Prozesse, die beeinflussen, wie du wahrnimmst, bewertest und entscheidest.</p>
-
-
-        <p>Viele dieser Prozesse wirken, bevor du sie bewusst <br> einordnen und verstehen kannst.</p>
-
-        <p class="bold-text">Du fühlst dich nicht zufällig anders.</p>
-        <p>In diesen Momenten verarbeitet dein Gehirn Informationen anders – und beeinflusst dadurch dein Erleben und Verhalten.  </p>
-
-        <p class="subtitle-orange" style="margin-top: 40px;">Diese Analyse zeigt dir:</p>
-        <div class="premium-list">
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span>warum bewusste Kontrolle in bestimmten Zuständen eingeschränkt sein kann</span>
+            <div class="price-row">
+                <span class="price-amount">15 €</span>
+                <span class="price-details">einmalig · kein Abo</span>
             </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span>wie unterschiedliche neurochemische Systeme dein Erleben beeinflussen</span>
-            </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span>warum sich diese Zustände subjektiv oft stabil und „normal“ anfühlen</span>
-            </div>
-             <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span>welche wiederkehrenden Muster hinter diesen Veränderungen stehen</span>
+
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
+            <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+
+            <div class="trust-row">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
             </div>
         </div>
-
-        <p class="subtitle-orange" style="margin-top: 35px;">Die Analyse betrachtet unter anderem folgende neuropsychologische Muster:</p>
-        <div class="premium-list">
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span><span class="bold-text">Alkohol</span> &rarr; Enthemmung + Impulsivität</span>
-            </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span><span class="bold-text">Cannabis</span> &rarr; Assoziatives Denken + Überverknüpfung</span>
-            </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span><span class="bold-text">LSD</span> &rarr; Ich-Distanz + Wahrnehmungsverschiebung</span>
-            </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span><span class="bold-text">Kokain</span> &rarr; Fokus + Kontrollillusion</span>
-            </div>
-            <div class="premium-list-item">
-                <span class="premium-list-bullet">·</span>
-                <span><span class="bold-text">Psilocybin</span> &rarr; emotionale Verstärkung + Selbstreflexion</span>
-            </div>
-        </div>
-
-        <p class="conclusion-text">
-            Du erhältst nicht nur einzelne Erklärungen – <br> sondern ein zusammenhängendes Modell hinter diesen Zuständen.
-        </p>
-
-        <div class="specs-grid">
-            <div class="spec-row">
-             <div class="spec-label" style="font-size: 16px;">Umfang</div>
-                <div class="spec-value"style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
-            </div>
-            <div class="spec-row">
-               <div class="spec-label" style="font-size: 16px;">Wissenschaftliche Grundlage</div>
-                <div class="spec-value" style="font-size: 15px;"> Gestützt durch 27 wissenschaftliche Quellen</div>
-            </div>
-            <div class="spec-row">      
-      <div class="spec-label" style="font-size: 16px;">Fortlaufende Weiterentwicklung</div>
-                <div class="spec-value"style="font-size: 15px;">Die Publikation wird kontinuierlich erweitert.<br>
-                  Alle zukünftigen Versionen erhältst du als Käufer dauerhaft kostenfrei.<br></div>
-            </div>
-        </div>
-
-        <div class="price-pitch-box">
-            <div class="price-tag">
-                Für 15 € <span class="old-price">statt 20 €</span>
-            </div>
-          <p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    erhältst du eine strukturierte Einordnung der neuropsychologischen Mechanismen hinter veränderten Bewusstseinszuständen.
-</p>
-<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    Viele dieser Veränderungen hast du wahrscheinlich bereits erlebt.<br>
-    Jetzt kannst du die Prozesse dahinter nachvollziehen. 
-</p>
-
-        </div>
-
-        <!-- CTA 3: Unterer Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
-        <div class="cta-container" style="margin-top: 40px;">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Analyse jetzt freischalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
-        </div>
-
-        <div class="disclaimer-text">
-            Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Keine medizinische, therapeutische oder praktische Empfehlung.
-        </div>
-
-        <div class="footer-links">
-            <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link" target="_blank">Impressum</a>
-            <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" class="footer-link" target="_blank">Datenschutzerklärung</a>
-        </div>
-
     </div>
 
+    <!-- Content-Section -->
+    <div class="content-section">
+        <div class="content-inner">
+            <p class="editorial-lead">Du hältst deine Wahrnehmung für die Realität.</p>
+            <p>Du siehst, fühlst, entscheidest –<br>
+            und denkst dabei:<br>
+            „Genauso fühlt sich die Realität eben an.“</p>
+            <p>Doch dein Gehirn bildet die Welt nicht einfach ab.<br>
+            Es filtert Informationen, gewichtet Reize und <br>lenkt deine Aufmerksamkeit.</p>
+            <p>Was du erlebst, ist deshalb nicht die Welt selbst –<br>
+            sondern deine persönliche Verarbeitung dieser Welt.</p>
+            <p>Doch was passiert, wenn sich dieses System verschiebt – wenn bestimmte neuronale Netzwerke aus dem Gleichgewicht geraten?</p>
+            <p>Dann können sich Wahrnehmung, Emotionen und Verhalten verändern.</p>
+            <p>Diese Veränderung bemerkst du jedoch nicht immer.<br>
+            Vieles davon läuft automatisch ab – <br>bevor es dir überhaupt bewusst wird.</p>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 1: Das Denkmodell dahinter -->
+            <div class="block-kicker">DAS DENKMODELL DAHINTER</div>
+            <ul class="model-list">
+                <li>Wie biologische Mechanismen dein emotionales Erleben mitbestimmen — und was sich verändert, wenn Substanzen in diese Systeme eingreifen</li>
+                <li>Warum bestimmte Kontrollsysteme unter veränderten neurochemischen Bedingungen anders funktionieren</li>
+                <li>Warum sich selbst deutlich veränderte Bewusstseinszustände subjektiv weiterhin stimmig und „normal“ anfühlen können</li>
+                <li>Welche wiederkehrenden Muster sich über verschiedene Substanzen hinweg erkennen und ableiten lassen</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 2: Was du danach anders erkennst -->
+            <div class="block-kicker">WAS DU DANACH ANDERS ERKENNST</div>
+            
+            <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Viele dieser Prozesse laufen automatisch ab, bevor sie dir überhaupt bewusst werden.</p>
+            
+            <p>Du fühlst dich in diesen Zuständen nicht zufällig anders:<br> In diesen Momenten verändert sich, wie dein Gehirn Informationen verarbeitet, Situationen bewertet und Entscheidungen beeinflusst.</p>
+            
+            <p>Wenn du diese Muster einmal verstanden hast, verändert sich dein Blick auf dich selbst und das Verhalten anderer.</p>
+            
+            <p>Du reagierst nicht mehr nur auf das,<br> was du beobachtest.<br>
+            Du kannst besser einordnen, was darunter passiert.</p>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 3: Fünf Substanzen. Ein Denkmodell. -->
+            <div class="block-kicker">FÜNF SUBSTANZEN. EIN DENKMODELL.</div>
+            <ul class="substance-list">
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(56, 182, 255, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#38b6ff"><path d="M9 2h6v4l3 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10l3-4V2z"></path><line x1="9" y1="2" x2="15" y2="2"></line></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Alkohol</p>
+                        <p class="substance-effect">Enthemmung + <br>reduzierte Selbstkontrolle</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(139, 195, 74, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#8bc34a"><path d="M12 2c0 0 1 4 3 6s6 2 6 2-3 2-4 4c-0.5 1 0 3 0 3s-2.5-1-4 0c-0.7 0.5-1 2-1 2s-0.3-1.5-1-2c-1.5-1-4 0-4 0s0.5-2 0-3c-1-2-4-4-4-4s4 0 6-2 3-6 3-6z"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Cannabis</p>
+                        <p class="substance-effect">Assoziatives Denken + <br>veränderte Wahrnehmungsverarbeitung</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(200, 100, 235, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#c864eb"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">LSD</p>
+                        <p class="substance-effect">Veränderte Ich-Wahrnehmung + <br>Wahrnehmungsverschiebung</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(95, 212, 212, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#5fd4d4"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Kokain</p>
+                        <p class="substance-effect">Fokussierte Aufmerksamkeit +<br> gesteigertes Kontrollgefühl</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(255, 153, 0, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#ff9900"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7c0 1.5-1.5 2-3 1.5-1-1-2-1.5-5-1.5s-4 .5-5 1.5C5.5 13 4 12.5 4 11z"></path><line x1="12" y1="12" x2="12" y2="20"></line></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Psilocybin</p>
+                        <p class="substance-effect">Emotionale Verstärkung + <br>intensive Selbstreflexion</p>
+                    </div>
+                </li>
+            </ul>
+
+            <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Keine bloße Fakten-Sammlung.</p>
+
+            <p>Die fünf Substanzen zeigen unterschiedliche neuropsychologische Zustandsprofile.<br> Im Vergleich wird sichtbar, welche Muster sich wiederholen, wenn sich die zugrunde liegenden Verarbeitungsprozesse verändern.</p>
+
+            <p>Du lernst hierdurch nicht fünf isolierte Wirkungsprofile –
+            sondern ein übergeordnetes Muster dahinter zu erkennen.</p>
+
+            <div class="fact-divider"></div>
+
+            <!-- Block 4: Trust-Facts -->
+            <p class="fact-kicker">WISSENSCHAFTLICH FUNDIERT. KLAR AUFBEREITET.</p>
+            <p class="fact-text">27 wissenschaftliche Quellen aus Psychologie, Pharmakologie und Neurowissenschaften – transparent referenziert.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">DIE PUBLIKATION</p>
+            <p class="fact-text">25 Seiten – kompakt aufbereitet, klar strukturiert und mit interaktiver Navigation.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">INKLUSIVE ZUKÜNFTIGER ERWEITERUNGEN</p>
+            <p class="fact-text">Einmalige Zahlung. Alle kommenden Kapitel und Ergänzungen erhältst du automatisch ohne Zusatzkosten.</p>
+
+            <div class="fact-divider"></div>
+
+            <!-- Preis-Block mit vertikaler Akzentlinie -->
+            <div class="price-block">
+                <div class="price-row" style="margin-bottom: 18px;">
+                    <span class="price-amount">15 €</span>
+                    <span class="price-details">einmalig · kein Abo</span>
+                </div>
+                <p>erhältst du Zugang zu einer wissenschaftlich fundierten Analyse einer zentralen Frage:</p>
+                <p><strong>„Wie entsteht das, was wir als unsere Realität erleben?"</strong></p>
+                <p>Du lernst, die neuropsychologischen Muster hinter verändertem Erleben zu erkennen –  <br>und sie über verschiedene Zustände hinweg einzuordnen.</p>
+                <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
+            </div>
+
+            <!-- Finaler CTA unten (Direkt-Redirect, prerendered, DE-Standard) -->
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+
+            <div class="trust-row" style="margin-top: 12px;">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+        function updateUI() {
+            const slideWidth = track.clientWidth;
+            const currentIndex = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+            prevBtn.classList.toggle('hidden', currentIndex === 0);
+            nextBtn.classList.toggle('hidden', currentIndex === totalSlides - 1);
+        }
+
+        prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+        track.addEventListener('scroll', updateUI);
+        window.addEventListener('resize', updateUI);
+    </script>
 </body>
 </html>
