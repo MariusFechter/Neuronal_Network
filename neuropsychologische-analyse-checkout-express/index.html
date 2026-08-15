@@ -19,35 +19,101 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
         }
 
         .container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-        }
-
-        /* Container für das reine Stripe Formular */
-        #checkout {
+            justify-content: flex-start;
             width: 100%;
             max-width: 500px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            padding: 30px 20px;
+        }
+
+        /* Produkt-Header im Checkout (Exakt wie Landingpage) */
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .checkout-cover-wrapper {
+            width: 100%;
+            max-width: 140px;
+            margin: 0 auto 16px auto;
+        }
+
+        .checkout-cover-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            border-left: 2px solid rgba(56, 182, 255, 0.3);
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.9), 0 6px 18px rgba(0, 0, 0, 0.8);
+        }
+
+        .product-kicker {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 21px;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.3;
+            margin: 0 0 6px 0;
+        }
+
+        .product-subtitle {
+            font-size: 13.5px;
+            font-weight: 400;
+            color: #C8C8CD;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        /* Container für das Stripe Formular */
+        #checkout {
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- HIER WIRD NUR DAS STRIPE FORMULAR GERENDERT -->
+        <!-- Header mit Cover, Kicker, Titel und Untertitel -->
+        <div class="checkout-header">
+            <div class="checkout-cover-wrapper">
+                <img src="analyse_cover.webp" alt="Analyse Cover" width="300" height="400">
+            </div>
+            <div class="product-kicker">Neuropsychologische Fachpublikation</div>
+            <h1 class="product-title">Rausch oder Realität?</h1>
+            <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- HIER WIRD DAS STRIPE FORMULAR GERENDERT -->
         <div id="checkout"></div>
     </div>
 
     <script>
-        // Deinen Publishable Key mit Anführungszeichen eintragen
         const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
 
         async function initialize() {
