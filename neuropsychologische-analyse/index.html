@@ -11,15 +11,14 @@
     <!-- Preload für Performance -->
     <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
-    <!-- Speculation Rules API für echtes Prerendering beider Checkouts (inkl. Sprache DE + Land DE) -->
+    <!-- Speculation Rules API für echtes Prerendering -->
     <script type="speculationrules">
     {
       "prerender": [
         {
           "source": "list",
           "urls": [
-            "https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE",
-            "https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE"
+            "https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/"
           ]
         }
       ]
@@ -386,13 +385,12 @@
 
         .substance-name {
             font-size: 12.5px;
-    font-weight: 600;
-    color: #ffffff;
-    margin: 0;
-    line-height: 0.5;
-    position: relative;   /* neu */
-    top: 15px;             /* neu — schiebt den Titel visuell nach unten, 
-                              ohne dass andere Elemente sich mitbewegen */
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            line-height: 0.5;
+            position: relative;
+            top: 15px;
         }
 
         .substance-effect {
@@ -504,8 +502,7 @@
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/e5a0367e-cce5-45a5-a79a-f5e0745faf6d?embed=1&discount=0&locale=de&checkout[billing_address][country]=DE" class="lemonsqueezy-button cta-button">Zugang zur vollständigen Analyse</a>
-            <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
 
             <div class="trust-row">
                 <div class="trust-item">
@@ -650,8 +647,8 @@
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
-            <!-- Finaler CTA unten (Direkt-Redirect, prerendered, DE-Standard) -->
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/7c7b2b55-0b09-4963-bcd7-90695ad1b838?discount=0&locale=de&checkout[billing_address][country]=DE" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+            <!-- Finaler CTA unten -->
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
