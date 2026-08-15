@@ -455,6 +455,117 @@
         .price-block p:last-child {
             margin-bottom: 0;
         }
+
+        /* ==========================================
+           CHECKOUT MODAL
+           ========================================== */
+        .checkout-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkout-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .checkout-modal {
+            background: #0a0a0c;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px);
+            transition: transform 0.25s ease;
+        }
+
+        .checkout-modal-overlay.active .checkout-modal {
+            transform: translateY(0);
+        }
+
+        .checkout-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .checkout-modal-close:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .checkout-modal-body {
+            padding: 20px;
+            min-height: 420px;
+            box-sizing: border-box;
+        }
+
+        .checkout-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 420px;
+            gap: 16px;
+            color: #aaaaaa;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .checkout-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(56, 182, 255, 0.2);
+            border-top-color: #38b6ff;
+            border-radius: 50%;
+            animation: checkout-spin 0.8s linear infinite;
+        }
+
+        @keyframes checkout-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Body-Scroll-Lock, solange das Modal offen ist */
+        body.checkout-open {
+            overflow: hidden;
+        }
     </style>
 
     <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
@@ -502,7 +613,7 @@
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="openCheckoutModal(event);">Zugang zur vollständigen Analyse</a>
 
             <div class="trust-row">
                 <div class="trust-item">
@@ -648,7 +759,7 @@
             </div>
 
             <!-- Finaler CTA unten -->
-            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="openCheckoutModal(event);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
@@ -661,6 +772,21 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Checkout-Modal -->
+    <div class="checkout-modal-overlay" id="checkoutOverlay" aria-hidden="true">
+        <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+            <button class="checkout-modal-close" id="checkoutCloseBtn" type="button" aria-label="Checkout schließen">✕</button>
+            <h2 id="checkoutModalTitle" class="sr-only">Kauf abschließen</h2>
+            <div class="checkout-modal-body">
+                <div class="checkout-loading" id="checkoutLoading">
+                    <div class="checkout-spinner"></div>
+                    <span>Checkout wird geladen …</span>
+                </div>
+                <div id="checkout-container"></div>
+            </div>
         </div>
     </div>
 
@@ -685,6 +811,111 @@
         nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
         track.addEventListener('scroll', updateUI);
         window.addEventListener('resize', updateUI);
+    </script>
+
+    <script>
+        const STRIPE_PUBLISHABLE_KEY = "pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r";
+        const CHECKOUT_WORKER_URL = "https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/";
+
+        let stripeInstancePromise = null;
+        let embeddedCheckout = null;
+        let lastFocusedElement = null;
+
+        // Stripe.js wird erst beim ersten Klick nachgeladen – kein Einfluss auf FCP
+        function getStripe() {
+            if (!stripeInstancePromise) {
+                stripeInstancePromise = new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = "https://js.stripe.com/v3/";
+                    script.onload = () => resolve(Stripe(STRIPE_PUBLISHABLE_KEY));
+                    script.onerror = () => reject(new Error("Stripe.js konnte nicht geladen werden."));
+                    document.head.appendChild(script);
+                });
+            }
+            return stripeInstancePromise;
+        }
+
+        async function openCheckoutModal(event) {
+            if (event) event.preventDefault();
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout');
+            }
+
+            lastFocusedElement = document.activeElement;
+
+            const overlay = document.getElementById('checkoutOverlay');
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('checkout-open');
+            document.getElementById('checkoutCloseBtn').focus();
+            document.addEventListener('keydown', handleModalKeydown);
+
+            try {
+                const stripe = await getStripe();
+
+                const response = await fetch(CHECKOUT_WORKER_URL, { method: 'POST' });
+                if (!response.ok) throw new Error('Checkout-Session konnte nicht erstellt werden.');
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                document.getElementById('checkoutLoading').style.display = 'none';
+
+                embeddedCheckout = await stripe.initEmbeddedCheckout({
+                    clientSecret: data.clientSecret,
+                });
+                embeddedCheckout.mount('#checkout-container');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('checkoutLoading').innerHTML =
+                    '<p style="color:#ff8080;line-height:1.5;">Der Checkout konnte nicht geladen werden.<br>Bitte versuche es erneut.</p>';
+            }
+        }
+
+        function closeCheckoutModal() {
+            const overlay = document.getElementById('checkoutOverlay');
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('checkout-open');
+            document.removeEventListener('keydown', handleModalKeydown);
+
+            if (embeddedCheckout) {
+                embeddedCheckout.destroy();
+                embeddedCheckout = null;
+            }
+
+            document.getElementById('checkout-container').innerHTML = '';
+            const loadingEl = document.getElementById('checkoutLoading');
+            loadingEl.style.display = 'flex';
+            loadingEl.innerHTML = '<div class="checkout-spinner"></div><span>Checkout wird geladen …</span>';
+
+            if (lastFocusedElement) lastFocusedElement.focus();
+        }
+
+        function handleModalKeydown(e) {
+            if (e.key === 'Escape') {
+                closeCheckoutModal();
+                return;
+            }
+            if (e.key === 'Tab') {
+                const modal = document.querySelector('.checkout-modal');
+                const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+
+        document.getElementById('checkoutCloseBtn').addEventListener('click', closeCheckoutModal);
+        document.getElementById('checkoutOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeCheckoutModal();
+        });
     </script>
 </body>
 </html>
