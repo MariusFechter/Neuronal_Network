@@ -304,7 +304,7 @@
         }
 
         /* ==========================================
-            MODAL OVERLAY (PERFORMANCE & CLEAN)
+            MODAL OVERLAY (PERFORMANCE & OPTIMIZED)
             ================================---------- */
         .modal-overlay {
             display: none;
@@ -368,10 +368,9 @@
                 <img src="analyse_cover.webp" alt="Analyse Cover">
             </div>
         </div>
-        <!-- Navigation Buttons & Dots können hier ergänzt werden -->
     </div>
 
-    <!-- Produkt-Header -->
+    <!-- Produkt-Head -->
     <div class="product-header">
         <div class="product-kicker">Neuropsychologische Fachpublikation</div>
         <h1 class="product-title">Rausch oder Realität?</h1>
@@ -418,7 +417,7 @@
 <!-- JavaScript Integration -->
 <script>
 window.addEventListener('load', () => {
-    // ERSETZEN: Dein öffentlicher Stripe Schlüssel (pk_live_... oder pk_test_...)
+    // ERSETZEN: Hier deinen echten Public Key einsetzen (z.B. pk_live_...)
     const stripe = Stripe('pk_test_DEIN_OEFFENTLICHER_SCHLUESSEL');
     const ctaButton = document.getElementById('cta-checkout-btn');
     const checkoutModal = document.getElementById('checkout-modal');
@@ -426,33 +425,28 @@ window.addEventListener('load', () => {
     let checkoutInstance = null;
 
     ctaButton.addEventListener('click', async () => {
-        // Scrollen blockieren & Modal öffnen
         document.body.classList.add('modal-open');
         checkoutModal.style.display = 'flex';
-        
-        // Schnelles UI-Feedback vor dem Worker-Call
+        // Lade-Status anzeigen
         document.getElementById('checkout').innerHTML = 'Sichere Verbindung zu Stripe wird aufgebaut...';
         
         try {
-    // Das https:// am Anfang ist zwingend erforderlich
-    const response = await fetch('https://workers.dev', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId: 'price_DEINE_STRIPE_PRICE_ID' }) // Vergiss nicht, hier deine echte Stripe Price ID einzutragen!
-    });
-
+            // Worker-Aufruf mit korrekter, vollständiger URL
+            const response = await fetch('https://DEIN_WORKER.workers.dev/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // ERSETZEN: Hier deine echte Stripe Price-ID einsetzen
+                body: JSON.stringify({ priceId: 'price_DEINE_STRIPE_PRICE_ID' })
+            });
             const data = await response.json();
             if (data.error) throw new Error(data.error);
             
-            // Platzhaltertext entfernen
             document.getElementById('checkout').innerHTML = '';
-            
-            // Native Stripe-Instanz für das Overlay instanziieren
+            // Native Stripe-Instanz initialisieren
             checkoutInstance = await stripe.initEmbeddedCheckout({
                 clientSecret: data.clientSecret
             });
-            
-            // UI in das DOM einhängen
+            // Stripe UI einbetten
             checkoutInstance.mount('#checkout');
         } catch (err) {
             console.error(err);
@@ -460,7 +454,7 @@ window.addEventListener('load', () => {
         }
     });
 
-    // Sauberes Schließen und Zerstören der Stripe-Instanz bei Abbruch
+    // Modal sauber schließen und Stripe-Element zerstören
     const closeModal = () => {
         checkoutModal.style.display = 'none';
         document.body.classList.remove('modal-open');
@@ -473,7 +467,6 @@ window.addEventListener('load', () => {
 
     closeModalBtn.addEventListener('click', closeModal);
 
-    // Schließen bei Klick auf den abgedunkelten Hintergrund
     checkoutModal.addEventListener('click', (e) => {
         if (e.target === checkoutModal) closeModal();
     });
