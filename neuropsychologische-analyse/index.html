@@ -28,14 +28,14 @@
     <style>
         /* ==========================================
             ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
-            ================================---------- */
+            ========================================== */
         :root {
             --spacing-carousel-bottom: 20px;
             --spacing-section-padding-top: 40px;
             --spacing-section-padding-bottom: 60px;
             --spacing-divider: 35px;
             --spacing-block-margin: 36px;
-            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
+            --spacing-substance-card: 12px;
         }
 
         html, body {
@@ -481,7 +481,7 @@
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
-            // Anstatt Weiterleitung: Overlay öffnen und Stripe lazynloaden
+            // Overlay öffnen und Stripe lazynloaden
             initCheckout();
         }
 
@@ -489,15 +489,23 @@
             const overlay = document.getElementById('checkout-overlay');
             overlay.style.display = 'block';
 
-            // Prüfen, ob Stripe schon geladen wurde, um Mehrfach-Injektion zu verhindern
-            if (!document.getElementById('stripe-js')) {
+            const stripeContainer = document.getElementById('stripe-container');
+            
+            // Prüfen, ob der Stripe Buy Button Script schon injiziert wurde
+            if (!document.getElementById('stripe-buy-button-script')) {
                 const script = document.createElement('script');
-                script.id = 'stripe-js';
-                script.src = "https://js.stripe.com/v3/";
-                script.onload = () => {
-                    console.log("Stripe geladen - Initialisiere Checkout...");
-                    // Hier kannst du Stripe Element/Checkout einbinden
-                };
+                script.id = 'stripe-buy-button-script';
+                script.src = "https://js.stripe.com/v3/buy-button.js";
+                
+                // Stripe Buy Button in den Container rendern
+                stripeContainer.innerHTML = `
+                    <p style="margin-bottom: 20px; font-size: 15px; color: #fff; text-align: center;">Sichere dir jetzt den vollständigen Zugang:</p>
+                    <stripe-buy-button
+                      buy-button-id="BUY_BUTTON_ID_HIER_EINTRAGEN"
+                      publishable-key="PK_LIVE_HIER_EINTRAGEN">
+                    </stripe-buy-button>
+                `;
+                
                 document.body.appendChild(script);
             }
         }
@@ -701,9 +709,9 @@
 
     <!-- Das Checkout Overlay Element -->
     <div id="checkout-overlay">
-        <button onclick="document.getElementById('checkout-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#222; color:#fff; border:1px solid #444; padding:8px 14px; border-radius:4px; cursor:pointer;">Schließen</button>
-        <div id="stripe-container" style="max-width: 500px; margin: 60px auto; color: #fff;">
-            <!-- Hier wird der Stripe Checkout geladen -->
+        <button onclick="document.getElementById('checkout-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#222; color:#fff; border:1px solid #444; padding:8px 14px; border-radius:4px; cursor:pointer; z-index: 10000;">Schließen</button>
+        <div id="stripe-container" style="max-width: 500px; margin: 60px auto; color: #fff; text-align: center;">
+            <!-- Hier wird der Stripe Buy Button dynamisch geladen -->
         </div>
     </div>
 
