@@ -114,8 +114,8 @@
                 return;
             }
 
-            try {
-                const response = await fetch(`https://checkout.neuronal-network-worker.workers.dev/verify?session_id=${sessionId}`);
+            try { 
+                const response = await fetch(`https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/verify?session_id=${sessionId}`);
                 const data = await response.json();
 
                 if (data.success) {
@@ -137,7 +137,7 @@
 
         function downloadPdf() {
             if (!verifiedSessionId) return;
-            window.location.href = `https://checkout.neuronal-network-worker.workers.dev/download?session_id=${verifiedSessionId}`;
+            window.location.href = `https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/download?session_id=${verifiedSessionId}`;
         }
 
         verifyAccess();
