@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -27,15 +31,15 @@
 
     <style>
         /* ==========================================
-            ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
-            ========================================== */
+           ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
+           ================================---------- */
         :root {
             --spacing-carousel-bottom: 20px;
             --spacing-section-padding-top: 40px;
             --spacing-section-padding-bottom: 60px;
             --spacing-divider: 35px;
             --spacing-block-margin: 36px;
-            --spacing-substance-card: 12px;
+            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
         }
 
         html, body {
@@ -52,7 +56,6 @@
             margin: 0 auto;
             padding: 0;
             box-sizing: border-box;
-            position: relative;
         }
 
         /* Karussell */
@@ -225,7 +228,6 @@
             transition: transform 0.1s ease, background-color 0.1s ease;
             cursor: pointer;
             white-space: nowrap;
-            border: none;
         }
 
         .cta-button:active {
@@ -457,57 +459,16 @@
         .price-block p:last-child {
             margin-bottom: 0;
         }
-
-        /* Checkout Overlay Styling */
-        #checkout-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 9999;
-            display: none;
-            overflow: auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
     </style>
 
-    <!-- Drittanbieter-Skripte (Pixel / Clarity) & Lazy Checkout -->
+    <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
     <script>
         function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
-            // Overlay öffnen und Stripe lazynloaden
-            initCheckout();
-        }
-
-        function initCheckout() {
-            const overlay = document.getElementById('checkout-overlay');
-            overlay.style.display = 'block';
-
-            const stripeContainer = document.getElementById('stripe-container');
-            
-            // Prüfen, ob der Stripe Buy Button Script schon injiziert wurde
-            if (!document.getElementById('stripe-buy-button-script')) {
-                const script = document.createElement('script');
-                script.id = 'stripe-buy-button-script';
-                script.src = "https://js.stripe.com/v3/buy-button.js";
-                
-                // Stripe Buy Button in den Container rendern
-                stripeContainer.innerHTML = `
-                    <p style="margin-bottom: 20px; font-size: 15px; color: #fff; text-align: center;">Sichere dir jetzt den vollständigen Zugang:</p>
-                    <stripe-buy-button
-                      buy-button-id="BUY_BUTTON_ID_HIER_EINTRAGEN"
-                      publishable-key="PK_LIVE_HIER_EINTRAGEN">
-                    </stripe-buy-button>
-                `;
-                
-                document.body.appendChild(script);
-            }
+            window.location.href = url;
         }
     </script>
 </head>
@@ -545,7 +506,7 @@
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <button class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</button>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
 
             <div class="trust-row">
                 <div class="trust-item">
@@ -691,7 +652,7 @@
             </div>
 
             <!-- Finaler CTA unten -->
-            <button class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</button>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-item">
@@ -704,14 +665,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <!-- Das Checkout Overlay Element -->
-    <div id="checkout-overlay">
-        <button onclick="document.getElementById('checkout-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#222; color:#fff; border:1px solid #444; padding:8px 14px; border-radius:4px; cursor:pointer; z-index: 10000;">Schließen</button>
-        <div id="stripe-container" style="max-width: 500px; margin: 60px auto; color: #fff; text-align: center;">
-            <!-- Hier wird der Stripe Buy Button dynamisch geladen -->
         </div>
     </div>
 
