@@ -432,7 +432,7 @@ window.addEventListener('load', () => {
         
         try {
             // Worker-Aufruf mit korrekter, vollständiger URL
-            const response = await fetch('https://DEIN_WORKER.workers.dev/', {
+            const response = await fetch('https://stripe-checkout-bridge.theneuronalnetwork.workers.dev', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 // ERSETZEN: Hier deine echte Stripe Price-ID einsetzen
