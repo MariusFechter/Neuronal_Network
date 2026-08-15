@@ -35,7 +35,7 @@
             --spacing-section-padding-bottom: 60px;
             --spacing-divider: 35px;
             --spacing-block-margin: 36px;
-            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
+            --spacing-substance-card: 12px;
         }
 
         html, body {
@@ -112,6 +112,7 @@
             backdrop-filter: blur(4px);
             transition: opacity 0.25s ease;
         }
+
         .nav-btn.prev { left: 8px; }
         .nav-btn.next { right: 8px; }
         .nav-btn.hidden { opacity: 0; pointer-events: none; }
@@ -208,7 +209,7 @@
         .cta-button {
             display: block;
             width: 100%;
-            max-width: 390px; 
+            max-width: 390px;
             margin: 0;
             box-sizing: border-box;
             background-color: #38b6ff;
@@ -455,19 +456,337 @@
         .price-block p:last-child {
             margin-bottom: 0;
         }
+
+        /* ==========================================
+           STRIPE CHECKOUT OVERLAY
+           Wird erst beim Klick sichtbar.
+           ========================================== */
+
+        .checkout-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .checkout-overlay.active {
+            display: flex;
+        }
+
+        .checkout-overlay-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .checkout-modal {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 560px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .checkout-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 20;
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.08);
+            color: #111111;
+            font-size: 25px;
+            line-height: 34px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        #stripeCheckout {
+            min-height: 400px;
+        }
+
+        @media (max-width: 600px) {
+            .checkout-overlay {
+                padding: 0;
+            }
+
+            .checkout-modal {
+                width: 100%;
+                max-width: none;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .checkout-close {
+                top: 10px;
+                right: 10px;
+            }
+        }
     </style>
 
     <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
     <script>
+        /*
+         * WICHTIG:
+         * Hier deinen Stripe Publishable Key einsetzen.
+         * NUR pk_live_... bzw. pk_test_...
+         * NIEMALS sk_live_... hier eintragen.
+         */
+        const STRIPE_PUBLISHABLE_KEY = "DEIN_STRIPE_PUBLISHABLE_KEY";
+
+        const STRIPE_WORKER_URL = "https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/";
+
+        let stripeLoaded = false;
+        let stripeLoadPromise = null;
+        let stripeInstance = null;
+        let checkoutInstance = null;
+
         function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
+
             if (typeof fbq === 'function') {
                 fbq('track', 'InitiateCheckout');
             }
+
             window.location.href = url;
         }
+
+        function triggerPixelAndCheckout(event) {
+            if (event) event.preventDefault();
+
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout');
+            }
+
+            openCheckoutOverlay();
+        }
+
+        function loadStripe() {
+            if (stripeLoaded && stripeInstance) {
+                return Promise.resolve(stripeInstance);
+            }
+
+            if (stripeLoadPromise) {
+                return stripeLoadPromise;
+            }
+
+            stripeLoadPromise = new Promise((resolve, reject) => {
+                const existing = document.querySelector('script[data-stripe-js]');
+
+                if (existing) {
+                    existing.addEventListener('load', () => {
+                        try {
+                            stripeInstance = Stripe(STRIPE_PUBLISHABLE_KEY);
+                            stripeLoaded = true;
+                            resolve(stripeInstance);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    }, { once: true });
+
+                    existing.addEventListener('error', reject, { once: true });
+
+                    return;
+                }
+
+                const script = document.createElement('script');
+
+                script.src = 'https://js.stripe.com/v3/';
+                script.async = true;
+                script.dataset.stripeJs = 'true';
+
+                script.onload = () => {
+                    try {
+                        stripeInstance = Stripe(STRIPE_PUBLISHABLE_KEY);
+                        stripeLoaded = true;
+                        resolve(stripeInstance);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+
+                script.onerror = () => {
+                    reject(new Error('Stripe.js konnte nicht geladen werden.'));
+                };
+
+                document.head.appendChild(script);
+            });
+
+            return stripeLoadPromise;
+        }
+
+        async function openCheckoutOverlay() {
+            const overlay = document.getElementById('checkoutOverlay');
+
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+
+            document.body.style.overflow = 'hidden';
+
+            await startEmbeddedCheckout();
+        }
+
+        function closeCheckoutOverlay() {
+            const overlay = document.getElementById('checkoutOverlay');
+
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+
+            document.body.style.overflow = '';
+
+            if (checkoutInstance) {
+                try {
+                    checkoutInstance.destroy();
+                } catch (error) {
+                    console.warn('Stripe Checkout konnte nicht zerstört werden:', error);
+                }
+
+                checkoutInstance = null;
+            }
+
+            const checkoutContainer = document.getElementById('stripeCheckout');
+
+            checkoutContainer.innerHTML = '';
+            checkoutContainer.dataset.loading = 'false';
+        }
+
+        async function startEmbeddedCheckout() {
+            const checkoutContainer = document.getElementById('stripeCheckout');
+
+            if (checkoutContainer.dataset.loading === 'true') {
+                return;
+            }
+
+            checkoutContainer.dataset.loading = 'true';
+
+            checkoutContainer.innerHTML = `
+                <div style="
+                    min-height:400px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#666;
+                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+                    font-size:14px;
+                ">
+                    Checkout wird geladen …
+                </div>
+            `;
+
+            try {
+                if (
+                    !STRIPE_PUBLISHABLE_KEY ||
+                    STRIPE_PUBLISHABLE_KEY === 'DEIN_STRIPE_PUBLISHABLE_KEY'
+                ) {
+                    throw new Error('Stripe Publishable Key wurde noch nicht eingetragen.');
+                }
+
+                const stripe = await loadStripe();
+
+                const response = await fetch(STRIPE_WORKER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Checkout-Session konnte nicht erstellt werden.');
+                }
+
+                const data = await response.json();
+
+                if (!data.clientSecret) {
+                    throw new Error(
+                        data.error || 'Kein Stripe Client Secret erhalten.'
+                    );
+                }
+
+                checkoutInstance = await stripe.initEmbeddedCheckout({
+                    clientSecret: data.clientSecret
+                });
+
+                checkoutContainer.innerHTML = '';
+
+                checkoutInstance.mount('#stripeCheckout');
+
+            } catch (error) {
+                console.error('Stripe Checkout Error:', error);
+
+                checkoutContainer.innerHTML = `
+                    <div style="
+                        color:#111;
+                        text-align:center;
+                        padding:50px 25px;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+                    ">
+                        <p style="
+                            margin:0 0 20px;
+                            font-size:16px;
+                            font-weight:600;
+                        ">
+                            Der Checkout konnte gerade nicht geladen werden.
+                        </p>
+
+                        <p style="
+                            margin:0 0 25px;
+                            color:#666;
+                            font-size:14px;
+                            line-height:1.5;
+                        ">
+                            Bitte versuche es noch einmal.
+                        </p>
+
+                        <button
+                            type="button"
+                            onclick="closeCheckoutOverlay()"
+                            style="
+                                border:0;
+                                background:#38b6ff;
+                                color:#fff;
+                                padding:12px 22px;
+                                border-radius:6px;
+                                font-weight:700;
+                                cursor:pointer;
+                                font-size:14px;
+                            "
+                        >
+                            Schließen
+                        </button>
+                    </div>
+                `;
+            } finally {
+                checkoutContainer.dataset.loading = 'false';
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const overlay = document.getElementById('checkoutOverlay');
+
+                if (overlay && overlay.classList.contains('active')) {
+                    closeCheckoutOverlay();
+                }
+            }
+        });
     </script>
 </head>
+
 <body>
 
     <div class="container">
@@ -502,7 +821,8 @@
                 <span class="price-details">einmalig · kein Abo</span>
             </div>
 
-            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
+            <!-- OBERER CTA: STRIPE OVERLAY -->
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndCheckout(event);">Zugang zur vollständigen Analyse</a>
 
             <div class="trust-row">
                 <div class="trust-item">
@@ -524,12 +844,17 @@
             <p>Du siehst, fühlst, entscheidest –<br>
             und denkst dabei:<br>
             „Genauso fühlt sich die Realität eben an.“</p>
+
             <p>Doch dein Gehirn bildet die Welt nicht einfach ab.<br>
             Es filtert Informationen, gewichtet Reize und <br>lenkt deine Aufmerksamkeit.</p>
+
             <p>Was du erlebst, ist deshalb nicht die Welt selbst –<br>
             sondern deine persönliche Verarbeitung dieser Welt.</p>
+
             <p>Doch was passiert, wenn sich dieses System verschiebt – wenn bestimmte neuronale Netzwerke aus dem Gleichgewicht geraten?</p>
+
             <p>Dann können sich Wahrnehmung, Emotionen und Verhalten verändern.</p>
+
             <p>Diese Veränderung bemerkst du jedoch nicht immer.<br>
             Vieles davon läuft automatisch ab – <br>bevor es dir überhaupt bewusst wird.</p>
 
@@ -548,13 +873,13 @@
 
             <!-- Block 2: Was du danach anders erkennst -->
             <div class="block-kicker">WAS DU DANACH ANDERS ERKENNST</div>
-            
+
             <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Viele dieser Prozesse laufen automatisch ab, bevor sie dir überhaupt bewusst werden.</p>
-            
+
             <p>Du fühlst dich in diesen Zuständen nicht zufällig anders:<br> In diesen Momenten verändert sich, wie dein Gehirn Informationen verarbeitet, Situationen bewertet und Entscheidungen beeinflusst.</p>
-            
+
             <p>Wenn du diese Muster einmal verstanden hast, verändert sich dein Blick auf dich selbst und das Verhalten anderer.</p>
-            
+
             <p>Du reagierst nicht mehr nur auf das,<br> was du beobachtest.<br>
             Du kannst besser einordnen, was darunter passiert.</p>
 
@@ -572,6 +897,7 @@
                         <p class="substance-effect">Enthemmung + <br>reduzierte Selbstkontrolle</p>
                     </div>
                 </li>
+
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(139, 195, 74, 0.12);">
                         <svg viewBox="0 0 24 24" stroke="#8bc34a"><path d="M12 2c0 0 1 4 3 6s6 2 6 2-3 2-4 4c-0.5 1 0 3 0 3s-2.5-1-4 0c-0.7 0.5-1 2-1 2s-0.3-1.5-1-2c-1.5-1-4 0-4 0s0.5-2 0-3c-1-2-4-4-4-4s4 0 6-2 3-6 3-6z"></path></svg>
@@ -581,15 +907,17 @@
                         <p class="substance-effect">Assoziatives Denken + <br>veränderte Wahrnehmungsverarbeitung</p>
                     </div>
                 </li>
+
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(200, 100, 235, 0.12);">
-                        <svg viewBox="0 0 24 24" stroke="#c864eb"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+                        <svg viewBox="0 0 24 24" stroke="#c864eb"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 0 2zM12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
                     </div>
                     <div class="substance-content">
                         <p class="substance-name">LSD</p>
                         <p class="substance-effect">Veränderte Ich-Wahrnehmung + <br>Wahrnehmungsverschiebung</p>
                     </div>
                 </li>
+
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(95, 212, 212, 0.12);">
                         <svg viewBox="0 0 24 24" stroke="#5fd4d4"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
@@ -599,6 +927,7 @@
                         <p class="substance-effect">Fokussierte Aufmerksamkeit +<br> gesteigertes Kontrollgefühl</p>
                     </div>
                 </li>
+
                 <li class="substance-card">
                     <div class="substance-icon" style="background-color: rgba(255, 153, 0, 0.12);">
                         <svg viewBox="0 0 24 24" stroke="#ff9900"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7c0 1.5-1.5 2-3 1.5-1-1-2-1.5-5-1.5s-4 .5-5 1.5C5.5 13 4 12.5 4 11z"></path><line x1="12" y1="12" x2="12" y2="20"></line></svg>
@@ -641,13 +970,17 @@
                     <span class="price-amount">15 €</span>
                     <span class="price-details">einmalig · kein Abo</span>
                 </div>
+
                 <p>erhältst du Zugang zu einer wissenschaftlich fundierten Analyse einer zentralen Frage:</p>
+
                 <p><strong>„Wie entsteht das, was wir als unsere Realität erleben?"</strong></p>
+
                 <p>Du lernst, die neuropsychologischen Muster hinter verändertem Erleben zu erkennen –  <br>und sie über verschiedene Zustände hinweg einzuordnen.</p>
+
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
-            <!-- Finaler CTA unten -->
+            <!-- Finaler CTA unten: BLEIBT NORMALE WEITERLEITUNG -->
             <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
@@ -655,11 +988,35 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                     Direkter Zugriff nach dem Kauf
                 </div>
+
                 <div class="trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     14 Tage Geld-zurück-Garantie
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         STRIPE CHECKOUT OVERLAY
+         ========================================== -->
+    <div id="checkoutOverlay" class="checkout-overlay" aria-hidden="true">
+
+        <div class="checkout-overlay-backdrop" onclick="closeCheckoutOverlay()"></div>
+
+        <div class="checkout-modal" role="dialog" aria-modal="true" aria-label="Checkout">
+
+            <button
+                type="button"
+                class="checkout-close"
+                onclick="closeCheckoutOverlay()"
+                aria-label="Checkout schließen"
+            >
+                ×
+            </button>
+
+            <div id="stripeCheckout"></div>
 
         </div>
     </div>
@@ -674,17 +1031,32 @@
         function updateUI() {
             const slideWidth = track.clientWidth;
             const currentIndex = Math.round(track.scrollLeft / slideWidth);
+
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentIndex);
             });
+
             prevBtn.classList.toggle('hidden', currentIndex === 0);
             nextBtn.classList.toggle('hidden', currentIndex === totalSlides - 1);
         }
 
-        prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
-        nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+        prevBtn.addEventListener('click', () => {
+            track.scrollBy({
+                left: -track.clientWidth,
+                behavior: 'smooth'
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            track.scrollBy({
+                left: track.clientWidth,
+                behavior: 'smooth'
+            });
+        });
+
         track.addEventListener('scroll', updateUI);
         window.addEventListener('resize', updateUI);
     </script>
+
 </body>
 </html>
