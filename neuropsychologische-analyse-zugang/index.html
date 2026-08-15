@@ -90,46 +90,6 @@
         margin: 0 0 1.5rem 0;
     }
 
-    /* Produkt-Karte */
-    .product-card {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        background-color: var(--card-inner-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 1rem 1.25rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .product-thumb {
-        width: 48px;
-        height: 60px;
-        flex-shrink: 0;
-        border-radius: 4px;
-        background: linear-gradient(160deg, #1a1a1e 0%, #0a0a0c 100%);
-        border: 1px solid var(--border-color);
-    }
-
-    .product-info {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-
-    .product-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #ffffff;
-        margin: 0;
-    }
-
-    .product-meta {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        margin: 0;
-    }
-
     /* CTA Button */
     .cta-button {
         display: block;
@@ -210,15 +170,7 @@
 
             <p class="ready-text">Die vollständige Analyse steht jetzt für dich bereit.</p>
 
-            <div class="product-card">
-                <div class="product-thumb" aria-hidden="true"></div>
-                <div class="product-info">
-                    <p class="product-title">Rausch oder Realität?</p>
-                    <p class="product-meta">25 Seiten · PDF</p>
-                </div>
-            </div>
-
-            <button class="cta-button" onclick="downloadPdf()">Analyse herunterladen</button>
+            <button class="cta-button" onclick="downloadPdf()">Analyse jetzt herunterladen</button>
 
             <p class="email-note">Du erhältst die Analyse zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.</p>
 
