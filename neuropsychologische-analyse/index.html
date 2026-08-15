@@ -11,9 +11,6 @@
     <!-- Preload für Performance -->
     <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
-    <!-- Stripe JS SDK -->
-    <script src="https://js.stripe.com/v3/"></script>
-
     <!-- Speculation Rules API für echtes Prerendering -->
     <script type="speculationrules">
     {
@@ -21,7 +18,7 @@
         {
           "source": "list",
           "urls": [
-            "https://neuronalnetwork.de"
+            "https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/"
           ]
         }
       ]
@@ -30,15 +27,15 @@
 
     <style>
         /* ==========================================
-            ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
-            ================================---------- */
+           ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
+           ================================---------- */
         :root {
             --spacing-carousel-bottom: 20px;
             --spacing-section-padding-top: 40px;
             --spacing-section-padding-bottom: 60px;
             --spacing-divider: 35px;
             --spacing-block-margin: 36px;
-            --spacing-substance-card: 12px;
+            --spacing-substance-card: 12px; /* <--- Exakter Abstand zwischen den Karten */
         }
 
         html, body {
@@ -220,7 +217,7 @@
             padding: 12px 10px;
             font-size: 15px;
             font-weight: 700;
-            border: none;
+            text-decoration: none;
             border-radius: 6px;
             letter-spacing: 0px;
             box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
@@ -296,182 +293,398 @@
         }
 
         .block-kicker {
-            font-size: 12px;
-            color: #38b6ff;
+            font-size: 11px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
+            margin-bottom: 20px;
         }
 
-        /* ==========================================
-            MODAL OVERLAY (PERFORMANCE & OPTIMIZED)
-            ================================---------- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        .model-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 35px 0;
         }
-        
-        .modal-content {
+
+        .model-list li {
             position: relative;
-            background: #0d0d11;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 500px;
-            height: 100%;
-            max-height: 85vh;
-            border-radius: 14px;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
+            padding-left: 24px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #C8C8CD;
         }
-        
-        .modal-close {
+
+        .model-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .model-list li::before {
+            content: "→";
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-            z-index: 100000;
+            left: 0;
+            color: #ff9900;
+            font-weight: 700;
+        }
+
+        .section-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            margin: var(--spacing-divider) 0;
+            width: 100%;
+        }
+
+        /* Substanz-Karten */
+        .substance-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .substance-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 7px;
+            padding: 0px 14px;
+            margin-bottom: var(--spacing-substance-card);
+            box-sizing: border-box;
+        }
+
+        .substance-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .substance-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
-        
-        body.modal-open {
-            overflow: hidden;
+
+        .substance-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .substance-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .substance-name {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            line-height: 0.5;
+            position: relative;
+            top: 15px;
+        }
+
+        .substance-effect {
+            font-size: 11.5px;
+            color: #999999;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Abschluss-Sektion: Trust-Facts + Preis-Block */
+        .fact-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 28px 0;
+            width: 100%;
+        }
+
+        .fact-kicker {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ff9900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+
+        .fact-text {
+            font-size: 15px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .price-block {
+            border-left: 2px solid #38b6ff;
+            padding-left: 20px;
+            margin: var(--spacing-block-margin) 0 28px 0;
+        }
+
+        .price-headline {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ff9900;
+            margin: 0 0 18px 0;
+        }
+
+        .price-old {
+            font-size: 18px;
+            font-weight: 600;
+            color: #777777;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+
+        .price-block p {
+            font-size: 15px;
+            color: #ffffff;
+            line-height: 1.6;
+            margin: 0 0 18px 0;
+        }
+
+        .price-block p:last-child {
+            margin-bottom: 0;
         }
     </style>
+
+    <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
+    <script>
+        function triggerPixelAndRedirect(event, url) {
+            if (event) event.preventDefault();
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout');
+            }
+            window.location.href = url;
+        }
+    </script>
 </head>
 <body>
 
-<div class="container">
-    <!-- Karussell -->
-    <div class="carousel-wrapper">
-        <div class="carousel-track">
-            <div class="carousel-slide">
-                <img src="analyse_cover.webp" alt="Analyse Cover">
+    <div class="container">
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev hidden" id="prevBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide"><img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Einblick 1" width="600" height="800"></div>
+                <div class="carousel-slide"><img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="600" height="800"></div>
+            </div>
+
+            <button class="nav-btn next" id="nextBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <div class="product-header">
+            <div class="product-kicker">NEUROPSYCHOLOGISCHE FACHPUBLIKATION</div>
+            <h1 class="product-title">Rausch oder Realität?</h1>
+            <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
+        </div>
+
+        <!-- CTA & Kauf-Block (Top) -->
+        <div class="cta-container">
+            <div class="price-row">
+                <span class="price-amount">15 €</span>
+                <span class="price-details">einmalig · kein Abo</span>
+            </div>
+
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
+
+            <div class="trust-row">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Produkt-Head -->
-    <div class="product-header">
-        <div class="product-kicker">Neuropsychologische Fachpublikation</div>
-        <h1 class="product-title">Rausch oder Realität?</h1>
-        <p class="product-subtitle">25 Seiten · 27 Quellen · Sofortiger digitaler Zugriff</p>
-    </div>
-
-    <!-- CTA & Preis Bereich -->
-    <div class="cta-container">
-        <div class="price-row">
-            <span class="price-amount">15 €</span>
-            <span class="price-details">einmalig · kein Abo · keine Folgekosten</span>
-        </div>
-        <button id="cta-checkout-btn" class="cta-button">Sofort digital freischalten</button>
-        <div class="trust-row">
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>14 Tage Geld-zurück-Garantie</span>
-            </div>
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                <span>Diskreter Kauf</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Content Section -->
+    <!-- Content-Section -->
     <div class="content-section">
         <div class="content-inner">
-            <div class="block-kicker">Hintergrund</div>
-            <h2 class="editorial-lead">Wissenschaftliche Fundierung trifft auf Klarheit.</h2>
-            <p>Erfahre die Hintergründe und profitiere von fundierten Analysen auf Basis aktueller neuropsychologischer Daten.</p>
+            <p class="editorial-lead">Du hältst deine Wahrnehmung für die Realität.</p>
+            <p>Du siehst, fühlst, entscheidest –<br>
+            und denkst dabei:<br>
+            „Genauso fühlt sich die Realität eben an.“</p>
+            <p>Doch dein Gehirn bildet die Welt nicht einfach ab.<br>
+            Es filtert Informationen, gewichtet Reize und <br>lenkt deine Aufmerksamkeit.</p>
+            <p>Was du erlebst, ist deshalb nicht die Welt selbst –<br>
+            sondern deine persönliche Verarbeitung dieser Welt.</p>
+            <p>Doch was passiert, wenn sich dieses System verschiebt – wenn bestimmte neuronale Netzwerke aus dem Gleichgewicht geraten?</p>
+            <p>Dann können sich Wahrnehmung, Emotionen und Verhalten verändern.</p>
+            <p>Diese Veränderung bemerkst du jedoch nicht immer.<br>
+            Vieles davon läuft automatisch ab – <br>bevor es dir überhaupt bewusst wird.</p>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 1: Das Denkmodell dahinter -->
+            <div class="block-kicker">DAS DENKMODELL DAHINTER</div>
+            <ul class="model-list">
+                <li>Wie biologische Mechanismen dein emotionales Erleben mitbestimmen — und was sich verändert, wenn Substanzen in diese Systeme eingreifen</li>
+                <li>Warum bestimmte Kontrollsysteme unter veränderten neurochemischen Bedingungen anders funktionieren</li>
+                <li>Warum sich selbst deutlich veränderte Bewusstseinszustände subjektiv weiterhin stimmig und „normal“ anfühlen können</li>
+                <li>Welche wiederkehrenden Muster sich über verschiedene Substanzen hinweg erkennen und ableiten lassen</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 2: Was du danach anders erkennst -->
+            <div class="block-kicker">WAS DU DANACH ANDERS ERKENNST</div>
+            
+            <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Viele dieser Prozesse laufen automatisch ab, bevor sie dir überhaupt bewusst werden.</p>
+            
+            <p>Du fühlst dich in diesen Zuständen nicht zufällig anders:<br> In diesen Momenten verändert sich, wie dein Gehirn Informationen verarbeitet, Situationen bewertet und Entscheidungen beeinflusst.</p>
+            
+            <p>Wenn du diese Muster einmal verstanden hast, verändert sich dein Blick auf dich selbst und das Verhalten anderer.</p>
+            
+            <p>Du reagierst nicht mehr nur auf das,<br> was du beobachtest.<br>
+            Du kannst besser einordnen, was darunter passiert.</p>
+
+            <div class="section-divider"></div>
+
+            <!-- Block 3: Fünf Substanzen. Ein Denkmodell. -->
+            <div class="block-kicker">FÜNF SUBSTANZEN. EIN DENKMODELL.</div>
+            <ul class="substance-list">
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(56, 182, 255, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#38b6ff"><path d="M9 2h6v4l3 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10l3-4V2z"></path><line x1="9" y1="2" x2="15" y2="2"></line></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Alkohol</p>
+                        <p class="substance-effect">Enthemmung + <br>reduzierte Selbstkontrolle</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(139, 195, 74, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#8bc34a"><path d="M12 2c0 0 1 4 3 6s6 2 6 2-3 2-4 4c-0.5 1 0 3 0 3s-2.5-1-4 0c-0.7 0.5-1 2-1 2s-0.3-1.5-1-2c-1.5-1-4 0-4 0s0.5-2 0-3c-1-2-4-4-4-4s4 0 6-2 3-6 3-6z"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Cannabis</p>
+                        <p class="substance-effect">Assoziatives Denken + <br>veränderte Wahrnehmungsverarbeitung</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(200, 100, 235, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#c864eb"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">LSD</p>
+                        <p class="substance-effect">Veränderte Ich-Wahrnehmung + <br>Wahrnehmungsverschiebung</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(95, 212, 212, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#5fd4d4"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Kokain</p>
+                        <p class="substance-effect">Fokussierte Aufmerksamkeit +<br> gesteigertes Kontrollgefühl</p>
+                    </div>
+                </li>
+                <li class="substance-card">
+                    <div class="substance-icon" style="background-color: rgba(255, 153, 0, 0.12);">
+                        <svg viewBox="0 0 24 24" stroke="#ff9900"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7c0 1.5-1.5 2-3 1.5-1-1-2-1.5-5-1.5s-4 .5-5 1.5C5.5 13 4 12.5 4 11z"></path><line x1="12" y1="12" x2="12" y2="20"></line></svg>
+                    </div>
+                    <div class="substance-content">
+                        <p class="substance-name">Psilocybin</p>
+                        <p class="substance-effect">Emotionale Verstärkung + <br>intensive Selbstreflexion</p>
+                    </div>
+                </li>
+            </ul>
+
+            <p class="editorial-lead" style="font-size: 19px; margin-bottom: 18px;">Keine bloße Fakten-Sammlung.</p>
+
+            <p>Die fünf Substanzen zeigen unterschiedliche neuropsychologische Zustandsprofile.<br> Im Vergleich wird sichtbar, welche Muster sich wiederholen, wenn sich die zugrunde liegenden Verarbeitungsprozesse verändern.</p>
+
+            <p>Du lernst hierdurch nicht fünf isolierte Wirkungsprofile –
+            sondern ein übergeordnetes Muster dahinter zu erkennen.</p>
+
+            <div class="fact-divider"></div>
+
+            <!-- Block 4: Trust-Facts -->
+            <p class="fact-kicker">WISSENSCHAFTLICH FUNDIERT. KLAR AUFBEREITET.</p>
+            <p class="fact-text">27 wissenschaftliche Quellen aus Psychologie, Pharmakologie und Neurowissenschaften – transparent referenziert.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">DIE PUBLIKATION</p>
+            <p class="fact-text">25 Seiten – kompakt aufbereitet, klar strukturiert und mit interaktiver Navigation.</p>
+
+            <div class="fact-divider"></div>
+
+            <p class="fact-kicker">INKLUSIVE ZUKÜNFTIGER ERWEITERUNGEN</p>
+            <p class="fact-text">Einmalige Zahlung. Alle kommenden Kapitel und Ergänzungen erhältst du automatisch ohne Zusatzkosten.</p>
+
+            <div class="fact-divider"></div>
+
+            <!-- Preis-Block mit vertikaler Akzentlinie -->
+            <div class="price-block">
+                <div class="price-row" style="margin-bottom: 18px;">
+                    <span class="price-amount">15 €</span>
+                    <span class="price-details">einmalig · kein Abo</span>
+                </div>
+                <p>erhältst du Zugang zu einer wissenschaftlich fundierten Analyse einer zentralen Frage:</p>
+                <p><strong>„Wie entsteht das, was wir als unsere Realität erleben?"</strong></p>
+                <p>Du lernst, die neuropsychologischen Muster hinter verändertem Erleben zu erkennen –  <br>und sie über verschiedene Zustände hinweg einzuordnen.</p>
+                <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
+            </div>
+
+            <!-- Finaler CTA unten -->
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
+
+            <div class="trust-row" style="margin-top: 12px;">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Direkter Zugriff nach dem Kauf
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    14 Tage Geld-zurück-Garantie
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
 
-<!-- Modal für Stripe Checkout -->
-<div id="checkout-modal" class="modal-overlay">
-    <div class="modal-content">
-        <button id="close-modal-btn" class="modal-close">✕</button>
-        <div id="checkout"></div>
-    </div>
-</div>
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = document.querySelectorAll('.carousel-slide').length;
 
-<!-- JavaScript Integration -->
-<script>
-window.addEventListener('load', () => {
-    // ERSETZEN: Hier deinen echten Public Key einsetzen (z.B. pk_live_...)
-    const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
-    const ctaButton = document.getElementById('cta-checkout-btn');
-    const checkoutModal = document.getElementById('checkout-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-    let checkoutInstance = null;
-
-    ctaButton.addEventListener('click', async () => {
-        document.body.classList.add('modal-open');
-        checkoutModal.style.display = 'flex';
-        // Lade-Status anzeigen
-        document.getElementById('checkout').innerHTML = 'Sichere Verbindung zu Stripe wird aufgebaut...';
-        
-        try {
-            // Worker-Aufruf mit korrekter, vollständiger URL
-            const response = await fetch('https://stripe-checkout-bridge.theneuronalnetwork.workers.dev', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                // ERSETZEN: Hier deine echte Stripe Price-ID einsetzen
-                body: JSON.stringify({ priceId: 'price_DEINE_STRIPE_PRICE_ID' })
+        function updateUI() {
+            const slideWidth = track.clientWidth;
+            const currentIndex = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
             });
-            const data = await response.json();
-            if (data.error) throw new Error(data.error);
-            
-            document.getElementById('checkout').innerHTML = '';
-            // Native Stripe-Instanz initialisieren
-            checkoutInstance = await stripe.initEmbeddedCheckout({
-                clientSecret: data.clientSecret
-            });
-            // Stripe UI einbetten
-            checkoutInstance.mount('#checkout');
-        } catch (err) {
-            console.error(err);
-            document.getElementById('checkout').innerHTML = 'Fehler beim Laden des Checkouts. Bitte versuche es erneut.';
+            prevBtn.classList.toggle('hidden', currentIndex === 0);
+            nextBtn.classList.toggle('hidden', currentIndex === totalSlides - 1);
         }
-    });
 
-    // Modal sauber schließen und Stripe-Element zerstören
-    const closeModal = () => {
-        checkoutModal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        if (checkoutInstance) {
-            checkoutInstance.unmount();
-            checkoutInstance = null;
-        }
-        document.getElementById('checkout').innerHTML = '';
-    };
-
-    closeModalBtn.addEventListener('click', closeModal);
-
-    checkoutModal.addEventListener('click', (e) => {
-        if (e.target === checkoutModal) closeModal();
-    });
-});
-</script>
-
+        prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+        track.addEventListener('scroll', updateUI);
+        window.addEventListener('resize', updateUI);
+    </script>
 </body>
 </html>
