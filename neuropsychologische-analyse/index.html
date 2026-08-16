@@ -231,9 +231,19 @@
             background-color: #29a3eb;
         }
 
-        /* Trust-Zeile */
+        /* Trust-Zeile: jetzt zwei Zeilen (2 Punkte oben, 1 Punkt unten zentriert) */
         .trust-row {
             margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            max-width: 390px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-row-line {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -242,9 +252,6 @@
             color: #aaaaaa;
             font-weight: 400;
             text-align: center;
-            max-width: 390px;
-            margin-left: auto;
-            margin-right: auto;
             white-space: nowrap;
         }
 
@@ -258,6 +265,7 @@
             width: 13px;
             height: 13px;
             stroke: #aaaaaa;
+            fill: none;
             flex-shrink: 0;
         }
 
@@ -616,13 +624,21 @@
             <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout-express/" class="cta-button" onclick="openCheckoutModal(event);">Zugang zur vollständigen Analyse</a>
 
             <div class="trust-row">
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    Direkter Zugriff nach dem Kauf
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Direkter Zugriff nach dem Kauf
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        14 Tage Geld-zurück-Garantie
+                    </div>
                 </div>
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    14 Tage Geld-zurück-Garantie
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                        Neutraler Abbuchungstext
+                    </div>
                 </div>
             </div>
         </div>
@@ -762,13 +778,21 @@
          <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    Direkter Zugriff nach dem Kauf
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Direkter Zugriff nach dem Kauf
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        14 Tage Geld-zurück-Garantie
+                    </div>
                 </div>
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    14 Tage Geld-zurück-Garantie
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                        Neutraler Abbuchungstext
+                    </div>
                 </div>
             </div>
 
