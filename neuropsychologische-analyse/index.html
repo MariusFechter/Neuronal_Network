@@ -25,6 +25,35 @@
     }
     </script>
 
+    <!-- Meta Pixel Base Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1988847275335071');
+    fbq('track', 'PageView');
+
+    // ViewContent erst nach 10 Sekunden Verweildauer feuern
+    setTimeout(function() {
+        if (typeof fbq === 'function') {
+            fbq('track', 'ViewContent', {
+                content_name: 'Rausch oder Realität?',
+                content_type: 'product',
+                currency: 'EUR',
+                value: 15.00
+            });
+        }
+    }, 10000);
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
+    /></noscript>
+
     <style>
         /* ==========================================
            ZENTRALE ABSTANDS-STEUERUNG (HIER ANPASSEN)
@@ -580,9 +609,14 @@
     <script>
         function triggerPixelAndRedirect(event, url) {
             if (event) event.preventDefault();
-            if (typeof fbq === 'function') {
-                fbq('track', 'InitiateCheckout');
+
+            if (typeof trackInitiateCheckout === 'function') {
+                trackInitiateCheckout('lower');
+            } else if (typeof fbq === 'function') {
+                // Fallback, falls dieses Script vor dem unteren Script-Block ausgeführt wird
+                fbq('track', 'InitiateCheckout', { cta_source: 'lower' });
             }
+
             window.location.href = url;
         }
     </script>
@@ -775,7 +809,7 @@
             </div>
 
             <!-- Finaler CTA unten -->
-         <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button">Zugang zum vollständigen Denkmodell</a>
+         <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
             <div class="trust-row" style="margin-top: 12px;">
                 <div class="trust-row-line">
@@ -840,6 +874,7 @@
     <script>
         const STRIPE_PUBLISHABLE_KEY = "pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r";
         const CHECKOUT_WORKER_URL = "https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/";
+        const META_TRACKING_WORKER_URL = "https://meta-capi-bridge.theneuronalnetwork.workers.dev/";
 
         let stripeInstancePromise = null;
         let embeddedCheckout = null;
@@ -859,11 +894,66 @@
             return stripeInstancePromise;
         }
 
+        // Liest ein Cookie anhand seines Namens aus (für Meta Browser-IDs _fbp/_fbc)
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : '';
+        }
+
+        // Sendet InitiateCheckout server-seitig per CAPI an Meta – parallel zum Pixel-Event,
+        // nicht blockierend für den Checkout-Flow (Fire-and-forget)
+        function sendInitiateCheckoutCAPI(eventId, ctaSource) {
+            const fbp = getCookie('_fbp');
+            const fbc = getCookie('_fbc');
+
+            fetch(META_TRACKING_WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                keepalive: true, // stellt sicher, dass der Request auch bei einer direkt folgenden Seiten-Navigation (Redirect-Button) noch abgeschickt wird
+                body: JSON.stringify({
+                    event_name: 'InitiateCheckout',
+                    event_id: eventId,
+                    fbp: fbp,
+                    fbc: fbc,
+                    value: 15.00,
+                    currency: 'eur',
+                    cta_source: ctaSource, // 'upper' oder 'lower' -> Herkunft für Custom-Data, kein eigenes Event
+                    event_source_url: window.location.href
+                })
+            }).catch(err => console.error('Meta CAPI InitiateCheckout Error:', err));
+        }
+
+        // Zentrale Tracking-Funktion für beide CTAs: Standard-Event bleibt InitiateCheckout,
+        // die Herkunft (oberer/unterer Button) wird nur als Custom-Data-Parameter mitgegeben.
+        // Gibt die eventId zurück, damit der Aufrufer sie z. B. für die Checkout-Session-Metadata weiterverwenden kann.
+        function trackInitiateCheckout(ctaSource) {
+            const eventId = 'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout', {
+                    currency: 'EUR',
+                    value: 15.00,
+                    content_name: 'Rausch oder Realität?',
+                    content_type: 'product',
+                    cta_source: ctaSource
+                }, { eventID: eventId });
+            }
+
+            // Internes Klick-Event, unabhängig von Meta (z. B. für Clarity oder eigene Analyse).
+            // Sicherheits-Check, falls Clarity noch nicht eingebunden ist.
+            if (typeof clarity === 'function') {
+                clarity('event', ctaSource + '_cta_click');
+            }
+
+            sendInitiateCheckoutCAPI(eventId, ctaSource);
+
+            return eventId;
+        }
+
         async function openCheckoutModal(event) {
             if (event) event.preventDefault();
-            if (typeof fbq === 'function') {
-                fbq('track', 'InitiateCheckout');
-            }
+
+            trackInitiateCheckout('upper');
 
             lastFocusedElement = document.activeElement;
 
@@ -877,7 +967,11 @@
             try {
                 const stripe = await getStripe();
 
-                const response = await fetch(CHECKOUT_WORKER_URL, { method: 'POST' });
+                const response = await fetch(CHECKOUT_WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ source: 'upper' }) // -> landet als metadata.cta_source in der Stripe Session
+                });
                 if (!response.ok) throw new Error('Checkout-Session konnte nicht erstellt werden.');
 
                 const data = await response.json();
