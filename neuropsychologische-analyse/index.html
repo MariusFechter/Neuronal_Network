@@ -501,35 +501,42 @@
         .price-block p:last-child {
             margin-bottom: 0;
         }
-        .disclaimer-text {
-            color: #555555;
-            font-size: 11px;
+        /* Rechtlicher Hinweis / Footer */
+        .legal-footer {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 44px;
+            padding-top: 15px;
+            border-top: 1px solid #111111;
+            text-align: left;
+        }
+
+        .legal-disclaimer {
+            margin: 0;
+            color: #777777;
+            font-size: 13px;
             font-style: italic;
             line-height: 1.6;
-            margin-top: 60px;
-            text-align: left;
-            border-top: 1px solid #111111;
-            padding-top: 15px;
         }
 
-        .footer-links {
-            margin-top: 25px;
+        .legal-links {
             display: flex;
             gap: 25px;
-            justify-content: flex-start;
+            margin-top: 25px;
         }
 
-        .footer-link {
+        .legal-links a {
             color: #aaaaaa;
             font-size: 13px;
             text-decoration: none;
             transition: color 0.1s ease;
         }
 
-        .footer-link:hover {
+        .legal-links a:hover {
             color: #ffffff;
         }
-        .footer-link:active {
+
+        .legal-links a:active {
             opacity: 0.7;
         }
 
@@ -1077,14 +1084,12 @@
     </script> <!-- Hier wird das Skript korrekt geschlossen -->
 
     <!-- Ab hier kommt der HTML-Inhalt -->
-    <div class="disclaimer-text">
-      Kleiner Hinweis: Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. 
-Er stellt keine medizinische, therapeutische oder praktische Empfehlung dar.
-    </div>
-
-    <div class="footer-links">
-        <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link" target="_blank">Impressum</a>
-        <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" class="footer-link" target="_blank">Datenschutzerklärung</a>
-    </div>
+    <footer class="legal-footer">
+        <p class="legal-disclaimer">Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Er stellt keine medizinische, therapeutische oder praktische Empfehlung dar.</p>
+        <div class="legal-links">
+            <a href="https://www.neuronalnetwork.de/impressum/" target="_blank">Impressum</a>
+            <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" target="_blank">Datenschutzerklärung</a>
+        </div>
+    </footer>
 </body>
 </html>
