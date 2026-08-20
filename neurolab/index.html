@@ -54,13 +54,29 @@
         
         p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 800px; margin: 0 auto; }
-        .product-card { background-color: #080808; border: 2px solid #333333; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .product-card { background-color: #080808; border: 2px solid #333333; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; flex-direction: column; height: 100%; }
         .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; background-color: #000000; }
         .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
-        .card-content { padding: 14px; }
+
+        /* Badge oben rechts im Bild (Preis bzw. "Kostenfrei") */
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            z-index: 2;
+        }
+
+        .card-content { padding: 14px; display: flex; flex-direction: column; flex: 1; }
         
-        /* Tag in Türkis (#5ce1e6) */
-        .tag { font-size: 0.55rem; font-weight: 700; color: #5ce1e6; text-transform: uppercase; margin-bottom: 6px; display: block; }
+        /* Tag im gleichen Grau/Stil wie der Kicker auf der LP */
+        .tag { font-size: 0.55rem; font-weight: 700; color: #8F8F96; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 6px; display: block; }
         
         /* Titel in Cover-Blau (#38b6ff), Zeilenumbruch erlaubt */
         .product-title { font-size: 0.9rem; font-weight: 700; color: #38b6ff; margin-bottom: 4px; white-space: normal; line-height: 1.2; }
@@ -68,9 +84,8 @@
         /* Subline in dezentem Grau */
         .product-subtitle { font-size: 0.7rem; color: #d9d9d9; margin-bottom: 14px; line-height: 1.3; }
         
-        .card-footer { display: flex; flex-direction: column; gap: 8px; }
-        .price-tag { font-size: 0.9rem; font-weight: 700; }
-        .checkout-btn { background-color: #38b6ff; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; }
+        .card-footer { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+        .checkout-btn { background-color: #38b6ff; color: #ffffff; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; }
         .footer-nav { margin-top: 40px; text-align: center; display: flex; justify-content: center; gap: 20px; }
         .footer-nav a { color: #d9d9d9; font-size: 0.65rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
         .footer-nav a:hover { color: #ffffff; }
@@ -87,16 +102,33 @@
         <div class="product-card">
             <div class="card-image-wrapper">
                 <img src="analyse_cover.webp" alt="Analyse" class="card-image">
+                <span class="card-badge">15 €</span>
             </div>
             <div class="card-content">
-                <span class="tag">Neuropsychologische Analyse</span>
+                <span class="tag">Neuropsychologische Fachpublikation</span>
                 <h2 class="product-title">Rausch oder Realität?</h2>
-                <p class="product-subtitle">Wie Substanzen Wahrnehmung, Emotionen und Verhalten verändern</p>
+                <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
                 <div class="card-footer">
-                    <div class="price-tag">15,00 €</div>
                     <a href="http://www.neuronalnetwork.de/neuropsychologische-analyse" 
                        class="checkout-btn" 
                        onclick="triggerPixelAndRedirect(event, this.href);">Analyse ansehen</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="card-image-wrapper">
+                <img src="lernsystem_cover.webp" alt="Neuropsychologisches Lernsystem" class="card-image">
+                <span class="card-badge">Kostenfrei</span>
+            </div>
+            <div class="card-content">
+                <span class="tag">Neuropsychologisches Lernsystem</span>
+                <h2 class="product-title">Emotionale Muster erkennen und nachhaltig verändern.</h2>
+                <p class="product-subtitle">Warum emotionale Muster entstehen, warum reines Verstehen oft nicht ausreicht – und wie du sie Schritt für Schritt veränderst.</p>
+                <div class="card-footer">
+                    <a href="https://lernsystem-emotionale-muster-neuronal-network.subscribepage.io/?fbclid=PAZnRzaATzmzlwZG9mAmZkaWQWUM23FVQWCNgicmg4AFyPrhNNi61ns2V4dG4DYWVtAjExAHNydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp5IWFEqFQUq1NJ9UuJr0j4Gq-lZhwteqHSbk1kUmBtAtQS0FVolodlgjPO3a_aem_cjuy88c6O2uo9CgJAW_GjQ&utm_id=97760_v0_s00_e0_tv6_a1denngjrp9jjx" 
+                       class="checkout-btn" 
+                       onclick="triggerPixelAndRedirect(event, this.href);">Kostenfrei eintragen</a>
                 </div>
             </div>
         </div>
