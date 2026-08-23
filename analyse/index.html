@@ -318,7 +318,43 @@
             }
         }
         /* -------------------------------------------- */
+      /* Trust-Zeile: jetzt zwei Zeilen (2 Punkte oben, 1 Punkt unten zentriert) */
+        .trust-row {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            max-width: 390px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        .trust-row-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #aaaaaa;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trust-item svg {
+            width: 13px;
+            height: 13px;
+            stroke: #aaaaaa;
+            fill: none;
+            flex-shrink: 0;
+        }
         .conclusion-text {
             font-size: 18px;
             line-height: 1.6;
@@ -698,7 +734,17 @@
         <!-- CTA 2: Erster Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
         <div class="cta-container">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
+               <div class="trust-row" style="margin-top: 12px;">
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Direkter Zugriff nach dem Kauf
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        14 Tage Geld-zurück-Garantie
+                    </div>
+                </div>
         </div>
 
         <div class="section-separator"></div>
@@ -790,8 +836,18 @@ Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivit�
         <!-- CTA 3: Unterer Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
         <div class="cta-container" style="margin-top: 40px;">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
-            <span class="cta-subtext">Direkter Zugriff nach dem Kauf &nbsp;·&nbsp; 14 Tage Geld-zurück-Garantie</span>
-        </div>
+            
+             <div class="trust-row" style="margin-top: 12px;">
+                <div class="trust-row-line">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Direkter Zugriff nach dem Kauf
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        14 Tage Geld-zurück-Garantie
+                    </div>
+                </div>
 
         <div class="disclaimer-text">
             Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Keine medizinische, therapeutische oder praktische Empfehlung.
