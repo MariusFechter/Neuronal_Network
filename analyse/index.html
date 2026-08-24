@@ -98,7 +98,6 @@
             text-align: left;
         }
 
-        /* Zweiter Hero-Block: Normal geschrieben und nicht fett */
         .hero-title-secondary {
             color: #ffffff;
             font-size: 23px;
@@ -110,7 +109,6 @@
             text-transform: none;
         }
 
-        /* Untere Schrift nun in reinem Weiß */
         .hero-subtitle-secondary {
             color: #ffffff;
             font-size: 16px;
@@ -128,7 +126,6 @@
             object-fit: contain;
             display: block;  
             margin: -10px auto 15px auto;
-
             filter: drop-shadow(0 0 15px rgba(56, 182, 255, 0.15));
             transform-origin: center center;
             animation: slowOrbitY 60s linear infinite;
@@ -136,15 +133,10 @@
         }
 
         @keyframes slowOrbitY {
-            from {
-                transform: rotateY(0deg);
-            }
-            to {
-                transform: rotateY(360deg);
-            }
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
-        /* Subtiler, ruhiger Hero-CTA (Kein Button-Block) */
         .hero-soft-cta {
             text-align: center;
             margin-top: 5px;
@@ -174,7 +166,6 @@
             display: block;
         }
 
-        /* Styling für den Einleitungssatz des Auszugs */
         .intro-teaser-text {
             font-size: 19px;
             font-weight: 600; 
@@ -220,7 +211,6 @@
             margin-bottom: 12px;
         }
 
-        /* --- STYLING FÜR DAS ADAPTIVE BUCH-LAYOUT --- */
         .book-container {
             display: flex;
             gap: 20px;
@@ -317,44 +307,45 @@
                 display: block;
             }
         }
-        /* -------------------------------------------- */
-      /* Trust-Zeile: jetzt zwei Zeilen (2 Punkte oben, 1 Punkt unten zentriert) */
+
         .trust-row {
-            margin-top: 8px;
+            margin-top: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            max-width: 390px;
+            width: 100%;
+            max-width: 340px;
             margin-left: auto;
             margin-right: auto;
+            box-sizing: border-box;
         }
 
         .trust-row-line {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 11px;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            width: 100%;
+            font-size: 9.5px;
             color: #aaaaaa;
             font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
         }
 
         .trust-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 3px;
+            white-space: nowrap;
         }
 
         .trust-item svg {
-            width: 13px;
-            height: 13px;
+            width: 10px;
+            height: 10px;
             stroke: #aaaaaa;
             fill: none;
             flex-shrink: 0;
         }
+
         .conclusion-text {
             font-size: 18px;
             line-height: 1.6;
@@ -436,19 +427,13 @@
             font-weight: 500;
         }
 
-        .toc-sub-items {
-            font-size: 13px;
-            color: #aaaaaa;
-            line-height: 1.8;
-            margin-left: 32px;
-        }
-
         .cta-container {
             margin-top: 40px;
             margin-bottom: 40px;
             text-align: center;
         }
 
+        /* Schriftgröße auf 13.5px angepasst und erzwungen, dass es in einer Zeile bleibt */
         .cta-button {
             display: block;
             width: 100%;
@@ -458,12 +443,13 @@
             background-color: #38b6ff;
             color: #ffffff;
             text-align: center;
-            padding: 18px 20px;
-            font-size: 16px;
+            padding: 16px 12px;
+            font-size: 13.5px;
             font-weight: 700;
             text-decoration: none;
             border-radius: 6px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
             box-shadow: 0 4px 20px rgba(56, 182, 255, 0.2);
             transition: transform 0.1s ease, background-color 0.1s ease;
             cursor: pointer;
@@ -472,17 +458,6 @@
         .cta-button:active {
             transform: scale(0.98);
             background-color: #29a3eb;
-        }
-
-        .cta-subtext {
-            color: #888888; 
-            font-size: 11px; 
-            font-style: normal; 
-            letter-spacing: 0.3px; 
-            margin-top: 12px;
-            display: block;
-            opacity: 0.8;
-            text-align: center;
         }
 
         .section-separator {
@@ -607,7 +582,6 @@
             window.location.href = url;
         }
     </script>
-
 </head>
 
 <body>
@@ -620,19 +594,18 @@
 
         <p class="hero-subtitle">Verstehe, wie Alkohol, Cannabis, Kokain, LSD und Psilocybin Wahrnehmung, Emotionen und Verhalten verändern – erklärt durch neuropsychologische Mechanismen.</p>
         <div class="meta-container">
-  
             <div class="cover-facts-left">
-                · Analyse neuropsychologischer Mechanismen hinter veränderten Bewusstseinszuständen<br>
+                · Neuropsychologische Mechanismen hinter veränderten Bewusstseinszuständen<br>
                 · 5 psychoaktive Substanzen wissenschaftich eingeorndet<br>
-                · 27 wissenschaftliche Quellen als Grundlage<br>
+                · 27 wissenschaftliche Quellen<br>
                 · 25 Seiten digitale Fachpublikation
             </div>
         </div>
       
-        <!-- CTA 1: Oberer Soft-Link (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA 1: Oberer Soft-Link -->
         <div class="hero-soft-cta">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="hero-soft-link" onclick="triggerPixelAndRedirect(event, this.href);">Vollständige Analyse freischalten</a>
-            <span class="hero-soft-subtext">(Sofortiger Zugriff nach dem Kauf.)</span>
+            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="hero-soft-link" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
+            <span class="hero-soft-subtext">(15 € einmalig · Direkter Zugriff nach dem Kauf)</span>
         </div>
 
         <p class="intro-teaser-text">Ein Ausschnitt aus der vollständigen Analyse:</p>
@@ -641,7 +614,6 @@
 
         <!-- DAS NEUE ADAPTIVE BUCH-LAYOUT -->
         <div class="book-container">
-
             <!-- Linke Buchseite (Punkt 1) -->
             <div class="book-page">
                 <span class="page-number">01</span>
@@ -665,7 +637,6 @@
                 <p class="page-text">Hierdurch reagieren Menschen impulsiver und treffen Entscheidungen oft ohne tiefere Abwägung.</p>
                 <div class="source-text-book">(Lovinger, 1997)</div>
             </div>
-
         </div>
 
         <!-- Visueller Hinweis auf Smartphones -->
@@ -673,32 +644,29 @@
 
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
 
-      <p style="margin-bottom: 5px;">Diese Analyse betrachtet nicht nur einzelne Wirkungen von Substanzen, sondern ordnet die dahinter liegenden neuropsychologischen Muster ein. Sie verbindet aktuelle neuropsychologische Forschung mit einer strukturierten Einordnung der Prozesse hinter veränderten Bewusstseinszuständen.</p>
-<p style="margin-top: 0;">Sie bietet eine strukturierte Einordnung typischer Mechanismen hinter veränderten Bewusstseinszuständen.</p>
+        <p style="margin-bottom: 5px;">Diese Analyse betrachtet nicht nur einzelne Wirkungen von Substanzen, sondern ordnet die dahinter liegenden neuropsychologischen Muster ein.<br> Sie verbindet aktuelle neuropsychologische Forschung mit einer strukturierten Einordnung der Prozesse hinter veränderten Bewusstseinszuständen.</p>
 
         <div class="meta-container">
             <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
-         
         </div>
 
         <div class="toc-section">
             <div class="toc-main-title">Kapitelübersicht</div>
 
-<!-- Die zentrale, edle Erklärung für den Aufbau jedes Kapitels -->
-<div style="font-size: 15px; color: #d9d9d9; margin-top: 20px; margin-bottom: 35px; line-height: 1.6;">
-    <div class="bold-text" style="color: #ffffff; margin-bottom: 12px; font-size: 17px;">
-        Jedes Substanz-Kapitel betrachtet:
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Wirkung auf das Bewusstsein
-    </div>
-    <div style="margin-bottom: 8px; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Neuropsychologische Mechanismen
-    </div>
-    <div style="margin-bottom: 0; padding-left: 2px;">
-        <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Subjektives Erleben und Verhaltenmuster
-    </div>
-</div>
+            <div style="font-size: 15px; color: #d9d9d9; margin-top: 20px; margin-bottom: 35px; line-height: 1.6;">
+                <div class="bold-text" style="color: #ffffff; margin-bottom: 12px; font-size: 17px;">
+                    Jedes Substanz-Kapitel betrachtet:
+                </div>
+                <div style="margin-bottom: 8px; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Wirkung auf das Bewusstsein
+                </div>
+                <div style="margin-bottom: 8px; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Neuropsychologische Mechanismen
+                </div>
+                <div style="margin-bottom: 0; padding-left: 2px;">
+                    <span style="color: #38b6ff; font-weight: 700; margin-right: 4px;">·</span> Subjektives Erleben und Verhaltenmuster
+                </div>
+            </div>
 
             <div class="toc-block">
                 <div class="toc-chapter"><span class="toc-chapter-num">01</span> LSD: Erweitertes Bewusstsein</div>
@@ -729,12 +697,12 @@
             </div>
         </div>
 
-        <p>Wenn du diese Muster einmal verstanden hast, verändert sich die Art, wie du dich selbst und das Verhalten anderer Menschen einordnest – nicht nur intuitiv, sondern auf Basis wissenschaftlicher Erkenntnisse.</p>
+        <p>Wenn du diese Muster einmal verstanden hast, verändert sich die Art, wie du dich selbst und das Verhalten anderer Menschen einordnest – <br> nicht nur intuitiv, sondern auf Basis wissenschaftlicher Erkenntnisse.</p>
 
-        <!-- CTA 2: Erster Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA 1: Erster Haupt-Button -->
         <div class="cta-container">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
-               <div class="trust-row" style="margin-top: 12px;">
+            <div class="trust-row">
                 <div class="trust-row-line">
                     <div class="trust-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -745,15 +713,14 @@
                         14 Tage Geld-zurück-Garantie
                     </div>
                 </div>
+            </div>
         </div>
 
         <div class="section-separator"></div>
 
         <h2>Wie dein Gehirn deine Realität beeinflusst</h2>
 
-   <p>Unsere Wahrnehmung der Realität entsteht durch die Verarbeitung unseres Gehirns.
-Wenn sich diese Prozesse verändern, verändert sich auch, wie wir erleben, bewerten und reagieren.
-Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivität verschiedener Systeme im Gehirn und zeigen, wie stark unser Erleben von neuropsychologischen Vorgängen geprägt wird. </p>
+        <p>Unsere Wahrnehmung der Realität entsteht durch die Verarbeitung unseres Gehirns. Wenn sich diese Prozesse verändern, verändert sich auch, wie wir erleben, bewerten und reagieren. <br> Substanzen machen diese Prozesse besonders sichtbar:<br> Sie verändern die Aktivität verschiedener Systeme im Gehirn und zeigen, wie stark unser Erleben von neuropsychologischen Vorgängen geprägt wird.</p>
 
         <p class="subtitle-orange" style="margin-top: 40px;">Diese Analyse zeigt dir:</p>
         <div class="premium-list">
@@ -800,22 +767,22 @@ Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivit�
         </div>
 
         <p class="conclusion-text">
-            Du erhältst nicht nur einzelne Erklärungen – sondern ein zusammenhängendes Modell, wie dein Gehirn Wahrnehmung, Emotionen und Verhalten beeinflusst.
+            Du erhältst nicht nur einzelne Erklärungen – <br> sondern ein zusammenhängendes Modell,<br> wie dein Gehirn Wahrnehmung, Emotionen und<br> Verhalten beeinflusst.
         </p>
 
         <div class="specs-grid">
             <div class="spec-row">
              <div class="spec-label" style="font-size: 16px;">Umfang</div>
-                <div class="spec-value"style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
+                <div class="spec-value" style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
             </div>
             <div class="spec-row">
                <div class="spec-label" style="font-size: 16px;">Wissenschaftliche Grundlage</div>
                 <div class="spec-value" style="font-size: 15px;"> Gestützt durch 27 wissenschaftliche Quellen</div>
             </div>
             <div class="spec-row">    
-      <div class="spec-label" style="font-size: 16px;">Zukünftige Erweiterungen inklusive</div>
-                <div class="spec-value"style="font-size: 15px;">Die Publikation wird kontinuierlich erweitert.<br>
-                    Alle zukünftigen Kapitel und Ergänzungen dieser Analyse erhältst du als Käufer oder Käuferin automatisch und ohne zusätzliche Kosten.<br></div>
+                <div class="spec-label" style="font-size: 16px;">Zukünftige Erweiterungen inklusive</div>
+                <div class="spec-value" style="font-size: 15px;">Die Publikation wird kontinuierlich erweitert.<br>
+                    Alle zukünftigen Kapitel und Ergänzungen dieser Analyse erhältst du als Käufer:in automatisch und ohne zusätzliche Kosten.<br></div>
             </div>
         </div>
 
@@ -823,21 +790,19 @@ Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivit�
             <div class="price-tag">
                 Für 15 € <span class="old-price">statt 20 €</span>
             </div>
-          <p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    erhältst du eine wissenschaftlich fundierte Analyse, wie neuropsychologische Prozesse im Gehirn Wahrnehmung, Emotionen und Verhalten beeinflussen.
-</p>
-<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
-    Viele dieser Veränderungen hast du wahrscheinlich bereits erlebt.<br>
-    Jetzt kannst du die Prozesse dahinter nachvollziehen. 
-</p>
-
+            <p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
+                erhältst du eine wissenschaftlich fundierte Analyse,<br> wie neuropsychologische Prozesse im Gehirn Wahrnehmung,<br> Emotionen und Verhalten beeinflussen.
+            </p>
+            <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #ffffff;">
+                Viele dieser Veränderungen hast du wahrscheinlich bereits erlebt.<br>
+                Jetzt kannst du die Prozesse dahinter nachvollziehen. 
+            </p>
         </div>
 
-        <!-- CTA 3: Unterer Haupt-Button (direkte Weiterleitung mit Pixel-Trigger) -->
+        <!-- CTA 2: Unterer Haupt-Button -->
         <div class="cta-container" style="margin-top: 40px;">
             <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
-            
-             <div class="trust-row" style="margin-top: 12px;">
+            <div class="trust-row">
                 <div class="trust-row-line">
                     <div class="trust-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -848,6 +813,8 @@ Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivit�
                         14 Tage Geld-zurück-Garantie
                     </div>
                 </div>
+            </div>
+        </div>
 
         <div class="disclaimer-text">
             Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Keine medizinische, therapeutische oder praktische Empfehlung.
@@ -857,3 +824,8 @@ Substanzen machen diese Prozesse besonders sichtbar: Sie verändern die Aktivit�
             <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link" target="_blank">Impressum</a>
             <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" class="footer-link" target="_blank">Datenschutzerklärung</a>
         </div>
+
+    </div>
+
+</body>
+</html>
