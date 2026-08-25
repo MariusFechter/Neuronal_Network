@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -354,12 +358,25 @@
             margin: 25px auto 30px auto; 
         }
 
+        /* Zweites Cover linksbündig (Margin links auf 0) */
+        .meta-container.left-aligned {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
         .cover-container {
             display: block;
             width: 100%;
             height: auto;
             border-radius: 4px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        /* Nur das zweite Cover bekommt den Buch-Look */
+        .cover-container.book-style {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 2px 6px 6px 2px; 
+            box-shadow: inset 3px 0px 8px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .cover-facts-left {
@@ -589,7 +606,7 @@
             <span class="line-accent">Doch was verändert sich in dir,<br> bevor du es überhaupt bemerkst?</span>
         </div>
 
-        <!-- COVER WEITER OBEN PLATZIERT -->
+        <!-- ERSTES COVER (MITTIG - WIE GEWÜNSCHT) -->
         <div class="meta-container">
             <img src="cover_substanzen.webp" alt="Analyse Cover" class="cover-container">
         </div>
@@ -599,7 +616,7 @@
         <span style="font-size: 14px; font-weight: 500; color: #b3b3b3; display: block; letter-spacing: 0.3px;margin-top: -15px; margin-bottom: 30px;">
             Neuropsychologisch erklärt.
         </span>
-        <div class="meta-container" style="margin-top: 0; width: 100%;">
+        <div class="meta-container left-aligned" style="margin-top: 0; width: 100%;">
             <div class="cover-facts-left" style="margin-top: 0;">
                 · 5 Substanzen wissenschaftlich eingeordnet<br>
                 · 27 wissenschaftliche Quellen<br>
@@ -649,11 +666,14 @@
 
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
 
-        <p style="margin-bottom: 5px;">Diese Analyse betrachtet nicht nur,<br> was Substanzen verändern, sondern auch <br> die neuropsychologischen Muster dahinter.</p>
+        <p style="margin-bottom: 5px;">Diese Analyse betrachtet nicht nur,<br> what Substanzen verändern, sondern auch <br> die neuropsychologischen Muster dahinter.</p>
                 <p style="margin-bottom: 5px;">Sie verbindet Forschung <br> mit einer strukturierten Einordnung der Prozesse <br> hinter veränderten Bewusstseinszuständen.</p>
-                  <div class="meta-container">
-            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
+                  
+        <!-- ZWEITES COVER (MIT BUCH-STYLE RAHMEN - LINKSBÜNDIG WIE GEWÜNSCHT) -->
+        <div class="meta-container left-aligned">
+            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container book-style">
         </div>
+
         <div class="toc-section">
             <div class="toc-main-title">Kapitelübersicht</div>
 
@@ -701,7 +721,7 @@
             </div>
         </div>
 
-        <p>Wenn du diese Muster einmal verstanden hast, verändert sich dein Blick auf dich selbst und das Verhalten anderer – <br> nicht nur intuitiv, <br> sondern wissenschaftlich fundiert.</p>
+        <p>Wenn du diese Muster einmal verstanden hast, <br> verändert sich dein Blick auf dich selbst  <br> und das Verhalten anderer – <br> wissenschaftlich fundiert statt intuitiv </p>
 
         <!-- CTA 1: Erster Haupt-Button -->
         <div class="cta-container">
@@ -727,9 +747,9 @@
         <p class="bold-text">Du hältst deine Wahrnehmung für die Realität.</p>
 
         <p>Doch dein Gehirn bildet die Welt nicht einfach ab.<br>
-        Es filtert Informationen, gewichtet Reize und lenkt deine Aufmerksamkeit.</p>
+        Es filtert Informationen, gewichtet Reize und <br> lenkt deine Aufmerksamkeit.</p>
 
-        <p><strong>Was du erlebst, ist deshalb nicht die Welt selbst –</strong><br>
+        <p><strong>Was du erlebst, ist deshalb nicht die Welt selbst –</strong>
         <strong>sondern deine Verarbeitung dieser Welt.</strong></p>
 
         <p>Wenn sich diese Prozesse verändern, können sich auch Wahrnehmung, Emotionen und Verhalten verändern.</p>
