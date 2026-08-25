@@ -99,25 +99,27 @@
         }
 
         .hero-title-secondary {
-            color: #ffffff;
-            font-size: 21px;
-            font-weight: 700;
-            line-height: 1.35;
             margin-top: 0;
-            margin-bottom: 24px;
+            /* Abstand zum Cover unten leicht vergrößert für mehr Luft */
+            margin-bottom: 45px;
             text-align: left;
         }
 
         .hero-title-secondary .line-normal {
             display: block;
-            margin-bottom: 8px;
-            color: #f5f5f5;
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
         }
 
-        .hero-title-secondary .line-underline {
-            display: inline;
-            border-bottom: 2px solid #ffffff;
-            padding-bottom: 2px;
+        .hero-title-secondary .line-accent {
+            display: block;
+            font-size: 22px;
+            color: #ff9500;
+            font-weight: 700;
+            line-height: 1.35;
         }
 
         .logo-image {
@@ -140,7 +142,7 @@
 
         .hero-soft-cta {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
             margin-bottom: 45px;
         }
 
@@ -359,8 +361,8 @@
 
         .meta-container {
             max-width: 100%;
-            width: 320px;
-            margin: 20px 0 0 0; 
+            width: 220px;
+            margin: 0 auto 30px auto; 
         }
 
         .cover-container {
@@ -368,6 +370,7 @@
             width: 100%;
             height: auto;
             border-radius: 4px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .cover-facts-left {
@@ -591,17 +594,21 @@
         <h1 class="hero-title">Das ist die vollständige neuropsychologische Analyse</h1>
         <p class="hero-subtitle">Hinter dem Ausschnitt über Alkohol, den du gerade gesehen hast.</p>
         
-        <!-- KOMPAKTER & OPTIMIERTER MITTELTEIL -->
+        <!-- HOOK BEREICH -->
         <div class="hero-title-secondary">
             <span class="line-normal">Du hast gerade gesehen, was Alkohol im Gehirn verändert.</span>
-            <span class="line-underline">Doch was verändert sich in dir, bevor du es überhaupt bemerkst?</span>
+            <span class="line-accent">Doch was verändert sich in dir, bevor du es überhaupt bemerkst?</span>
         </div>
 
-        <img src="Alkohol_logo.webp" alt="Neuronal Network Logo" class="logo-image" width="150" height="150" fetchpriority="high">
+        <!-- COVER WEITER OBEN PLATZIERT (MIT MEHR ABSTAND DRÜBER) -->
+        <div class="meta-container">
+            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
+        </div>
 
-        <p style="font-size: 18px; font-weight: 600; line-height: 1.4; margin-top: 0; margin-bottom: 25px; text-align: left; color: #ffffff;">Verstehe, wie Alkohol, Cannabis, Kokain, LSD und Psilocybin Wahrnehmung, Emotionen und Verhalten verändern – erklärt durch neuropsychologische Mechanismen.</p>
+        <!-- EINLEITUNGSTEXT -->
+        <p style="font-size: 18px; font-weight: 600; line-height: 1.4; margin-top: 30px; margin-bottom: 25px; text-align: left; color: #ffffff;">Verstehe, wie Alkohol, Cannabis, LSD, Psilocybin und Kokain Wahrnehmung, Emotionen und Verhalten verändern – erklärt durch neuropsychologische Mechanismen.</p>
         
-        <div class="meta-container" style="margin-top: 0;">
+        <div class="meta-container" style="margin-top: 0; width: 100%;">
             <div class="cover-facts-left" style="margin-top: 0;">
                 · 5 psychoaktive Substanzen wissenschaftlich eingeordnet<br>
                 · 27 wissenschaftliche Quellen<br>
@@ -652,10 +659,6 @@
         <p class="subtitle-orange">Neuropsychologische Analyse</p>
 
         <p style="margin-bottom: 5px;">Diese Analyse betrachtet nicht nur einzelne Wirkungen von Substanzen, sondern ordnet die dahinter liegenden neuropsychologischen Muster ein.<br> Sie verbindet aktuelle neuropsychologische Forschung mit einer strukturierten Einordnung der Prozesse hinter veränderten Bewusstseinszuständen.</p>
-
-        <div class="meta-container">
-            <img src="analyse_cover Kopie.webp" alt="Analyse Cover" class="cover-container">
-        </div>
 
         <div class="toc-section">
             <div class="toc-main-title">Kapitelübersicht</div>
@@ -783,7 +786,7 @@
                 <div class="spec-value" style="font-size: 15px;">26 Seiten digitale Fach-Publikation</div>
             </div>
             <div class="spec-row">
-               <div class="spec-label" style="font-size: 16px;">Wissenschaftliche Grundlage</div>
+             <div class="spec-label" style="font-size: 16px;">Wissenschaftliche Grundlage</div>
                 <div class="spec-value" style="font-size: 15px;"> Gestützt durch 27 wissenschaftliche Quellen</div>
             </div>
             <div class="spec-row">    
