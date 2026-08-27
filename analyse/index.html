@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuronal Network - Neuropsychologische Analyse</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Preload für Performance -->
+    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
+
+    <!-- Speculation Rules API für echtes Prerendering (jetzt auf eure eigene Checkout-Seite, nicht mehr Lemon Squeezy) -->
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": "https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/"
+          
+        }
+      ]
+    }
+    </script>
+
+    <!-- Meta Pixel Base Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -10,49 +34,36 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-
     fbq('init', '1988847275335071');
     fbq('track', 'PageView');
 
+    // ViewContent erst nach 10 Sekunden Verweildauer feuern
     setTimeout(function() {
-        fbq('track', 'ViewContent');
+        if (typeof fbq === 'function') {
+            fbq('track', 'ViewContent', {
+                content_name: 'Rausch oder Realität?',
+                content_type: 'product',
+                currency: 'EUR',
+                value: 15.00
+            });
+        }
     }, 10000);
     </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"
+    /></noscript>
 
-    <noscript>
-        <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
-    </noscript>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neuronal Network - Neuropsychologische Analyse</title>
-
-    <link rel="icon" type="image/png" href="favicon.png">
-
-    <script type="speculationrules">
-    {
-      "prerender": [
-        {
-          "source": "list",
-          "urls": ["https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d"]
-        }
-      ]
-    }
-    </script>
-    <link rel="preconnect" href="https://zugang.neuronalnetwork.de">
-    <link rel="dns-prefetch" href="https://zugang.neuronalnetwork.de">
-
+    <!-- MS Clarity — Tracking-Code noch nicht erstellt (siehe Absprache).
+         Sobald vorhanden: Kommentar entfernen und "DEINE_CLARITY_ID" durch die echte ID ersetzen. -->
+    <!--
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "xocaikjz5c");
+        })(window, document, "clarity", "script", "DEINE_CLARITY_ID");
     </script>
-
-    <link rel="preload" fetchpriority="high" as="image" href="Alkohol_logo.webp" type="image/webp">
-    <link rel="preload" fetchpriority="high" as="image" href="cover.webp" type="image/webp">
+    -->
 
     <style>
         html, body {
@@ -537,14 +548,131 @@
         .footer-link:active {
             opacity: 0.7;
         }
+
+        /* ==========================================
+           CHECKOUT MODAL (neu übertragen von der alten LP)
+           ========================================== */
+        .checkout-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkout-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .checkout-modal {
+            background: #0a0a0c;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px);
+            transition: transform 0.25s ease;
+        }
+
+        .checkout-modal-overlay.active .checkout-modal {
+            transform: translateY(0);
+        }
+
+        .checkout-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .checkout-modal-close:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .checkout-modal-body {
+            padding: 20px;
+            min-height: 420px;
+            box-sizing: border-box;
+        }
+
+        .checkout-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 420px;
+            gap: 16px;
+            color: #aaaaaa;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .checkout-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(56, 182, 255, 0.2);
+            border-top-color: #38b6ff;
+            border-radius: 50%;
+            animation: checkout-spin 0.8s linear infinite;
+        }
+
+        @keyframes checkout-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        body.checkout-open {
+            overflow: hidden;
+        }
     </style>
 
+    <!-- Drittanbieter-Skripte (Pixel) -->
     <script>
-        function triggerPixelAndRedirect(event, url) {
+        // ctaSource: 'mid' oder 'bottom' -> Herkunft für Custom-Data, kein eigenes Event
+        function triggerPixelAndRedirect(event, url, ctaSource) {
             if (event) event.preventDefault();
-            if (typeof fbq === 'function') {
-                fbq('track', 'InitiateCheckout');
+
+            if (typeof trackInitiateCheckout === 'function') {
+                trackInitiateCheckout(ctaSource);
+            } else if (typeof fbq === 'function') {
+                // Fallback, falls dieses Script vor dem unteren Script-Block ausgeführt wird
+                fbq('track', 'InitiateCheckout', { cta_source: ctaSource });
             }
+
             window.location.href = url;
         }
     </script>
@@ -591,9 +719,10 @@
             </div>
         </div>
       
-        <!-- CTA 1 -->
+        <!-- CTA 1 (hero, oben) -> Modal -->
         <div class="hero-soft-cta">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="hero-soft-link" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
+
+            <a href=   "https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="hero-soft-link" onclick="openCheckoutModal(event);">Zugang zur vollständigen Analyse erhalten</a>
             <span class="hero-soft-subtext">(15 € einmalig · Direkter Zugriff nach dem Kauf)</span>
         </div>
 
@@ -687,9 +816,9 @@
 
         <p>Wenn du diese Muster einmal verstanden hast, <br> verändert sich dein Blick auf dich selbst  <br> und das Verhalten anderer – <br> wissenschaftlich fundiert statt intuitiv </p>
 
-        <!-- CTA 1 -->
+        <!-- CTA 2 (mid) -> Redirect -->
         <div class="cta-container">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href, 'mid');">Zugang zur vollständigen Analyse erhalten</a>
             <div class="trust-row">
                 <div class="trust-row-line">
                     <div class="trust-item">
@@ -806,9 +935,9 @@ wenn sich die zugrunde liegenden Verarbeitungsprozesse verändern.
             </p>
         </div>
 
-        <!-- CTA 2 -->
+        <!-- CTA 3 (bottom) -> Redirect -->
         <div class="cta-container" style="margin-top: 40px;">
-            <a href="https://zugang.neuronalnetwork.de/checkout/buy/3bf34f1a-b531-4855-8c97-6c0456f51a7d" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zur vollständigen Analyse erhalten</a>
+            <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href, 'bottom');">Zugang zur vollständigen Analyse erhalten</a>
             <div class="trust-row">
                 <div class="trust-row-line">
                     <div class="trust-item">
@@ -834,5 +963,182 @@ wenn sich die zugrunde liegenden Verarbeitungsprozesse verändern.
 
     </div>
 
+    <!-- Checkout-Modal -->
+    <div class="checkout-modal-overlay" id="checkoutOverlay" aria-hidden="true">
+        <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+            <button class="checkout-modal-close" id="checkoutCloseBtn" type="button" aria-label="Checkout schließen">✕</button>
+            <h2 id="checkoutModalTitle" class="sr-only">Kauf abschließen</h2>
+            <div class="checkout-modal-body">
+                <div class="checkout-loading" id="checkoutLoading">
+                    <div class="checkout-spinner"></div>
+                    <span>Checkout wird geladen …</span>
+                </div>
+                <div id="checkout-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STRIPE_PUBLISHABLE_KEY = "pk_live_51U4GD5AZdmyaJnrTtSeZGUpuPszOFw2t2Z7aJHIlpgKNACvGR0LMY6bZ0LVGhAUgNky2XHDeltreyxdBBZLMEtPs00GnEcCr0v";
+        const CHECKOUT_WORKER_URL = "https://stripe-checkout-bridge.theneuronalnetwork.workers.dev/";
+        const META_TRACKING_WORKER_URL = "https://meta-capi-bridge.theneuronalnetwork.workers.dev/";
+
+        let stripeInstancePromise = null;
+        let embeddedCheckout = null;
+        let lastFocusedElement = null;
+
+        // Stripe.js wird erst beim ersten Klick nachgeladen – kein Einfluss auf FCP
+        function getStripe() {
+            if (!stripeInstancePromise) {
+                stripeInstancePromise = new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = "https://js.stripe.com/v3/";
+                    script.onload = () => resolve(Stripe(STRIPE_PUBLISHABLE_KEY));
+                    script.onerror = () => reject(new Error("Stripe.js konnte nicht geladen werden."));
+                    document.head.appendChild(script);
+                });
+            }
+            return stripeInstancePromise;
+        }
+
+        // Liest ein Cookie anhand seines Namens aus (für Meta Browser-IDs _fbp/_fbc)
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : '';
+        }
+
+        // Sendet InitiateCheckout server-seitig per CAPI an Meta – parallel zum Pixel-Event,
+        // nicht blockierend für den Checkout-Flow (Fire-and-forget)
+        function sendInitiateCheckoutCAPI(eventId, ctaSource) {
+            const fbp = getCookie('_fbp');
+            const fbc = getCookie('_fbc');
+
+            fetch(META_TRACKING_WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                keepalive: true, // stellt sicher, dass der Request auch bei einer direkt folgenden Seiten-Navigation (Redirect-Buttons) noch abgeschickt wird
+                body: JSON.stringify({
+                    event_name: 'InitiateCheckout',
+                    event_id: eventId,
+                    fbp: fbp,
+                    fbc: fbc,
+                    value: 15.00,
+                    currency: 'eur',
+                    cta_source: ctaSource, // 'hero' / 'mid' / 'bottom' -> Herkunft für Custom-Data, kein eigenes Event
+                    event_source_url: window.location.href
+                })
+            }).catch(err => console.error('Meta CAPI InitiateCheckout Error:', err));
+        }
+
+        // Zentrale Tracking-Funktion für alle drei CTAs: Standard-Event bleibt InitiateCheckout,
+        // die Herkunft (hero/mid/bottom) wird nur als Custom-Data-Parameter mitgegeben.
+        function trackInitiateCheckout(ctaSource) {
+            const eventId = 'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout', {
+                    currency: 'EUR',
+                    value: 15.00,
+                    content_name: 'Rausch oder Realität?',
+                    content_type: 'product',
+                    cta_source: ctaSource
+                }, { eventID: eventId });
+            }
+
+            // Internes Klick-Event, unabhängig von Meta (für Clarity, sobald eingerichtet).
+            if (typeof clarity === 'function') {
+                clarity('event', ctaSource + '_cta_click');
+            }
+
+            sendInitiateCheckoutCAPI(eventId, ctaSource);
+
+            return eventId;
+        }
+
+        async function openCheckoutModal(event) {
+            if (event) event.preventDefault();
+
+            trackInitiateCheckout('hero');
+
+            lastFocusedElement = document.activeElement;
+
+            const overlay = document.getElementById('checkoutOverlay');
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('checkout-open');
+            document.getElementById('checkoutCloseBtn').focus();
+            document.addEventListener('keydown', handleModalKeydown);
+
+            try {
+                const stripe = await getStripe();
+
+                const response = await fetch(CHECKOUT_WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ source: 'hero' })
+                });
+                if (!response.ok) throw new Error('Checkout-Session konnte nicht erstellt werden.');
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                document.getElementById('checkoutLoading').style.display = 'none';
+
+                embeddedCheckout = await stripe.initEmbeddedCheckout({
+                    clientSecret: data.clientSecret,
+                });
+                embeddedCheckout.mount('#checkout-container');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('checkoutLoading').innerHTML =
+                    '<p style="color:#ff8080;line-height:1.5;">Der Checkout konnte nicht geladen werden.<br>Bitte versuche es erneut.</p>';
+            }
+        }
+
+        function closeCheckoutModal() {
+            const overlay = document.getElementById('checkoutOverlay');
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('checkout-open');
+            document.removeEventListener('keydown', handleModalKeydown);
+
+            if (embeddedCheckout) {
+                embeddedCheckout.destroy();
+                embeddedCheckout = null;
+            }
+
+            document.getElementById('checkout-container').innerHTML = '';
+            const loadingEl = document.getElementById('checkoutLoading');
+            loadingEl.style.display = 'flex';
+            loadingEl.innerHTML = '<div class="checkout-spinner"></div><span>Checkout wird geladen …</span>';
+
+            if (lastFocusedElement) lastFocusedElement.focus();
+        }
+
+        function handleModalKeydown(e) {
+            if (e.key === 'Escape') {
+                closeCheckoutModal();
+                return;
+            }
+            if (e.key === 'Tab') {
+                const modal = document.querySelector('.checkout-modal');
+                const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+
+        document.getElementById('checkoutCloseBtn').addEventListener('click', closeCheckoutModal);
+        document.getElementById('checkoutOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeCheckoutModal();
+        });
+    </script>
 </body>
 </html>
