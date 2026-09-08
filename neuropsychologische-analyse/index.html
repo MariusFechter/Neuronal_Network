@@ -650,6 +650,54 @@
         body.checkout-open {
             overflow: hidden;
         }
+
+        /* ==========================================
+           STICKY CTA BAR (neu)
+           ========================================== */
+        .sticky-cta-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 500;
+            box-sizing: border-box;
+            padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+            background: linear-gradient(to top, rgba(0,0,0,0.97) 55%, rgba(0,0,0,0));
+            transform: translateY(100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sticky-cta-bar.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sticky-cta-button {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            background-color: #38b6ff;
+            color: #ffffff;
+            text-align: center;
+            padding: 14px 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(56, 182, 255, 0.3);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+            cursor: pointer;
+        }
+
+        .sticky-cta-button:active {
+            transform: scale(0.98);
+            background-color: #29a3eb;
+        }
     </style>
 
     <!-- Drittanbieter-Skripte (Pixel / Clarity) -->
@@ -724,6 +772,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Marker: ab hier (nach dem oberen CTA) soll der Sticky-Button erscheinen -->
+    <div id="stickyShowMarker" aria-hidden="true"></div>
 
     <!-- Content-Section -->
     <div class="content-section">
@@ -855,6 +906,9 @@
                 <p>Vielleicht erkennst du einige dieser Muster sogar aus deinem eigenen Erleben wieder.</p>
             </div>
 
+            <!-- Marker: ab hier (kurz vor dem unteren CTA) soll der Sticky-Button wieder verschwinden -->
+            <div id="stickyHideMarker" aria-hidden="true"></div>
+
             <!-- Finaler CTA unten -->
          <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="cta-button" onclick="triggerPixelAndRedirect(event, this.href);">Zugang zum vollständigen Denkmodell</a>
 
@@ -893,6 +947,11 @@
                 <div id="checkout-container"></div>
             </div>
         </div>
+    </div>
+
+    <!-- Sticky-CTA-Bar: eingeblendet zwischen den beiden Markern oben -->
+    <div class="sticky-cta-bar" id="stickyCtaBar">
+        <a href="https://www.neuronalnetwork.de/neuropsychologische-analyse-checkout/" class="sticky-cta-button" id="stickyCtaButton" onclick="triggerStickyRedirect(event, this.href);">Zugang zur vollständigen Analyse</a>
     </div>
 
     <script>
@@ -964,15 +1023,14 @@
                     fbc: fbc,
                     value: 15.00,
                     currency: 'eur',
-                    cta_source: ctaSource, // 'upper' oder 'lower' -> Herkunft für Custom-Data, kein eigenes Event
+                    cta_source: ctaSource, // 'upper' / 'lower' / 'sticky' -> Herkunft für Custom-Data, kein eigenes Event
                     event_source_url: window.location.href
                 })
             }).catch(err => console.error('Meta CAPI InitiateCheckout Error:', err));
         }
 
-        // Zentrale Tracking-Funktion für beide CTAs: Standard-Event bleibt InitiateCheckout,
-        // die Herkunft (oberer/unterer Button) wird nur als Custom-Data-Parameter mitgegeben.
-        // Gibt die eventId zurück, damit der Aufrufer sie z. B. für die Checkout-Session-Metadata weiterverwenden kann.
+        // Zentrale Tracking-Funktion für alle CTAs: Standard-Event bleibt InitiateCheckout,
+        // die Herkunft (oberer/unterer/sticky Button) wird nur als Custom-Data-Parameter mitgegeben.
         function trackInitiateCheckout(ctaSource) {
             const eventId = 'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
 
@@ -987,7 +1045,6 @@
             }
 
             // Internes Klick-Event, unabhängig von Meta (z. B. für Clarity oder eigene Analyse).
-            // Sicherheits-Check, falls Clarity noch nicht eingebunden ist.
             if (typeof clarity === 'function') {
                 clarity('event', ctaSource + '_cta_click');
             }
@@ -995,6 +1052,14 @@
             sendInitiateCheckoutCAPI(eventId, ctaSource);
 
             return eventId;
+        }
+
+        // Klick-Handler für den Sticky-Button (Redirect, analog zu triggerPixelAndRedirect,
+        // aber mit eigenem cta_source: 'sticky')
+        function triggerStickyRedirect(event, url) {
+            if (event) event.preventDefault();
+            trackInitiateCheckout('sticky');
+            window.location.href = url;
         }
 
         async function openCheckoutModal(event) {
@@ -1082,6 +1147,49 @@
             if (e.target === this) closeCheckoutModal();
         });
     </script> <!-- Hier wird das Skript korrekt geschlossen -->
+
+    <!-- Sticky-CTA-Bar: Sichtbarkeit anhand der beiden Marker steuern -->
+    <script>
+        (function () {
+            const stickyBar = document.getElementById('stickyCtaBar');
+            const showMarker = document.getElementById('stickyShowMarker');
+            const hideMarker = document.getElementById('stickyHideMarker');
+
+            if (!stickyBar || !showMarker || !hideMarker) return;
+
+            let ticking = false;
+
+            function updateStickyVisibility() {
+                const showRect = showMarker.getBoundingClientRect();
+                const hideRect = hideMarker.getBoundingClientRect();
+
+                // Sichtbar, sobald der obere Marker aus dem oberen Viewport-Rand gescrollt ist
+                const pastShowMarker = showRect.top < 0;
+                // Wieder unsichtbar, sobald der untere Marker in den sichtbaren Bereich kommt
+                // (etwas Puffer, damit die Sticky-Bar nicht den echten unteren CTA verdeckt)
+                const nearHideMarker = hideRect.top < window.innerHeight - 40;
+
+                if (pastShowMarker && !nearHideMarker) {
+                    stickyBar.classList.add('visible');
+                } else {
+                    stickyBar.classList.remove('visible');
+                }
+
+                ticking = false;
+            }
+
+            function onScrollOrResize() {
+                if (!ticking) {
+                    requestAnimationFrame(updateStickyVisibility);
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScrollOrResize, { passive: true });
+            window.addEventListener('resize', onScrollOrResize);
+            updateStickyVisibility();
+        })();
+    </script>
 
     <!-- Ab hier kommt der HTML-Inhalt -->
     <footer class="legal-footer">
