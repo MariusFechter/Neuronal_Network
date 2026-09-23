@@ -6,7 +6,10 @@
   <meta name="description" content="Kompakte Beschreibung deiner Seite für Suchmaschinen">
   <title>Neuronal Network | NeuroLab – Analyse</title>
 
-  <!-- Favicon-Pfade (Inline SVG-Emoji als Fallback, kann durch favicon.svg ersetzt werden) -->
+  <!-- LCP Preload für das Logo -->
+  <link rel="preload" as="image" href="analyse_logo_neuronal_network.webp" type="image/webp">
+
+  <!-- Favicon-Pfade -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
@@ -20,7 +23,7 @@
 
     :root {
       --bg-color: #000000;
-      --text-color: #f8fafc; /* High-Contrast Off-White für optimale Lesbarkeit */
+      --text-color: #f8fafc;
       --accent-color: #38bdf8;
       --max-width: 1080px;
     }
@@ -44,20 +47,20 @@
 
     /* Header & Logo Styling */
     .site-header {
-      padding: 1rem 0; /* Optimierter Abstand nach oben/unten */
+      padding: 1rem 0;
       width: 100%;
     }
 
     .header-container {
       display: flex;
       align-items: center;
-      justify-content: center; /* Zentriert das Logo im Header für maximale Fokusführung */
+      justify-content: center;
     }
 
     .brand-logo img {
       display: block;
       height: auto;
-      max-height: 52px; /* Leicht erhöht für perfekte Lesbarkeit auf Mobile */
+      max-height: 52px;
       width: auto;
       image-rendering: -webkit-optimize-contrast;
     }
