@@ -57,8 +57,9 @@
     .brand-logo img {
       display: block;
       height: auto;
-      max-height: 32px;
+      max-height: 48px; /* Perfekte Header-Anzeigegröße für ein quadratisches Logo */
       width: auto;
+      image-rendering: -webkit-optimize-contrast;
     }
   </style>
 </head>
@@ -67,7 +68,14 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="/" class="brand-logo">
-        <img src="logo.svg" alt="Neuronal Network Logo" width="140" height="30">
+        <img 
+          src="analyse_logo_neuronal_network.webp" 
+          alt="Neuronal Network Logo" 
+          width="120" 
+          height="120" 
+          loading="eager" 
+          decoding="async"
+        >
       </a>
     </div>
   </header>
