@@ -113,7 +113,7 @@
       box-shadow: -8px 0 18px rgba(0, 0, 0, 0.9), 0 10px 25px rgba(0, 0, 0, 0.8);
     }
 
-    /* Freistehende Navigation Buttons (Frei von Hintergründen) */
+    /* Freistehende Navigation Buttons */
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -136,9 +136,9 @@
     .nav-btn.next { right: -4px; }
 
     .nav-btn:hover {
-  transform: translateY(-50%) scale(1.15);
-  color: #ffffff; /* Bleibt weiß */
-}
+      transform: translateY(-50%) scale(1.15);
+      color: #ffffff; /* Bleibt weiß */
+    }
 
     .nav-btn.hidden { 
       opacity: 0; 
@@ -166,6 +166,83 @@
       box-shadow: 0 0 8px rgba(56, 182, 255, 0.6);
       width: 20px;
       border-radius: 4px;
+    }
+
+    /* Produkt Details (Payhip / Variante 1 Style) */
+    .product-details {
+      max-width: 420px;
+      margin: 1.75rem auto 0 auto;
+      text-align: left;
+    }
+
+    .product-category {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 0.4rem;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .product-subtitle {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      font-weight: 400;
+      line-height: 1.45;
+      margin-bottom: 1.25rem;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+    }
+
+    .product-price {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .price-notice {
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-primary:hover {
+      background-color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -224,6 +301,21 @@
             </div>
           </div>
         </div>
+
+        <!-- Produkt-Details (Payhip-Stil / Variante 1) -->
+        <div class="product-details">
+          <span class="product-category">Neuropsychologische Fachpublikation</span>
+          <h1 class="product-title">Rausch oder Realität?</h1>
+          <p class="product-subtitle">Warum Substanzen dein Verhalten verändern.</p>
+
+          <div class="product-price-row">
+            <span class="product-price">15 €</span>
+            <span class="price-notice">· einmalig</span>
+          </div>
+
+          <a href="#checkout" class="btn-primary">Zugang zur vollständigen Analyse</a>
+        </div>
+
       </div>
     </section>
   </main>
