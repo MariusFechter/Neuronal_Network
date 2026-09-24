@@ -6,9 +6,9 @@
   <meta name="description" content="Kompakte Beschreibung deiner Seite für Suchmaschinen">
   <title>Neuronal Network | NeuroLab – Analyse</title>
 
-  <!-- LCP Preload für das Logo & Karussell-Cover -->
+  <!-- LCP Preload für Logo & Karussell-Cover -->
   <link rel="preload" as="image" href="analyse_logo_neuronal_network.webp" type="image/webp">
-  <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
+  <link rel="preload" fetchpriority="high" as="image" href="Cover.webp" type="image/webp">
 
   <!-- Favicon-Pfade -->
   <link rel="icon" href="favicon.png" type="image/png">
@@ -69,17 +69,17 @@
 
     /* Karussell Styles */
     .carousel-section {
-      margin-top: 1.5rem; /* Abstand zum Logo */
+      margin-top: 1.5rem;
     }
 
     .carousel-wrapper {
       position: relative;
       width: 100%;
-      max-width: 420px; /* Auf 420px vergrößert */
+      max-width: 420px;
       margin: 0 auto var(--spacing-carousel-bottom) auto;
       padding: 0;
       box-sizing: border-box;
-      overflow: visible; /* Verhindert das Abschneiden der herausragenden Pfeile */
+      overflow: visible;
     }
 
     .carousel-track {
@@ -118,7 +118,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(15, 23, 42, 0.85); /* Dunkler, kontrastreicher Kreis */
+      background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
       width: 38px;
@@ -134,7 +134,6 @@
       transition: all 0.2s ease;
     }
 
-    /* Pfeile leicht nach außen über den Bildrand ausgerückt */
     .nav-btn.prev { left: -15px; }
     .nav-btn.next { right: -15px; }
 
@@ -200,9 +199,20 @@
             </button>
 
             <div class="carousel-track" id="carouselTrack">
-              <div class="carousel-slide"><img src="Cover.webp" alt="Analyse Cover" width="634" height="896"></div>
-              <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Einblick 1" width="634" height="896"></div>
-              <div class="carousel-slide"><img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="634" height="896"></div>
+              <!-- Slide 1: LCP-Element -->
+              <div class="carousel-slide">
+                <img src="Cover.webp" alt="Analyse Cover" width="634" height="896" fetchpriority="high" decoding="async">
+              </div>
+
+              <!-- Slide 2: Lazy Loading -->
+              <div class="carousel-slide">
+                <img src="analyse_einblick.webp" alt="Einblick 1" width="634" height="896" loading="lazy" decoding="async">
+              </div>
+
+              <!-- Slide 3: Lazy Loading -->
+              <div class="carousel-slide">
+                <img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="634" height="896" loading="lazy" decoding="async">
+              </div>
             </div>
 
             <button class="nav-btn next" id="nextBtn" aria-label="Nächstes Bild">
@@ -226,7 +236,7 @@
     </div>
   </footer>
 
-  <!-- Karussell-Steuerung (Buttons & Dots Sync) -->
+  <!-- Karussell-Steuerung -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const track = document.getElementById('carouselTrack');
@@ -240,11 +250,9 @@
         const slideWidth = track.clientWidth;
         const index = Math.round(track.scrollLeft / slideWidth);
 
-        // Buttons ein-/ausblenden
         prevBtn.classList.toggle('hidden', index === 0);
         nextBtn.classList.toggle('hidden', index >= dots.length - 1);
 
-        // Aktiven Dot setzen
         dots.forEach((dot, i) => {
           dot.classList.toggle('active', i === index);
         });
