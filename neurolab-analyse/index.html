@@ -6,8 +6,9 @@
   <meta name="description" content="Kompakte Beschreibung deiner Seite für Suchmaschinen">
   <title>Neuronal Network | NeuroLab – Analyse</title>
 
-  <!-- LCP Preload für das Logo -->
+  <!-- LCP Preload für das Logo & Karussell-Cover -->
   <link rel="preload" as="image" href="analyse_logo_neuronal_network.webp" type="image/webp">
+  <link rel="preload" fetchpriority="high" as="image" href="analyse_cover.webp" type="image/webp">
 
   <!-- Favicon-Pfade -->
   <link rel="icon" href="favicon.png" type="image/png">
@@ -26,6 +27,7 @@
       --text-color: #f8fafc;
       --accent-color: #38bdf8;
       --max-width: 1080px;
+      --spacing-carousel-bottom: 12px;
     }
 
     body {
@@ -64,6 +66,97 @@
       width: auto;
       image-rendering: -webkit-optimize-contrast;
     }
+
+    /* Karussell Styles */
+    .carousel-section {
+      margin-top: 1.5rem; /* Abstand zum Logo */
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 315px;
+      margin: 0 auto var(--spacing-carousel-bottom) auto;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      border-radius: 8px;
+    }
+
+    .carousel-track::-webkit-scrollbar { 
+      display: none; 
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      border-left: 2px solid rgba(56, 182, 255, 0.3);
+      box-shadow: -8px 0 18px rgba(0, 0, 0, 0.9), 0 10px 25px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Navigation Buttons */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      transition: opacity 0.25s ease;
+    }
+    .nav-btn.prev { left: 8px; }
+    .nav-btn.next { right: 8px; }
+    .nav-btn.hidden { opacity: 0; pointer-events: none; }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.25);
+      border-radius: 50%;
+      transition: all 0.25s ease;
+    }
+
+    .dot.active {
+      background-color: #38b6ff;
+      box-shadow: 0 0 8px rgba(56, 182, 255, 0.6);
+      width: 20px;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -86,7 +179,30 @@
   <main>
     <section class="hero">
       <div class="container">
-        <!-- Hero Section -->
+        <!-- Preview Karussell -->
+        <div class="carousel-section">
+          <div class="carousel-wrapper">
+            <button class="nav-btn prev hidden" id="prevBtn" aria-label="Vorheriges Bild">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide"><img src="analyse_cover.webp" alt="Analyse Cover" width="600" height="800"></div>
+              <div class="carousel-slide"><img src="analyse_einblick.webp" alt="Einblick 1" width="600" height="800"></div>
+              <div class="carousel-slide"><img src="analyse_inhaltsverzeichnis.webp" alt="Einblick 2" width="600" height="800"></div>
+            </div>
+
+            <button class="nav-btn next" id="nextBtn" aria-label="Nächstes Bild">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <div class="carousel-dots" id="carouselDots">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -96,6 +212,42 @@
       <!-- Footer / Impressum / Datenschutz -->
     </div>
   </footer>
+
+  <!-- Karussell-Steuerung (Buttons & Dots Sync) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const track = document.getElementById('carouselTrack');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const dots = document.querySelectorAll('#carouselDots .dot');
+
+      if (!track) return;
+
+      const updateControls = () => {
+        const slideWidth = track.clientWidth;
+        const index = Math.round(track.scrollLeft / slideWidth);
+
+        // Buttons ein-/ausblenden
+        prevBtn.classList.toggle('hidden', index === 0);
+        nextBtn.classList.toggle('hidden', index >= dots.length - 1);
+
+        // Aktiven Dot setzen
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      };
+
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+      });
+
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+      });
+
+      track.addEventListener('scroll', updateControls, { passive: true });
+    });
+  </script>
 
 </body>
 </html>
