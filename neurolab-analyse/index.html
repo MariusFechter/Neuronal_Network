@@ -75,10 +75,11 @@
     .carousel-wrapper {
       position: relative;
       width: 100%;
-      max-width: 315px;
+      max-width: 420px; /* Auf 420px vergrößert */
       margin: 0 auto var(--spacing-carousel-bottom) auto;
-      padding: 0 10px;
+      padding: 0;
       box-sizing: border-box;
+      overflow: visible; /* Verhindert das Abschneiden der herausragenden Pfeile */
     }
 
     .carousel-track {
@@ -99,7 +100,7 @@
       flex: 0 0 100%;
       width: 100%;
       scroll-snap-align: start;
-      padding: 5px;
+      padding: 0;
       box-sizing: border-box;
     }
 
@@ -117,23 +118,35 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.85); /* Dunkler, kontrastreicher Kreis */
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-      transition: opacity 0.25s ease;
+      z-index: 20;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s ease;
     }
-    .nav-btn.prev { left: 8px; }
-    .nav-btn.next { right: 8px; }
-    .nav-btn.hidden { opacity: 0; pointer-events: none; }
+
+    /* Pfeile leicht nach außen über den Bildrand ausgerückt */
+    .nav-btn.prev { left: -15px; }
+    .nav-btn.next { right: -15px; }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .nav-btn.hidden { 
+      opacity: 0; 
+      pointer-events: none; 
+    }
 
     /* Dots */
     .carousel-dots {
