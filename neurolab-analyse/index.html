@@ -244,6 +244,55 @@
     .btn-primary:active {
       transform: translateY(0);
     }
+
+    /* Trennlinie & Beschreibungstext */
+    .section-divider {
+      border: 0;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.1);
+      margin: 2rem 0 1.75rem 0;
+    }
+
+    .product-description {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .product-description p {
+      margin-bottom: 1.1rem;
+    }
+
+    .description-heading {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.01em;
+    }
+
+    .lead-text {
+      color: #f8fafc;
+      font-weight: 500;
+      font-size: 0.98rem;
+    }
+
+    .quote-box {
+      border-left: 2px solid var(--accent-color);
+      padding: 0.85rem 1rem;
+      margin: 1.5rem 0;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .quote-title {
+      color: var(--accent-color);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem !important;
+    }
   </style>
 </head>
 <body>
@@ -314,6 +363,33 @@
           </div>
 
           <a href="#checkout" class="btn-primary">Zugang zur vollständigen Analyse</a>
+
+          <!-- Dezentere Trennlinie -->
+          <hr class="section-divider">
+
+          <!-- Produktbeschreibung -->
+          <div class="product-description">
+            <h2 class="description-heading">Diese Analyse macht sichtbar:</h2>
+
+            <p class="lead-text">
+              Wie unbewusste neuropsychologische Prozesse in veränderten Bewusstseinszuständen deine Wahrnehmung, Entscheidungen und dein Verhalten beeinflussen.
+            </p>
+
+            <p>Viele dieser Prozesse laufen automatisch ab – bevor du es überhaupt merkst.</p>
+
+            <p>Du fühlst dich in diesen Zuständen nicht zufällig anders: In solchen Momenten verschiebt sich die Art, wie dein Gehirn Informationen verarbeitet und Situationen bewertet.</p>
+
+            <p>Wenn du diese Muster einmal verstehst, verändert sich dein Blick auf dich selbst – und auf die Menschen um dich herum.</p>
+
+            <p>Du reagierst nicht mehr nur auf das diffuse Gefühl <em>(„Ich bin halt irgendwie enthemmt“)</em>, sondern begreifst die Neurobiologie dahinter – wie Dopamin, GABA und dein präfrontaler Cortex zusammenspielen.</p>
+
+            <div class="quote-box">
+              <p class="quote-title">Und das entlastet:</p>
+              <p>Aus <em>„Was stimmt gerade nicht mit mir?“</em> wird <strong>„Ah, ich verstehe, was in meinem Gehirn gerade abläuft.“</strong></p>
+            </div>
+
+            <p>Das gibt dir ein Stück deiner inneren Sicherheit zurück, weil deine Reaktionen und die der anderen plötzlich vollkommen nachvollziehbar und erklärbar sind.</p>
+          </div>
         </div>
 
       </div>
