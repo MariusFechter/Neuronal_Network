@@ -137,7 +137,7 @@
 
     .nav-btn:hover {
       transform: translateY(-50%) scale(1.15);
-      color: #ffffff; /* Bleibt weiß */
+      color: #ffffff;
     }
 
     .nav-btn.hidden { 
@@ -168,7 +168,7 @@
       border-radius: 4px;
     }
 
-    /* Produkt Details (Payhip / Variante 1 Style) */
+    /* Produkt Details */
     .product-details {
       max-width: 420px;
       margin: 1.75rem auto 0 auto;
@@ -246,12 +246,12 @@
     }
 
     /* Kleinere Überschriften für Zusatz-Informationen */
-.info-heading {
-  font-size: 0.95rem; /* Kleiner als die Hauptüberschriften (1.15rem) */
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.25rem;
-}
+    .info-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
 
     /* Trennlinie & Beschreibungstext */
     .section-divider {
@@ -294,6 +294,40 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 0.25rem !important;
+    }
+
+    /* Footer Styles */
+    .site-footer {
+      max-width: 420px;
+      margin: 2rem auto 3rem auto;
+      text-align: left;
+    }
+
+    .disclaimer-text {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #64748b;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    .footer-link {
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -353,7 +387,7 @@
           </div>
         </div>
 
-        <!-- Produkt-Details (Payhip-Stil / Variante 1) -->
+        <!-- Produkt-Details -->
         <div class="product-details">
           <span class="product-category">Neuropsychologische Analyse</span>
           <h1 class="product-title">Rausch oder Realität?</h1>
@@ -366,7 +400,6 @@
 
           <a href="#checkout" class="btn-primary">Zugang zur vollständigen Analyse</a>
 
-          <!-- Dezentere Trennlinie -->
           <hr class="section-divider">
 
           <!-- Produktbeschreibung -->
@@ -377,7 +410,7 @@
               wie unbewusste neuropsychologische Prozesse in veränderten Bewusstseinszuständen deine Wahrnehmung, Entscheidungen und dein Verhalten beeinflussen.
             </p>
 
-            <p><strong style="color: white;" >Du fühlst dich in diesen Zuständen nicht zufällig anders:</strong> <br> In diesen Momenten verändert sich neurochemisch, wie dein Gehirn Informationen verarbeitet und Situationen bewertet.</p>
+            <p><strong style="color: white;">Du fühlst dich in diesen Zuständen nicht zufällig anders:</strong> <br> In diesen Momenten verändert sich neurochemisch, wie dein Gehirn Informationen verarbeitet und Situationen bewertet.</p>
 
             <hr class="section-divider">
 
@@ -388,15 +421,15 @@
 
             <p>Du erlebst nicht mehr nur auf das diffuse Gefühl von <br> „Ich bin halt gerade irgendwie enthemmter“, <br> sondern begreifst die Neuropsychologie dahinter – <br> wie Dopamin, GABA und dein präfrontaler Cortex innerhalb von Millisekunden ineinadergreifen.</p>
 
-       <p>
-  <strong style="color: white;">Und das entlastet:</strong><br>
-  Aus  „Was stimmt gerade nicht mit mir?“ <br> wird<br>
-  „Ah, ich verstehe, was da gerade in meinem Gehirn abläuft.“
-  
-  <span style="display: block; margin-top: 0.6rem;">
-    Das gibt dir ein Stück deiner inneren Sicherheit zurück, weil deine Reaktionen und die der anderen plötzlich nachvollziehbar und erklärbar werden.
-  </span>
-</p>
+            <p>
+              <strong style="color: white;">Und das entlastet:</strong><br>
+              Aus „Was stimmt gerade nicht mit mir?“ <br> wird<br>
+              „Ah, ich verstehe, was da gerade in meinem Gehirn abläuft.“
+              
+              <span style="display: block; margin-top: 0.6rem;">
+                Das gibt dir ein Stück deiner inneren Sicherheit zurück, weil deine Reaktionen und die der anderen plötzlich nachvollziehbar und erklärbar werden.
+              </span>
+            </p>
             <hr class="section-divider">
 
             <h2 class="description-heading">Die 5 analysierten Zustandsprofile</h2>
@@ -445,9 +478,18 @@
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <!-- Footer / Impressum / Datenschutz -->
+  <footer class="site-footer">
+    <div class="container" style="padding-left: 0; padding-right: 0;">
+      <hr class="section-divider" style="margin-bottom: 1.25rem;">
+      
+      <p class="disclaimer-text">
+        Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention. Keine medizinische, therapeutische oder praktische Empfehlung.
+      </p>
+
+   <div class="footer-links">
+  <a href="https://www.neuronalnetwork.de/impressum/" target="_blank" rel="noopener noreferrer" class="footer-link">Impressum</a>
+  <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" class="footer-link">Datenschutzerklärung</a>
+</div>
     </div>
   </footer>
 
