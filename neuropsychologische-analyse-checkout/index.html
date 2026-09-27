@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -39,14 +41,14 @@
         /* Produkt-Header im Checkout */
         .checkout-header {
             text-align: left;
-            margin-bottom: 25px;
+            margin-bottom: 0; /* Auf 0 gesetzt, damit der Abstand zur Linie kompakt bleibt */
             width: 100%;
         }
-        /* Cover jetzt linksbündig statt zentriert, wie auf der LP */
+        
         .checkout-cover-wrapper {
             width: 100%;
             max-width: 140px;
-            margin: 0 0 16px 0;
+            margin: 14px 0 16px 0; /* 14px Abstand nach oben zum Titel */
         }
         .checkout-cover-wrapper img {
             width: 100%;
@@ -75,17 +77,18 @@
             height: 1px;
             background-color: rgba(255, 255, 255, 0.08);
             width: 100%;
-            margin: 20px 0;
+            margin: 14px 0; /* Kompakterer Abstand über/unter der Trennlinie */
         }
 
-        /* Trust-Facts-Block: gleicher dünner blauer Strich wie beim Cover-Rahmen */
-        .trust-facts-block {
-            width: 100%;
-            box-sizing: border-box;
-            border-left: 2px solid rgba(56, 182, 255, 0.3);
-            padding: 16px 0 16px 16px;
-            margin-top: 20px;
-        }
+        /* Trust-Facts-Block */
+   .trust-facts-block {
+    width: 100%;
+    box-sizing: border-box;
+    border-left: 2px solid rgba(56, 182, 255, 0.3);
+    padding: 0 0 0 16px;       /* Oben und unten 0px, damit der Strich exakt mit der Schrift abschließt */
+    margin-top: 20px;
+    margin-bottom: 0px;       /* <- HIER DEN ABSTAND ZUR TRENNLINIE / ZUM FORMULAR EINSTELLEN */
+}
 
         .trust-fact-text {
             color: #999999;
@@ -101,7 +104,7 @@
         }
 
         .trust-fact-price .amount {
-            color: #ff9900;
+            color: white;
         }
 
         .trust-fact-price .details {
@@ -127,10 +130,11 @@
             flex-shrink: 0;
         }
 
-        .trust-fact-icon-line span {
-            color: #999999;
-            font-size: 13px;
-        }
+    .trust-fact-icon-line span {
+    color: #cbd5e1; /* Helle, gut lesbare Schrift wie beim letzten Punkt */
+    font-size: 13px;
+    font-style: normal;
+}
 
         .trust-fact-icon-line span.discreet {
             color: #777777;
@@ -153,18 +157,10 @@
             text-align: left;
         }
 
-        .legal-disclaimer {
-            margin: 0;
-            color: #777777;
-            font-size: 13px;
-            font-style: italic;
-            line-height: 1.6;
-        }
-
         .legal-links {
             display: flex;
             gap: 25px;
-            margin-top: 25px;
+            margin-top: 10px;
         }
 
         .legal-links a {
@@ -187,28 +183,40 @@
     <div class="container">
         <!-- Header mit linksbündigem Cover und Text -->
         <div class="checkout-header">
-            <div class="checkout-cover-wrapper">
-                <img src="Cover.webp" alt="Analyse Cover" width="300" height="400">
-            </div>
             <div class="product-kicker">Neuropsychologische Analyse</div>
             <h1 class="product-title">Rausch oder Realität?</h1>
 
-            <!-- Trust-Facts-Block: Fakten, Preis, Garantie, Diskretion -->
-            <div class="trust-facts-block">
-                <p class="trust-fact-text">25 Seiten · 27 Quellen · Sofortiger digitaler Zugriff</p>
-                <p class="trust-fact-price"><span class="amount">15 €</span> <span class="details">einmalig · kein Abo · keine Folgekosten</span></p>
-
-                <div class="trust-fact-icon-line">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    <span>14 Tage Geld-zurück-Garantie</span>
-                </div>
-                <div class="trust-fact-icon-line">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
-                    <span class="discreet">Diskreter Kauf · neutraler Abbuchungstext</span>
-                </div>
+            <div class="checkout-cover-wrapper">
+                <img src="Cover.webp" alt="Analyse Cover" width="300" height="400">
             </div>
+
+<!-- Trust-Facts-Block: Fakten, Preis, Garantie, Diskretion -->
+<div class="trust-facts-block">
+    <p class="trust-fact-text">25 Seiten digitale Analyse · Basierend auf 27 Studien</p>
+    <p class="trust-fact-price"><span class="amount">15 €</span> <span class="details">einmalig · kein Abo · keine Folgekosten</span></p>
+    <!-- 2. Schloss Icon -->
+    <div class="trust-fact-icon-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+        <span>100% diskreter Kauf · neutraler Kontoauszug</span>
+    </div>
+    <!-- 1. Schild Icon -->
+    <div class="trust-fact-icon-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>14 Tage Geld-zurück-Garantie</span>
+    </div>
+
+
+
+    <!-- 3. Blitz Icon -->
+    <div class="trust-fact-icon-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>Sofort-Download & E-Mail-Versand</span>
+    </div>
+</div>
         </div>
+
         <div class="divider"></div>
+
         <!-- HIER WIRD DAS STRIPE FORMULAR GERENDERT -->
         <div id="checkout"></div>
 
