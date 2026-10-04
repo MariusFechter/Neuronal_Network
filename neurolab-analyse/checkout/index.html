@@ -8,6 +8,8 @@
     <meta name="color-scheme" content="dark">
     <title>Checkout | Neuronal Network | NeuroLab – Analyse</title>
 
+    <link rel="preload" as="image" href="../analyse_logo_neuronal_network.webp" type="image/webp">
+
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png.png">
 
@@ -25,15 +27,146 @@
         body {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        /* Header & Logo Styling (1:1 von der LP) */
+        .container {
+            width: 100%;
+            max-width: 1080px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .site-header {
+            padding: 0.3rem 0 0rem 0;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: flex-start;
+        }
+
+        .brand-logo img {
+            display: block;
+            height: auto;
+            max-height: 45px;
+            width: auto;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .checkout-container {
             width: 100%;
             max-width: 500px;
-            padding: 40px 20px;
+            padding: 16px 20px 40px 20px;
             box-sizing: border-box;
+        }
+
+        /* Produkt-Header: Cover links, Texte rechts */
+        .product-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .product-cover {
+            flex: 0 0 112px;
+            width: 112px;
+        }
+
+        .product-cover img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            border-left: 2px solid rgba(56, 182, 255, 0.3);
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.9), 0 6px 18px rgba(0, 0, 0, 0.8);
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-kicker {
+            font-size: 10px;
+            font-weight: 700;
+            color: #8F8F96;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.3;
+            margin: 0 0 25px 0;
+        }
+
+        .trust-fact-text {
+            color: #999999;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0 0 8px 0;
+        }
+
+        .trust-fact-price {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        /* Trust-Zeilen mit Icons */
+        .trust-facts-block {
+            width: 100%;
+            box-sizing: border-box;
+            border-left: 2px solid rgba(56, 182, 255, 0.3);
+            padding: 0 0 0 16px;
+            margin-top: 20px;
+        }
+
+        .trust-fact-icon-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .trust-fact-icon-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .trust-fact-icon-line svg {
+            width: 14px;
+            height: 14px;
+            stroke: #666666;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        .trust-fact-icon-line span {
+            color: #cbd5e1;
+            font-size: 13px;
+            font-style: normal;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            width: 100%;
+            margin: 16px 0 4px 0;
         }
 
         .field-label { display:block; font-size:14px; margin:20px 0 8px; color:#a1a1aa; }
@@ -41,43 +174,92 @@
             width:100%; box-sizing:border-box; padding:12px; font-size:16px;
             background:#0a0a0a; color:#fff; border:1px solid #2a2a2a; border-radius:8px;
         }
-        #express-checkout { margin-bottom:8px; }
+        #express-checkout { margin-top:16px; margin-bottom:8px; }
         #pay-btn {
             width:100%; margin-top:20px; padding:16px; font-size:16px; font-weight:600;
-            color:#000; background:#fff; border:0; border-radius:8px; cursor:pointer;
+            color:#0f172a; background:#f8fafc; border:0; border-radius:8px; cursor:pointer;
         }
         #pay-btn:disabled { opacity:.5; cursor:default; }
         #error { color:#f87171; font-size:14px; margin-top:12px; min-height:20px; }
         .legal { font-size:12px; color:#a1a1aa; margin-top:16px; line-height:1.5; }
         .legal a { color:#a1a1aa; }
     </style>
-    
 </head>
 <body>
 
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="/" class="brand-logo">
+                <img
+                    src="../analyse_logo_neuronal_network.webp"
+                    alt="Neuronal Network Logo"
+                    width="120"
+                    height="120"
+                    loading="eager"
+                    decoding="async"
+                >
+            </a>
+        </div>
+    </header>
+
     <div class="checkout-container">
+  <div class="product-kicker">Neuropsychologische Analyse</div>
+                <h1 class="product-title">Rausch oder Realität?</h1>
+        <!-- Produkt-Header: Cover links, Texte daneben -->
+        <div class="product-header">
+            <div class="product-cover">
+                <img src="../cover_1.webp" alt="Analyse Cover" width="634" height="896">
+            </div>
+            <div class="product-info">
+                <p class="trust-fact-price">25 Seiten digitale Analyse  </p>
+                <p class="trust-fact-text">  · Basierend auf 27 Studien <br> · Quellen im Anhang nachprüfbar</p>
+                <p class="trust-fact-price">15,00 € (inkl. MwSt.) </p>
+                     <p class="trust-fact-text">· kein Abo <br>· keine Folgekosten</p>
+                          <p class="trust-fact-price">Inklusive künftiger Erweiterungen </p>
+            </div>
+        </div>
+
+        <!-- Trust-Zeilen -->
+        <div class="trust-facts-block">
+            <div class="trust-fact-icon-line">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                <span>100% diskreter Kauf (neutraler Kontoauszug)</span>
+            </div>
+            <div class="trust-fact-icon-line">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <span>14 Tage Geld-zurück-Garantie</span>
+            </div>
+            <div class="trust-fact-icon-line">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Sofort-Download &amp; E-Mail-Versand (versandkostenfrei)</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Zahlung -->
         <div id="express-checkout"></div>
 
-        <label class="field-label" for="email">E-Mail (hier schicken wir dir den Download)</label>
+        <label class="field-label" for="email">E-Mail-Adresse (für die Zustellung der Analyse)</label>
         <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="email@beispiel.de">
 
         <label class="field-label">Zahlungsmethode</label>
         <div id="payment-element"></div>
 
-        <button id="pay-btn" type="button">Zahlungspflichtig bestellen</button>
+        <button id="pay-btn" type="button">Die Analyse Zahlungspflichtig freischalten</button>
         <div id="error" role="alert"></div>
 
-      <p class="legal">
-  Du zahlst einmalig 15,00 € (inkl. MwSt.). Kein Abo, keine Folgekosten.<br>
-  Es gelten unsere <a href="/agb" target="_blank">AGB</a>. Hier findest du die
-  <a href="/widerruf" target="_blank">Widerrufsbelehrung</a> und die
-  <a href="/datenschutz" target="_blank">Datenschutzerklärung</a>.
-  Du kannst innerhalb von 14 Tagen widerrufen.
-</p>
-<p class="legal">Sicherer und verschlüsselter Bezahlvorgang über Stripe.</p>
+        <p class="legal">
+            Du zahlst einmalig 15,00 € (inkl. MwSt.). Kein Abo, keine Folgekosten.<br>
+            Es gelten unsere <a href="/agb" target="_blank">AGB</a>. Hier findest du die
+            <a href="/widerruf" target="_blank">Widerrufsbelehrung</a> und die
+            <a href="/datenschutz" target="_blank">Datenschutzerklärung</a>.
+            Du kannst innerhalb von 14 Tagen widerrufen.
+        </p>
+        <p class="legal">Sicherer und verschlüsselter Bezahlvorgang über Stripe.</p>
     </div>
 
-<script> 
+<script>
 const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
 const BACKEND_URL = 'https://DEIN-BACKEND/create-payment-intent';
 const RETURN_URL  = 'https://www.neuronalnetwork.de/neurolab-analyse/danke/';
