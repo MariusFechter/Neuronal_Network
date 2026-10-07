@@ -183,6 +183,48 @@
         #error { color:#f87171; font-size:14px; margin-top:12px; min-height:20px; }
         .legal { font-size:12px; color:#a1a1aa; margin-top:16px; line-height:1.5; }
         .legal a { color:#a1a1aa; }
+
+        /* Footer Styles – Variante 6: zentriert, reduziert, editorial */
+        .site-footer {
+            max-width: 420px;
+            width: 100%;
+            margin: 1.5rem auto 2.5rem auto;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.12);
+            margin-bottom: 1.4rem;
+        }
+
+        .footer-links-row {
+            font-size: 0.656rem;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #8a909c;
+            line-height: 2.1;
+        }
+
+        .footer-links-row a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .footer-links-row a:hover {
+            color: #ffffff;
+        }
+
+        .footer-brand-name {
+            margin-top: 1rem;
+            font-size: 0.625rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #4b5563;
+        }
     </style>
 </head>
 <body>
@@ -248,16 +290,20 @@
 
         <button id="pay-btn" type="button">Die Analyse Zahlungspflichtig freischalten</button>
         <div id="error" role="alert"></div>
-
-        <p class="legal">
-            Du zahlst einmalig 15,00 € (inkl. MwSt.). Kein Abo, keine Folgekosten.<br>
-            Es gelten unsere <a href="/agb" target="_blank">AGB</a>. Hier findest du die
-            <a href="/widerruf" target="_blank">Widerrufsbelehrung</a> und die
-            <a href="/datenschutz" target="_blank">Datenschutzerklärung</a>.
-            Du kannst innerhalb von 14 Tagen widerrufen.
-        </p>
         <p class="legal">Sicherer und verschlüsselter Bezahlvorgang über Stripe.</p>
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-divider"></div>
+        <div class="footer-links-row">
+            <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
+            <a href="...">Datenschutz</a>&nbsp;&nbsp;
+            <a href="...">AGB</a><br>
+            <a href="...">Widerrufsbelehrung</a>&nbsp;&nbsp;
+            <a href="...">Vertrag widerrufen</a>
+        </div>
+        <div class="footer-brand-name">Neuronal Network</div>
+    </footer>
 
 <script>
 const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
