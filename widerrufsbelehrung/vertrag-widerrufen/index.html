@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
   <title>Vertrag widerrufen - Neuronal Network</title>
   
   <link rel="icon" type="image/png" href="favicon.png">
@@ -227,6 +228,26 @@
       line-height: 1.5;
     }
 
+    /* Honeypot (für Menschen unsichtbar) */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* Statusmeldung */
+    .form-status {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0 0 14px 0;
+      min-height: 1.2em;
+    }
+
+    .form-status.ok { color: #4ade80; }
+    .form-status.error { color: #f87171; }
+
     /* Absenden Button */
     .submit-btn {
       width: 100%;
@@ -247,6 +268,11 @@
 
     .submit-btn:active {
       transform: scale(0.99);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
     }
 
     .footer-note {
@@ -348,13 +374,13 @@
         <!-- Name -->
         <div class="form-group">
           <label for="fullName">Vollständiger Name <span class="required">*</span></label>
-          <input type="text" id="fullName" name="fullName" placeholder="Vor- und Nachname" required>
+          <input type="text" id="fullName" name="fullName" placeholder="Vor- und Nachname" autocomplete="name" required>
         </div>
 
         <!-- E-Mail -->
         <div class="form-group">
           <label for="email">E-Mail-Adresse für die Eingangsbestätigung <span class="required">*</span></label>
-          <input type="email" id="email" name="email" placeholder="name@beispiel.de" required>
+          <input type="email" id="email" name="email" placeholder="name@beispiel.de" autocomplete="email" required>
         </div>
 
         <!-- Abweichende E-Mail -->
@@ -393,6 +419,15 @@
           <p>Mit dem Absenden erkläre ich eindeutig, dass ich den oben bezeichneten Vertrag innerhalb der gesetzlichen Frist von <strong>14 Tagen widerrufen </strong>möchte.</p>
         </div>
 
+        <!-- Honeypot gegen Bots (nicht ausfüllen) -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- Statusmeldung -->
+        <p id="formStatus" class="form-status" role="alert" aria-live="polite"></p>
+
         <!-- Submit Button -->
         <button type="submit" class="submit-btn" id="submitBtn">Widerruf bestätigen</button>
         <p class="footer-note">Die Angaben werden ausschließlich zur Bearbeitung und Dokumentation deines Widerrufs verwendet.</p>
@@ -411,55 +446,66 @@
     <div class="footer-divider"></div>
     <div class="footer-links-row">
       <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
-      <a href="...">Datenschutz</a>&nbsp;&nbsp;
-      <a href="...">AGB</a><br>
-      <a href="...">Widerrufsbelehrung</a>&nbsp;&nbsp;
-      <a href="...">Vertrag widerrufen</a>
+      <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/">Datenschutz</a>&nbsp;&nbsp;
+      <a href="https://www.neuronalnetwork.de/agb/">AGB</a><br>
+      <a href="https://www.neuronalnetwork.de/widerruf/">Widerrufsbelehrung</a>&nbsp;&nbsp;
+      <a href="#">Vertrag widerrufen</a>
     </div>
     <div class="footer-brand-name">Neuronal Network</div>
   </footer>
 
-  <!-- JavaScript für Backend-Anbindung (fetch an API / Resend) -->
   <script>
-    document.getElementById('cancellationForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+    const WORKER_URL = 'https://contract-withdrawal-bridge.theneuronalnetwork.workers.dev/';
+    const form = document.getElementById('cancellationForm');
+    const btn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('formStatus');
 
-      const btn = document.getElementById('submitBtn');
-      btn.innerText = 'Wird übermittelt...';
+    function setStatus(msg, ok) {
+      statusEl.textContent = msg;
+      statusEl.className = 'form-status ' + (msg ? (ok ? 'ok' : 'error') : '');
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      setStatus('', true);
+      btn.textContent = 'Wird übermittelt...';
       btn.disabled = true;
 
-      // Daten sammeln
-      const formData = {
+      // Leere Felder bleiben leer, der Worker setzt die Platzhalter selbst.
+      // Der Zeitstempel kommt bewusst vom Server.
+      const payload = {
         fullName: document.getElementById('fullName').value,
         email: document.getElementById('email').value,
-        purchaseEmail: document.getElementById('purchaseEmail').value || document.getElementById('email').value,
+        purchaseEmail: document.getElementById('purchaseEmail').value,
         product: document.getElementById('product').value,
-        orderNumber: document.getElementById('orderNumber').value || 'Nicht angegeben',
-        purchaseDate: document.getElementById('purchaseDate').value || 'Nicht angegeben',
-        timestamp: new Date().toISOString()
+        orderNumber: document.getElementById('orderNumber').value,
+        purchaseDate: document.getElementById('purchaseDate').value,
+        website: document.getElementById('website').value
       };
 
       try {
-        // Hier deinen Backend-Endpunkt eintragen (z.B. Vercel, Node.js oder Serverless Function)
-        const response = await fetch('/api/cancellation', {
+        const res = await fetch(WORKER_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
+        const out = await res.json().catch(function () { return {}; });
 
-        if (response.ok) {
-          alert('Dein Widerruf wurde erfolgreich übermittelt. Eine Bestätigung ist per E-Mail unterwegs.');
-          document.getElementById('cancellationForm').reset();
+        if (res.ok && out.ok) {
+          let msg = 'Dein Widerruf wurde übermittelt.' + (out.ref ? ' Referenz: ' + out.ref + '.' : '');
+          msg += out.confirmation_sent === false
+            ? ' Die Bestätigungs-E-Mail konnte nicht zugestellt werden. Bitte mache einen Screenshot dieser Seite und prüfe deine E-Mail-Adresse.'
+            : ' Eine Eingangsbestätigung ist per E-Mail unterwegs.';
+          setStatus(msg, true);
+          form.reset();
         } else {
-          alert('Es gab ein Problem beim Übermitteln. Bitte versuche es später erneut oder kontaktiere uns per Mail.');
+          setStatus(out.error || 'Es gab ein Problem beim Übermitteln. Bitte versuche es später erneut oder schreibe an info@neuronalnetwork.de.', false);
         }
-      } catch (error) {
-        console.error('Fehler:', error);
-        alert('Netzwerkfehler. Bitte überprüfe deine Verbindung.');
+      } catch (err) {
+        console.error('Fehler:', err);
+        setStatus('Netzwerkfehler. Bitte überprüfe deine Verbindung und versuche es erneut.', false);
       } finally {
-        btn.innerText = 'Widerruf bestätigen';
+        btn.textContent = 'Widerruf bestätigen';
         btn.disabled = false;
       }
     });
