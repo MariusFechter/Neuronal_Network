@@ -310,39 +310,43 @@
       letter-spacing: 0.05em;
       margin-bottom: 0.25rem !important;
     }
-
-    /* Footer Styles */
+    /* Footer Styles – Variante 6: zentriert, reduziert, editorial */
     .site-footer {
       max-width: 420px;
       margin: 2rem auto 3rem auto;
-      text-align: left;
+      text-align: center;
     }
 
-    .disclaimer-text {
-      font-size: 0.78rem;
-      font-style: italic;
-      color: #64748b;
-      line-height: 1.55;
-      margin-bottom: 1.25rem;
+    .footer-divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.12);
+      margin-bottom: 1.4rem;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 1.75rem;
-      align-items: center;
+    .footer-links-row {
+      font-size: 0.656rem;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #8a909c;
+      line-height: 2.1;
     }
 
-    .footer-link {
-      color: #cbd5e1;
-      font-size: 0.88rem;
-      font-weight: 400;
+    .footer-links-row a {
+      color: inherit;
       text-decoration: none;
-      transition: color 0.2s ease;
     }
 
-    .footer-link:hover {
+    .footer-links-row a:hover {
       color: #ffffff;
-      text-decoration: underline;
+    }
+
+    .footer-brand-name {
+      margin-top: 1rem;
+      font-size: 0.625rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #4b5563;
     }
   </style>
 </head>
@@ -492,6 +496,8 @@
 
             <a href="#checkout" class="btn-primary" style="margin-top: 1.5rem;">Die Analyse jetzt für 15 € freischalten</a>
 
+          
+
           </div>
         </div>
 
@@ -500,18 +506,15 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container" style="padding-left: 0; padding-right: 0;">
-      <hr class="section-divider" style="margin-bottom: 1.25rem;">
-      
-      <p class="disclaimer-text">
-        Dieser Inhalt dient ausschließlich der wissenschaftlichen Aufklärung und Prävention.<br> Keine medizinische, therapeutische oder praktische Empfehlung.
-      </p>
-
-      <div class="footer-links">
-        <a href="https://www.neuronalnetwork.de/impressum/" class="footer-link">Impressum</a>
-        <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/" class="footer-link">Datenschutzerklärung</a>
-      </div>
+    <div class="footer-divider"></div>
+    <div class="footer-links-row">
+      <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
+      <a href="...">Datenschutz</a>&nbsp;&nbsp;
+      <a href="...">AGB</a><br>
+      <a href="...">Widerrufsbelehrung</a>&nbsp;&nbsp;
+      <a href="...">Vertrag widerrufen</a>
     </div>
+    <div class="footer-brand-name">Neuronal Network</div>
   </footer>
 
   <!-- Karussell-Steuerung -->
