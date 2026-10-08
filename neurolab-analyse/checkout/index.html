@@ -306,14 +306,78 @@
   </footer>
 
 <script>
+// ================= Konfiguration =================
+// Für den Livegang: pk_test -> pk_live (und im Worker sk_test -> sk_live + neuer Live-Webhook)
 const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
-const BACKEND_URL = 'https://DEIN-BACKEND/create-payment-intent';
-const RETURN_URL  = 'https://www.neuronalnetwork.de/neurolab-analyse/danke/';
 
+const WORKER      = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
+const RETURN_URL  = 'https://www.neuronalnetwork.de/neuropsychologische-analyse-zugang?p=analyse';
+const PIXEL_ID    = '1988847275335071';
+// Nur zur Anzeige. Der echte Preis kommt immer vom Worker (Katalog).
+const PRODUCT     = { id: 'analyse', name: 'Rausch oder Realität?', amount: 1500, currency: 'eur' };
+
+// Zentrale Stelle für die Einwilligung. Aktuell immer "ja" (bewusste Entscheidung).
+function hasConsent() { return true; }
+
+// ================= Tracking-Helfer =================
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return m ? decodeURIComponent(m[2]) : '';
+}
+// _fbc-Cookie, sonst aus fbclid in der URL bauen
+function getFbc() {
+  const c = getCookie('_fbc');
+  if (c) return c;
+  const id = new URLSearchParams(location.search).get('fbclid');
+  return id ? 'fb.1.' + Date.now() + '.' + id : '';
+}
+// Beim Vorrendern (Speculation Rules) keine Events senden, erst bei echter Aktivierung
+function whenActive(fn) {
+  if (document.prerendering) document.addEventListener('prerenderingchange', fn, { once: true });
+  else fn();
+}
+function initPixel() {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', PIXEL_ID);
+  fbq('track', 'PageView');
+}
+// Pixel erst nach dem Laden der Seite (keine Auswirkung auf FCP/LCP)
+window.addEventListener('load', function () {
+  whenActive(function () { if (hasConsent()) initPixel(); });
+});
+
+// AddPaymentInfo: einmal pro Seitenaufruf, Pixel + Server (gleiche event_id -> Deduplizierung)
+let paymentInfoSent = false;
+function trackAddPaymentInfo() {
+  if (paymentInfoSent || !hasConsent()) return;
+  paymentInfoSent = true;
+  const eventId = crypto.randomUUID();
+  if (typeof fbq === 'function') {
+    fbq('track', 'AddPaymentInfo', {
+      value: PRODUCT.amount / 100, currency: 'EUR',
+      content_ids: [PRODUCT.id], content_name: PRODUCT.name, content_type: 'product'
+    }, { eventID: eventId });
+  }
+  fetch(WORKER + '/track', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
+    body: JSON.stringify({
+      event_name: 'AddPaymentInfo', event_id: eventId, product_id: PRODUCT.id,
+      fbp: getCookie('_fbp'), fbc: getFbc(), event_source_url: location.href
+    })
+  }).catch(function () {});
+}
+
+// ================= Stripe Elements =================
 const elements = stripe.elements({
   mode: 'payment',
-  amount: 1500,          // nur Anzeige, der echte Preis wird serverseitig gesetzt
-  currency: 'eur',
+  amount: PRODUCT.amount,
+  currency: PRODUCT.currency,
   locale: 'de',
   appearance: {
     theme: 'night',
@@ -330,8 +394,9 @@ const elements = stripe.elements({
   }
 });
 
-// Express-Buttons (PayPal, Link, Apple/Google Pay, Amazon Pay)
+// Express-Buttons (PayPal, Apple/Google Pay). emailRequired: Wallets liefern die E-Mail sonst oft nicht mit.
 const express = elements.create('expressCheckout', {
+  emailRequired: true,
   buttonHeight: 48,
   buttonTheme: { applePay: 'white-outline' },
   paymentMethods: {
@@ -344,6 +409,10 @@ const express = elements.create('expressCheckout', {
   }
 });
 express.mount('#express-checkout');
+// Kein Wallet verfügbar -> leeren Bereich ausblenden
+express.on('ready', function (e) {
+  if (!e.availablePaymentMethods) document.getElementById('express-checkout').style.display = 'none';
+});
 
 // Zahlungsarten (Karte, Klarna, Lastschrift ...). E-Mail kommt aus dem eigenen Feld.
 const payment = elements.create('payment', {
@@ -351,19 +420,29 @@ const payment = elements.create('payment', {
   fields: { billingDetails: { email: 'never' } }
 });
 payment.mount('#payment-element');
+payment.on('change', function (e) { if (e.complete) trackAddPaymentInfo(); });
 
 const btn = document.getElementById('pay-btn');
 const errBox = document.getElementById('error');
-const showError = m => { errBox.textContent = m || ''; };
+const showError = function (m) { errBox.textContent = m || ''; };
+const pageEventId = crypto.randomUUID();
 
 async function createIntent(email) {
-  const r = await fetch(BACKEND_URL, {
+  const r = await fetch(WORKER + '/create-payment-intent', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
+    body: JSON.stringify({
+      product_id: PRODUCT.id,
+      email: email,
+      event_id: pageEventId,
+      fbp: getCookie('_fbp'),
+      fbc: getFbc(),
+      event_source_url: location.href
+    })
   });
-  if (!r.ok) throw new Error('Server nicht erreichbar');
-  return (await r.json()).clientSecret;
+  const out = await r.json().catch(function () { return {}; });
+  if (!r.ok || !out.clientSecret) throw new Error(out.error || 'Die Zahlung konnte nicht gestartet werden. Bitte versuche es erneut.');
+  return out.clientSecret;
 }
 
 async function pay(email) {
@@ -374,14 +453,13 @@ async function pay(email) {
     elements, clientSecret,
     confirmParams: {
       return_url: RETURN_URL,
-      receipt_email: email,
-      payment_method_data: { billing_details: { email } }
+      payment_method_data: { billing_details: { email: email } }
     }
   });
   if (error) throw error;
 }
 
-btn.addEventListener('click', async () => {
+btn.addEventListener('click', async function () {
   const email = document.getElementById('email').value.trim();
   if (!/^\S+@\S+\.\S+$/.test(email)) { showError('Bitte gib eine gültige E-Mail-Adresse ein.'); return; }
   showError(''); btn.disabled = true;
@@ -390,11 +468,12 @@ btn.addEventListener('click', async () => {
 });
 
 // Express-Zahlung: E-Mail liefert das Wallet selbst
-express.on('confirm', async (event) => {
+express.on('confirm', async function (event) {
   try {
     const { error: submitError } = await elements.submit();
     if (submitError) throw submitError;
-    const email = event.billingDetails?.email;
+    const email = event.billingDetails && event.billingDetails.email;
+    if (!email) throw new Error('Das Wallet hat keine E-Mail-Adresse übermittelt. Bitte nutze das Formular unten.');
     const clientSecret = await createIntent(email);
     const { error } = await stripe.confirmPayment({
       elements, clientSecret, confirmParams: { return_url: RETURN_URL }
