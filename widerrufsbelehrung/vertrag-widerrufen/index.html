@@ -397,6 +397,7 @@
               <option value="" disabled selected hidden>Bitte wähle dein Produkt aus...</option>
               <option value="Neuropsychologische Analyse">Neuropsychologische Analyse</option>
               <option value="Neuropsychologisches Lernsystem">Neuropsychologisches Lernsystem</option>
+              <option value="Beide Produkte">Beide Produkte</option>
             </select>
           </div>
           <p class="field-hint">Bitte wähle das entsprechende Produkt aus, das du widerrufen möchtest.</p>
@@ -425,6 +426,9 @@
           <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
         </div>
 
+        <!-- Turnstile (nur aktiv, wenn Site Key im Script eingetragen ist) -->
+        <div id="turnstile-box" style="margin-bottom:14px;"></div>
+
         <!-- Statusmeldung -->
         <p id="formStatus" class="form-status" role="alert" aria-live="polite"></p>
 
@@ -438,6 +442,7 @@
     <!-- Untere Info-Karte -->
     <div class="info-card">
       <p>Nach dem Absenden erhältst du eine Eingangsbestätigung an die von dir angegebene E-Mail-Adresse. Die Bestätigung enthält die übermittelten Angaben sowie Datum und Uhrzeit des Eingangs.</p>
+      <p style="margin-top:10px;">Alternativ kannst du deinen Widerruf auch formlos per E-Mail an <a href="mailto:info@neuronalnetwork.de" style="color:#cbd5e1;">info@neuronalnetwork.de</a> senden.</p>
     </div>
 
   </main>
@@ -448,39 +453,69 @@
       <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
       <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/">Datenschutz</a>&nbsp;&nbsp;
       <a href="https://www.neuronalnetwork.de/agb/">AGB</a><br>
-      <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/">Widerrufsbelehrung</a>&nbsp;&nbsp;
-      <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/vertrag-widerrufen/">Vertrag widerrufen</a>
+      <a href="https://www.neuronalnetwork.de/widerruf/">Widerrufsbelehrung</a>&nbsp;&nbsp;
+      <a href="#">Vertrag widerrufen</a>
     </div>
     <div class="footer-brand-name">Neuronal Network</div>
   </footer>
 
   <script>
     const WORKER_URL = 'https://contract-withdrawal-bridge.theneuronalnetwork.workers.dev/';
+    const TURNSTILE_SITE_KEY = ''; // Site Key hier eintragen, sobald Turnstile eingerichtet ist (leer = aus)
+
     const form = document.getElementById('cancellationForm');
     const btn = document.getElementById('submitBtn');
     const statusEl = document.getElementById('formStatus');
+    let turnstileWidgetId = null;
 
     function setStatus(msg, ok) {
       statusEl.textContent = msg;
       statusEl.className = 'form-status ' + (msg ? (ok ? 'ok' : 'error') : '');
     }
 
+    // Turnstile erst nach dem Laden der Seite nachladen
+    window.addEventListener('load', function () {
+      if (!TURNSTILE_SITE_KEY) return;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = function () {
+        turnstileWidgetId = turnstile.render('#turnstile-box', {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: 'dark',
+          appearance: 'interaction-only'
+        });
+      };
+      document.head.appendChild(s);
+    });
+
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       setStatus('', true);
+
+      let token = '';
+      if (TURNSTILE_SITE_KEY) {
+        token = (window.turnstile && turnstileWidgetId !== null) ? turnstile.getResponse(turnstileWidgetId) : '';
+        if (!token) {
+          setStatus('Die Sicherheitsprüfung läuft noch. Bitte versuche es in wenigen Sekunden erneut.', false);
+          return;
+        }
+      }
+
       btn.textContent = 'Wird übermittelt...';
       btn.disabled = true;
 
-      // Leere Felder bleiben leer, der Worker setzt die Platzhalter selbst.
-      // Der Zeitstempel kommt bewusst vom Server.
+      const email = document.getElementById('email').value;
+      // Leere Felder bleiben leer, der Worker setzt die Platzhalter selbst. Der Zeitstempel kommt bewusst vom Server.
       const payload = {
         fullName: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
+        email: email,
         purchaseEmail: document.getElementById('purchaseEmail').value,
         product: document.getElementById('product').value,
         orderNumber: document.getElementById('orderNumber').value,
         purchaseDate: document.getElementById('purchaseDate').value,
-        website: document.getElementById('website').value
+        website: document.getElementById('website').value,
+        turnstileToken: token
       };
 
       try {
@@ -492,10 +527,15 @@
         const out = await res.json().catch(function () { return {}; });
 
         if (res.ok && out.ok) {
-          let msg = 'Dein Widerruf wurde übermittelt.' + (out.ref ? ' Referenz: ' + out.ref + '.' : '');
-          msg += out.confirmation_sent === false
-            ? ' Die Bestätigungs-E-Mail konnte nicht zugestellt werden. Bitte mache einen Screenshot dieser Seite und prüfe deine E-Mail-Adresse.'
-            : ' Eine Eingangsbestätigung ist per E-Mail unterwegs.';
+          const ref = out.ref ? ' Referenz: ' + out.ref + '.' : '';
+          let msg;
+          if (out.duplicate) {
+            msg = 'Dein Widerruf liegt uns bereits vor.' + ref;
+          } else if (out.confirmation_sent === false) {
+            msg = 'Dein Widerruf wurde übermittelt.' + ref + ' Die Bestätigungs-E-Mail konnte nicht zugestellt werden. Bitte mache einen Screenshot dieser Seite und prüfe deine E-Mail-Adresse.';
+          } else {
+            msg = 'Dein Widerruf wurde übermittelt.' + ref + ' Eine Eingangsbestätigung ist an ' + email + ' unterwegs.';
+          }
           setStatus(msg, true);
           form.reset();
         } else {
@@ -507,6 +547,7 @@
       } finally {
         btn.textContent = 'Widerruf bestätigen';
         btn.disabled = false;
+        if (window.turnstile && turnstileWidgetId !== null) turnstile.reset(turnstileWidgetId);
       }
     });
   </script>
