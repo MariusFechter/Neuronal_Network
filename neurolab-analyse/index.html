@@ -12,17 +12,17 @@
 
   <!-- ===== Checkout-Performance: Chrome/Edge bekommt echtes Prerendering ===== -->
 
-  <script type"speculationrules">
-  {"prerender": [
+ <script type="speculationrules">
+{
+  "prerender": [
     {
-      "source": "document",
-      "where": {
-        "href_matches": "/*checkout*/" },
-      "eagerness":"immediate"
-         }
-    ]
-     }
-  </script> 
+      "urls": [
+        "/neurolab-analyse/checkout/"
+      ]
+    }
+  ]
+}
+</script>
           
 
   <!-- ===== Checkout-Performance: Safari/iOS (kein Prerendering) bekommt vorab Verbindungen ===== -->
