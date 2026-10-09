@@ -170,10 +170,13 @@
         }
 
         .field-label { display:block; font-size:14px; margin:20px 0 8px; color:#a1a1aa; }
-        #email {
+        #name, #email {
             width:100%; box-sizing:border-box; padding:12px; font-size:16px;
             background:#0a0a0a; color:#fff; border:1px solid #2a2a2a; border-radius:8px;
+            font-family: inherit;
         }
+        #name::placeholder, #email::placeholder { color:#52525b; }
+        #name:focus, #email:focus { outline:none; border-color:#3b82f6; }
         #express-checkout { margin-top:16px; margin-bottom:8px; }
         #pay-btn {
             width:100%; margin-top:20px; padding:16px; font-size:16px; font-weight:600;
@@ -281,6 +284,9 @@
 
         <!-- Zahlung -->
         <div id="express-checkout"></div>
+
+        <label class="field-label" for="name">Vollständiger Name</label>
+        <input id="name" type="text" autocomplete="name" placeholder="Vor- und Nachname">
 
         <label class="field-label" for="email">E-Mail-Adresse (für die Zustellung der Analyse)</label>
         <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="email@beispiel.de">
@@ -427,13 +433,14 @@ const errBox = document.getElementById('error');
 const showError = function (m) { errBox.textContent = m || ''; };
 const pageEventId = crypto.randomUUID();
 
-async function createIntent(email) {
+async function createIntent(email, name) {
   const r = await fetch(WORKER + '/create-payment-intent', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       product_id: PRODUCT.id,
       email: email,
+      name: name,
       event_id: pageEventId,
       fbp: getCookie('_fbp'),
       fbc: getFbc(),
@@ -445,25 +452,27 @@ async function createIntent(email) {
   return out.clientSecret;
 }
 
-async function pay(email) {
+async function pay(email, name) {
   const { error: submitError } = await elements.submit();
   if (submitError) throw submitError;
-  const clientSecret = await createIntent(email);
+  const clientSecret = await createIntent(email, name);
   const { error } = await stripe.confirmPayment({
     elements, clientSecret,
     confirmParams: {
       return_url: RETURN_URL,
-      payment_method_data: { billing_details: { email: email } }
+      payment_method_data: { billing_details: { email: email, name: name } }
     }
   });
   if (error) throw error;
 }
 
 btn.addEventListener('click', async function () {
+  const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
+  if (name.length < 2) { showError('Bitte gib deinen vollständigen Namen ein.'); return; }
   if (!/^\S+@\S+\.\S+$/.test(email)) { showError('Bitte gib eine gültige E-Mail-Adresse ein.'); return; }
   showError(''); btn.disabled = true;
-  try { await pay(email); }
+  try { await pay(email, name); }
   catch (e) { showError(e.message || 'Zahlung fehlgeschlagen.'); btn.disabled = false; }
 });
 
@@ -473,8 +482,9 @@ express.on('confirm', async function (event) {
     const { error: submitError } = await elements.submit();
     if (submitError) throw submitError;
     const email = event.billingDetails && event.billingDetails.email;
+    const name = (event.billingDetails && event.billingDetails.name) || '';
     if (!email) throw new Error('Das Wallet hat keine E-Mail-Adresse übermittelt. Bitte nutze das Formular unten.');
-    const clientSecret = await createIntent(email);
+    const clientSecret = await createIntent(email, name);
     const { error } = await stripe.confirmPayment({
       elements, clientSecret, confirmParams: { return_url: RETURN_URL }
     });
