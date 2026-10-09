@@ -10,6 +10,24 @@
   <link rel="preload" as="image" href="analyse_logo_neuronal_network.webp" type="image/webp">
   <link rel="preload" fetchpriority="high" as="image" href="cover_1.webp" type="image/webp">
 
+  <!-- ===== Checkout-Performance: Chrome/Edge bekommt echtes Prerendering ===== -->
+  <!-- "moderate": startet erst bei Hover/Touch auf den CTA, nicht sofort beim Laden der LP -->
+  <script type="speculationrules">
+  {
+    "prerender": [
+      {
+        "source": "list",
+        "urls": ["https://www.neuronalnetwork.de/neurolab-analyse/checkout/"],
+        "eagerness": "moderate"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ===== Checkout-Performance: Safari/iOS (kein Prerendering) bekommt vorab Verbindungen ===== -->
+  <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+  <link rel="preconnect" href="https://stripe-checkout-bridge.theneuronalnetwork.workers.dev" crossorigin>
+
   <!-- Favicon-Pfade -->
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -548,6 +566,31 @@
 
       track.addEventListener('scroll', updateControls, { passive: true });
     });
+  </script>
+
+  <!-- ===== Checkout-Performance: Safari/iOS-Fallback ===== -->
+  <!-- Speculation Rules (oben im <head>) wird nur von Chrome/Edge ausgeführt.
+       Safari ignoriert das <script type="speculationrules">-Tag stillschweigend,
+       deshalb hier zusätzlich ein "Warmlaufen" der Checkout-Seite per normalem fetch,
+       sobald der Finger/Mauszeiger den CTA berührt, also kurz bevor wirklich geklickt wird.
+       Das funktioniert in jedem Browser, weil es nur ein ganz normaler Request ist,
+       der den HTTP-Cache vorab füllt. -->
+  <script>
+    (function () {
+      var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
+      var warmed = false;
+
+      function warmCheckout() {
+        if (warmed) return;
+        warmed = true;
+        fetch(CHECKOUT_URL, { priority: 'low' }).catch(function () {});
+      }
+
+      document.querySelectorAll('a[href="' + CHECKOUT_URL + '"]').forEach(function (el) {
+        el.addEventListener('touchstart', warmCheckout, { passive: true, once: true });
+        el.addEventListener('mouseenter', warmCheckout, { once: true });
+      });
+    })();
   </script>
 
 </body>
