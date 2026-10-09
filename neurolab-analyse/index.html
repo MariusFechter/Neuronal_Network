@@ -11,17 +11,19 @@
   <link rel="preload" fetchpriority="high" as="image" href="cover_1.webp" type="image/webp">
 
   <!-- ===== Checkout-Performance: Chrome/Edge bekommt echtes Prerendering ===== -->
-  <script type="speculationrules">
-  {
-    "prerender": [
-      {
-        "source": "list",
-        "urls": ["https://www.neuronalnetwork.de/neurolab-analyse/checkout/"],
-        "eagerness": "immediate"
-      }
-    ]
-  }
-  </script>
+
+
+      <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": "https://www.neuronalnetwork.de/neurolab-analyse/checkout/"
+          
+        }
+      ]
+    }
+    </script>
 
   <!-- ===== Checkout-Performance: Safari/iOS (kein Prerendering) bekommt vorab Verbindungen ===== -->
   <link rel="preconnect" href="https://js.stripe.com" crossorigin>
