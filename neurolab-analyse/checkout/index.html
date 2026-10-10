@@ -400,33 +400,45 @@ const elements = stripe.elements({
   }
 });
 
-// Express-Buttons (PayPal, Apple/Google Pay). emailRequired: Wallets liefern die E-Mail sonst oft nicht mit.
-const express = elements.create('expressCheckout', {
-  emailRequired: true,
-  buttonHeight: 48,
-  buttonTheme: { applePay: 'white-outline' },
-  paymentMethods: {
-    paypal: 'auto',
-    applePay: 'auto',
-    googlePay: 'auto',
-    link: 'never',
-    amazonPay: 'never',
-    klarna: 'never'
-  }
-});
-express.mount('#express-checkout');
-// Kein Wallet verfügbar -> leeren Bereich ausblenden
-express.on('ready', function (e) {
-  if (!e.availablePaymentMethods) document.getElementById('express-checkout').style.display = 'none';
-});
-
 // Zahlungsarten (Karte, Klarna, Lastschrift ...). E-Mail kommt aus dem eigenen Feld.
+// Wird ZUERST gemountet, damit beim Aktivieren einer vorgerenderten Seite nicht alle
+// Zahlungs-iFrames (Karte + Wallets) im selben Moment anfragen, sondern gestaffelt.
 const payment = elements.create('payment', {
   layout: { type: 'accordion', defaultCollapsed: false, radios: true, spacedAccordionItems: false },
   fields: { billingDetails: { email: 'never' } }
 });
 payment.mount('#payment-element');
 payment.on('change', function (e) { if (e.complete) trackAddPaymentInfo(); });
+
+// Express-Buttons (PayPal, Apple/Google Pay) erst einen Frame später mounten.
+// Grund: Chrome lädt Cross-Origin-iFrames in vorgerenderten Seiten ohnehin erst bei
+// Aktivierung (Klick) - das können wir nicht beschleunigen. Wir können aber verhindern,
+// dass Karte UND alle Wallets gleichzeitig im selben Moment ihre iFrames anfordern,
+// indem wir die Wallet-Buttons minimal später initialisieren als das Kartenformular.
+let express;
+requestAnimationFrame(function () {
+  requestAnimationFrame(function () {
+    express = elements.create('expressCheckout', {
+      emailRequired: true,
+      buttonHeight: 48,
+      buttonTheme: { applePay: 'white-outline' },
+      paymentMethods: {
+        paypal: 'auto',
+        applePay: 'auto',
+        googlePay: 'auto',
+        link: 'never',
+        amazonPay: 'never',
+        klarna: 'never'
+      }
+    });
+    express.mount('#express-checkout');
+    // Kein Wallet verfügbar -> leeren Bereich ausblenden
+    express.on('ready', function (e) {
+      if (!e.availablePaymentMethods) document.getElementById('express-checkout').style.display = 'none';
+    });
+    express.on('confirm', onExpressConfirm);
+  });
+});
 
 const btn = document.getElementById('pay-btn');
 const errBox = document.getElementById('error');
@@ -476,8 +488,9 @@ btn.addEventListener('click', async function () {
   catch (e) { showError(e.message || 'Zahlung fehlgeschlagen.'); btn.disabled = false; }
 });
 
-// Express-Zahlung: E-Mail liefert das Wallet selbst
-express.on('confirm', async function (event) {
+// Express-Zahlung: E-Mail liefert das Wallet selbst (Funktion wird oben beim verzögerten
+// Mounten des Express-Checkout-Elements als 'confirm'-Handler registriert)
+async function onExpressConfirm(event) {
   try {
     const { error: submitError } = await elements.submit();
     if (submitError) throw submitError;
@@ -490,7 +503,7 @@ express.on('confirm', async function (event) {
     });
     if (error) throw error;
   } catch (e) { showError(e.message); }
-});
+}
 </script>
 
 </body>
