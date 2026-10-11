@@ -11,19 +11,20 @@
   <link rel="preload" fetchpriority="high" as="image" href="cover_1.webp" type="image/webp">
 
   <!-- ===== Checkout-Performance: Chrome/Edge bekommt echtes Prerendering ===== -->
-
- <script type="speculationrules">
-{
-  "prerender": [
-    {
-      "urls": [
-        "/neurolab-analyse/checkout/"
-      ]
-    }
-  ]
-}
-</script>
-          
+  <!-- "eager": startet sofort beim Laden der LP, ohne Hover/Touch (bei "source":"list" aktuell
+       gleichbedeutend mit "immediate"; Chrome kann das Verhalten von "eager" künftig noch
+       anpassen, ist aber stets mindestens so eifrig wie "moderate"). -->
+  <script type="speculationrules">
+  {
+    "prerender": [
+      {
+        "source": "list",
+        "urls": ["https://www.neuronalnetwork.de/neurolab-analyse/checkout/"],
+        "eagerness": "eager"
+      }
+    ]
+  }
+  </script>
 
   <!-- ===== Checkout-Performance: Safari/iOS (kein Prerendering) bekommt vorab Verbindungen ===== -->
   <link rel="preconnect" href="https://js.stripe.com" crossorigin>
@@ -590,6 +591,74 @@
       document.querySelectorAll('a[href="' + CHECKOUT_URL + '"]').forEach(function (el) {
         el.addEventListener('touchstart', warmCheckout, { passive: true, once: true });
         el.addEventListener('mouseenter', warmCheckout, { once: true });
+      });
+    })();
+  </script>
+
+  <!-- ===== Performance-Messung bei echten Besuchern (RUM) ===== -->
+  <!-- Zwei Dinge:
+       1) Misst FCP/LCP dieser LP bei jedem echten Besucher (nicht nur bei deinen eigenen Tests)
+          und schickt sie an den Worker.
+       2) Speichert den exakten Klick-Zeitpunkt auf den Checkout-CTA, damit die Checkout-Seite
+          später berechnen kann, wie lange der Nutzer wirklich vom Klick bis zum fertigen
+          Zahlungsformular gewartet hat. Funktioniert unabhängig davon, ob Prerendering greift
+          (Chrome) oder nicht (Safari/iOS) - genau das wollen wir ja vergleichen können. -->
+  <script>
+    (function () {
+      var WORKER = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
+      var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
+
+      function getConn() {
+        var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        return (c && c.effectiveType) || 'unknown';
+      }
+
+      function sendPerf(page, metrics, prerendered) {
+        try {
+          fetch(WORKER + '/perf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true,
+            body: JSON.stringify({ page: page, metrics: metrics, conn: getConn(), prerendered: !!prerendered })
+          }).catch(function () {});
+        } catch (e) {}
+      }
+
+      // --- FCP / LCP dieser LP ---
+      var fcpSent = false, lcpValue = null, lcpTimer = null;
+
+      function maybeSendLcp() {
+        // LCP kann sich bis zum ersten Scroll/Interaktion noch ändern, deshalb etwas verzögert senden
+        clearTimeout(lcpTimer);
+        lcpTimer = setTimeout(function () {
+          if (lcpValue != null) sendPerf('lp', { lcp_ms: Math.round(lcpValue) });
+        }, 2500);
+      }
+
+      try {
+        new PerformanceObserver(function (list) {
+          list.getEntries().forEach(function (entry) {
+            if (entry.name === 'first-contentful-paint' && !fcpSent) {
+              fcpSent = true;
+              sendPerf('lp', { fcp_ms: Math.round(entry.startTime) });
+            }
+          });
+        }).observe({ type: 'paint', buffered: true });
+
+        new PerformanceObserver(function (list) {
+          var entries = list.getEntries();
+          if (entries.length) { lcpValue = entries[entries.length - 1].startTime; maybeSendLcp(); }
+        }).observe({ type: 'largest-contentful-paint', buffered: true });
+      } catch (e) {} // sehr alte Browser ohne PerformanceObserver -> einfach keine Daten
+
+      // --- Klick-Zeitpunkt für die Checkout-Seite merken ---
+      document.querySelectorAll('a[href="' + CHECKOUT_URL + '"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          try {
+            sessionStorage.setItem('nn_cta_click_ts', String(Date.now()));
+            sessionStorage.setItem('nn_cta_conn', getConn());
+          } catch (e) {} // z.B. privater Modus ohne sessionStorage -> dann bleibt der Checkout-Teil der Messung einfach leer
+        });
       });
     })();
   </script>
