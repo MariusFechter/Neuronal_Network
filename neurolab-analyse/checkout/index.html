@@ -504,6 +504,105 @@ async function onExpressConfirm(event) {
     if (error) throw error;
   } catch (e) { showError(e.message); }
 }
+
+// ================= Performance-Messung bei echten Besuchern (RUM) =================
+// Beantwortet die Frage "wie lange wartet der Nutzer wirklich vom Klick bis zum fertigen
+// Checkout" - und zwar bei JEDEM Besucher, nicht nur bei eigenen Tests. Funktioniert
+// unabhängig davon, ob Prerendering gegriffen hat oder nicht (Safari/iOS).
+// Steht bewusst GANZ UNTEN im Script, weil hier auf 'payment' und 'express' zugegriffen wird,
+// die weiter oben in diesem Script deklariert werden (sonst Fehler wegen Deklarationsreihenfolge).
+(function () {
+  var DEBUG = new URLSearchParams(location.search).get('debug') === '1';
+
+  function getConn() {
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    return (c && c.effectiveType) || 'unknown';
+  }
+
+  // Klick-Zeitpunkt von der LP lesen (sessionStorage überlebt die Navigation, auch bei
+  // echtem Prerendering-Aktivieren). Sofort entfernen, damit ein Reload/Zurück-Vor keine
+  // alten Werte wiederverwendet.
+  var clickTs = null;
+  try {
+    var raw = sessionStorage.getItem('nn_cta_click_ts');
+    if (raw) { clickTs = parseInt(raw, 10); sessionStorage.removeItem('nn_cta_click_ts'); }
+    sessionStorage.removeItem('nn_cta_conn');
+  } catch (e) {}
+
+  // War diese Seite tatsächlich vorgerendert? (zuverlässig auch nach der Aktivierung auslesbar)
+  var wasPrerendered = false;
+  try {
+    var nav = performance.getEntriesByType('navigation')[0];
+    wasPrerendered = !!(nav && nav.activationStart > 0);
+  } catch (e) {}
+
+  var metrics = {};
+  var debugBox = null;
+
+  function updateDebugBox() {
+    if (!DEBUG) return;
+    if (!debugBox) {
+      debugBox = document.createElement('div');
+      debugBox.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#4ade80;' +
+        'font:11px/1.5 monospace;padding:10px 12px;border:1px solid #333;border-radius:6px;max-width:280px;white-space:pre;';
+      document.body.appendChild(debugBox);
+    }
+    var lines = ['prerendered: ' + wasPrerendered, 'click_ts: ' + (clickTs ? 'ja' : 'nein (direkt geöffnet)')];
+    Object.keys(metrics).forEach(function (k) { lines.push(k + ': ' + metrics[k] + ' ms'); });
+    debugBox.textContent = lines.join('\n');
+    if (console.table) console.table(metrics);
+  }
+
+  // Nur sinnvoll, wenn wir einen echten Klick-Zeitpunkt von der LP haben (kein direkter
+  // Seitenaufruf, kein Bookmark) - sonst wären die Zahlen nicht aussagekräftig.
+  function recordMetric(key, atMs) {
+    if (!clickTs || metrics[key] != null) return;
+    metrics[key] = Math.max(0, Math.round(atMs - clickTs));
+    updateDebugBox();
+  }
+
+  var sent = false;
+  function doSend() {
+    if (sent || !clickTs || !Object.keys(metrics).length) return;
+    sent = true;
+    fetch(WORKER + '/perf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({ page: 'checkout', prerendered: wasPrerendered, metrics: metrics, conn: getConn() })
+    }).catch(function () {});
+  }
+  function sendIfReady() {
+    var haveBoth = metrics.click_to_payment_ready_ms != null && metrics.click_to_express_ready_ms != null;
+    if (haveBoth) doSend();
+  }
+  // Spätestens nach 8s senden, z.B. falls keine Wallets verfügbar sind und express 'ready' nie feuert
+  setTimeout(doSend, 8000);
+
+  whenActive(function () {
+    if (!clickTs) { if (DEBUG) updateDebugBox(); return; } // kein Klick-Zeitstempel -> keine sinnvolle Messung möglich
+
+    // Sichtbarkeit dieser Seite (FCP), als absoluter Zeitpunkt, vergleichbar mit clickTs
+    try {
+      new PerformanceObserver(function (list) {
+        list.getEntries().forEach(function (entry) {
+          if (entry.name === 'first-contentful-paint') {
+            recordMetric('click_to_fcp_ms', performance.timeOrigin + entry.startTime);
+          }
+        });
+      }).observe({ type: 'paint', buffered: true });
+    } catch (e) {}
+
+    // Kartenformular bedienbar
+    payment.on('ready', function () { recordMetric('click_to_payment_ready_ms', Date.now()); sendIfReady(); });
+    // Wallet-Buttons bedienbar (werden leicht verzögert gemountet, siehe Mount-Staffelung oben).
+    // 'express' wird asynchron zugewiesen, deshalb kurz pollen, bis die Variable gesetzt ist.
+    (function hookExpressReady() {
+      if (!express) { setTimeout(hookExpressReady, 50); return; }
+      express.on('ready', function () { recordMetric('click_to_express_ready_ms', Date.now()); sendIfReady(); });
+    })();
+  });
+})();
 </script>
 
 </body>
