@@ -519,22 +519,10 @@ async function onExpressConfirm(event) {
     return (c && c.effectiveType) || 'unknown';
   }
 
-  // Klick-Zeitpunkt von der LP lesen (sessionStorage überlebt die Navigation, auch bei
-  // echtem Prerendering-Aktivieren). Sofort entfernen, damit ein Reload/Zurück-Vor keine
-  // alten Werte wiederverwendet.
+  // Diese Werte werden erst bei der echten Aktivierung gelesen. Beim Hintergrund-
+  // Prerender existiert der CTA-Klick aus der LP noch nicht.
   var clickTs = null;
-  try {
-    var raw = sessionStorage.getItem('nn_cta_click_ts');
-    if (raw) { clickTs = parseInt(raw, 10); sessionStorage.removeItem('nn_cta_click_ts'); }
-    sessionStorage.removeItem('nn_cta_conn');
-  } catch (e) {}
-
-  // War diese Seite tatsächlich vorgerendert? (zuverlässig auch nach der Aktivierung auslesbar)
   var wasPrerendered = false;
-  try {
-    var nav = performance.getEntriesByType('navigation')[0];
-    wasPrerendered = !!(nav && nav.activationStart > 0);
-  } catch (e) {}
 
   var metrics = {};
   var debugBox = null;
@@ -576,11 +564,30 @@ async function onExpressConfirm(event) {
     var haveBoth = metrics.click_to_payment_ready_ms != null && metrics.click_to_express_ready_ms != null;
     if (haveBoth) doSend();
   }
-  // Spätestens nach 8s senden, z.B. falls keine Wallets verfügbar sind und express 'ready' nie feuert
-  setTimeout(doSend, 8000);
 
   whenActive(function () {
-    if (!clickTs) { if (DEBUG) updateDebugBox(); return; } // kein Klick-Zeitstempel -> keine sinnvolle Messung möglich
+    // Erst jetzt ist der Checkout tatsächlich sichtbar/aktiviert. Daher existiert
+    // nun auch der CTA-Klick aus der LP im sessionStorage.
+    try {
+      var raw = sessionStorage.getItem('nn_cta_click_ts');
+      if (raw) {
+        clickTs = parseInt(raw, 10);
+        sessionStorage.removeItem('nn_cta_click_ts');
+      }
+      sessionStorage.removeItem('nn_cta_conn');
+    } catch (e) {}
+
+    // activationStart ist erst NACH der Prerender-Aktivierung größer als 0.
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      wasPrerendered = !!(nav && nav.activationStart > 0);
+    } catch (e) {}
+
+    // Timeout ebenfalls erst ab dem echten sichtbaren Checkout starten.
+    setTimeout(doSend, 8000);
+
+    // Direkter Aufruf ohne CTA-Klick: keine aussagekräftige Click-to-ready-Messung.
+    if (!clickTs) { if (DEBUG) updateDebugBox(); return; }
 
     // Sichtbarkeit dieser Seite (FCP), als absoluter Zeitpunkt, vergleichbar mit clickTs
     try {
