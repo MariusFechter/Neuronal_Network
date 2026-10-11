@@ -14,17 +14,17 @@
   <!-- "eager": startet sofort beim Laden der LP, ohne Hover/Touch (bei "source":"list" aktuell
        gleichbedeutend mit "immediate"; Chrome kann das Verhalten von "eager" künftig noch
        anpassen, ist aber stets mindestens so eifrig wie "moderate"). -->
-  <script type="speculationrules">
-  {
-    "prerender": [
-      {
-        "source": "list",
-        "urls": ["https://www.neuronalnetwork.de/neurolab-analyse/checkout/"],
-        "eagerness": "eager"
-      }
-    ]
-  }
-  </script>
+<script type="speculationrules">
+{
+  "prerender": [
+    {
+      "urls": [
+        "/neurolab-analyse/checkout/"
+      ]
+    }
+  ]
+}
+</script>
 
   <!-- ===== Checkout-Performance: Safari/iOS (kein Prerendering) bekommt vorab Verbindungen ===== -->
   <link rel="preconnect" href="https://js.stripe.com" crossorigin>
