@@ -8,9 +8,8 @@
   <meta name="color-scheme" content="dark">
   <title>Zugang - Neuronal Network</title>
 
-  <!-- Favicon-Pfade -->
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png.png">
 
   <style>
     :root {
@@ -120,11 +119,10 @@
     <div id="state-success" class="hidden">
       <h1 class="headline">Vielen Dank für dein Vertrauen in Neuronal Network.</h1>
       <p class="intro-text" id="success-intro"></p>
-      <p class="ready-text" id="success-ready"></p>
       <button class="cta-button" id="download-btn" type="button"></button>
       <p class="email-note" id="success-email"></p>
       <div class="divider"></div>
-      <p class="closing-text">Viel Freude beim Lesen und Reflektieren.</p>
+      <p class="closing-text" id="success-closing"></p>
       <p class="signature">Beste Grüße<br><strong>Marius</strong> <span class="brand">| Neuronal Network</span></p>
     </div>
 
@@ -160,7 +158,7 @@
       <p>Diese Seite ist nur direkt nach einem abgeschlossenen Kauf erreichbar.</p>
       <p><strong style="color:#fff;font-weight:600;">Schon gekauft?</strong> Dann findest du deinen Zugang in der Bestätigungs-E-Mail. Schau bitte auch im Spam-Ordner nach.</p>
       <div class="actions">
-        <a class="btn-secondary" id="landing-link" href="https://www.neuronalnetwork.de/neurolab-analyse/checkout/">Zur Analyse</a>
+        <a class="btn-secondary" id="landing-link" href="#">Zur Analyse</a>
       </div>
       <p class="help-note">Keine E-Mail erhalten? Schreib mir an <a href="mailto:info@neuronalnetwork.de">info@neuronalnetwork.de</a> mit der E-Mail-Adresse, die du beim Kauf genutzt hast.</p>
     </div>
@@ -180,16 +178,16 @@
 
     const TEXTS = {
       analyse: {
-        intro: 'Ich wünsche dir erkenntnisreiche Einblicke in die Analyse und neue Perspektiven auf neuropsychologische Prozesse, Wahrnehmung, Emotionen und Verhalten.',
-        ready: 'Die vollständige Analyse steht jetzt für dich bereit.',
-        button: 'Analyse jetzt herunterladen',
-        email: 'Du erhältst die Analyse zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.'
+        intro: 'Hier kannst du deine neuropsychologische Analyse herunterladen.',
+        button: 'Analyse herunterladen',
+        email: 'Du erhältst die Analyse zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.',
+        closing: 'Viel Freude beim Lesen und Entdecken der neuropsychologischen Zusammenhänge. Ich hoffe, die Analyse hilft dir dabei, besser zu verstehen und einzuordnen, wie unterschiedliche Substanzen Wahrnehmung, Denken, Emotionen und Verhalten beeinflussen.'
       },
       lernsystem: {
-        intro: 'Ich wünsche dir viele Erkenntnisse und Fortschritte mit dem neuropsychologischen Lernsystem.',
-        ready: 'Dein Lernsystem steht jetzt für dich bereit.',
-        button: 'Lernsystem jetzt öffnen',
-        email: 'Du erhältst deinen persönlichen Zugangslink zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.'
+        intro: 'Hier kannst du dein neuropsychologisches Lernsystem öffnen.',
+        button: 'Lernsystem öffnen',
+        email: 'Du erhältst deinen persönlichen Zugangslink zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.',
+        closing: 'Viel Freude beim Entdecken und Anwenden. Ich hoffe, das Lernsystem hilft dir dabei, deine neuropsychologischen Muster besser zu verstehen und gezielt zu verändern.'
       }
     };
 
@@ -211,9 +209,9 @@
     function renderSuccess(d) {
       const t = TEXTS[d.product_id] || TEXTS.analyse;
       $('success-intro').textContent = t.intro;
-      $('success-ready').textContent = t.ready;
       $('download-btn').textContent = t.button;
       $('success-email').textContent = t.email;
+      $('success-closing').textContent = t.closing;
       downloadUrl = d.download_url || '';
     }
 
