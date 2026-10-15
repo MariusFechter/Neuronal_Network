@@ -38,6 +38,27 @@
     .access-box { max-width: 520px; width: 100%; text-align: left; }
     .hidden { display: none !important; }
 
+    /* Header & Logo – wie in Datei 2 */
+    .site-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.3rem 0 0rem 0;
+      width: 100%;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo img {
+      display: block;
+      height: auto;
+      max-height: 45px;
+      width: auto;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
     /* Loading */
     .spinner-wrap { text-align: center; color: var(--muted); font-size: 1rem; }
     .spinner {
@@ -106,6 +127,21 @@
   </style>
 </head>
 <body>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a class="brand-logo">
+        <img
+          src="analyse_logo_neuronal_network.webp"
+          alt="Neuronal Network Logo"
+          width="120"
+          height="120"
+          loading="eager"
+          decoding="async"
+        >
+      </a>
+    </div>
+  </header>
 
   <div class="access-box">
 
