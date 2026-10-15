@@ -85,7 +85,11 @@
     }
     .cta-button:hover { opacity: 0.92; }
     .cta-button:active { transform: scale(0.98); }
-    .email-note { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin: 0 0 1.75rem; }
+    
+    /* E-Mail Hinweise ohne großen Zwischenabstand */
+    .email-note { font-size: 0.9rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.25rem; }
+    .posteingang { font-size: 0.9rem; color: var(--muted); line-height: 1.5; margin: 0 0 1.75rem; }
+    
     .divider { height: 1px; background: var(--border); width: 100%; margin: 0 0 1.75rem; }
     .closing-text { font-size: 1rem; color: var(--muted); line-height: 1.6; margin: 0 0 1.5rem; }
     .signature { font-size: 0.95rem; color: var(--muted); margin: 0; }
@@ -157,9 +161,10 @@
       <p class="intro-text" id="success-intro"></p>
       <button class="cta-button" id="download-btn" type="button"></button>
       <p class="email-note" id="success-email"></p>
+      <p class="posteingang" id="posteingang"></p>
       <div class="divider"></div>
       <p class="closing-text" id="success-closing"></p>
-      <p class="signature">Beste Grüße<br><strong>Marius</strong> <span class="brand">| Neuronal Network</span></p>
+      <p class="signature">Beste Grüße<br> Marius <span class="brand">| Neuronal Network</span></p>
     </div>
 
     <!-- 3) Zahlung wird noch bestätigt (SEPA, Klarna, ...) -->
@@ -204,26 +209,26 @@
   <script>
     // ================= Konfiguration =================
     const WORKER        = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
-    const CHECKOUT_URL  = '/neuropsychologische-analyse-checkout/'; // aktuell live: alter Checkout (später auf den neuen Checkout ändern)
-   const LANDING_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/';                  // Startseite bzw. Landingpage, nach Bedarf anpassen
+    const CHECKOUT_URL  = '/neuropsychologische-analyse-checkout/'; 
+    const LANDING_URL   = 'https://www.neuronalnetwork.de/neurolab-analyse/'; 
     const PIXEL_ID      = '1988847275335071';
 
-    // Zentrale Stelle für die Einwilligung. Aktuell immer "ja" (bewusste Entscheidung).
-    // Später: hier den Zustand eines Banners / Consent-Tools abfragen.
     function hasConsent() { return true; }
 
     const TEXTS = {
       analyse: {
         intro: 'Hier kannst du deine neuropsychologische Analyse herunterladen.',
-        button: 'Analyse herunterladen',
-        email: 'Du erhältst die Analyse zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.',
-        closing: 'Viel Freude beim Lesen und Entdecken der neuropsychologischen Zusammenhänge. Ich hoffe, die Analyse hilft dir dabei, besser zu verstehen und einzuordnen, wie unterschiedliche Substanzen Wahrnehmung, Denken, Emotionen und Verhalten beeinflussen.'
+        button: 'Analyse jetzt herunterladen',
+        email: 'Du erhältst die Analyse zusätzlich per E-Mail.',
+        posteingang: 'Bitte prüfe dazu auch deinen Posteingang und den Spam-Ordner.',
+        closing: 'Viel Freude beim Lesen und Entdecken der neuropsychologischen Zusammenhänge.<br>Ich hoffe, die Analyse hilft dir dabei, besser zu verstehen und einzuordnen, wie unterschiedliche Substanzen Wahrnehmung, Denken, Emotionen und Verhalten beeinflussen.'
       },
       lernsystem: {
         intro: 'Hier kannst du dein neuropsychologisches Lernsystem öffnen.',
         button: 'Lernsystem öffnen',
-        email: 'Du erhältst deinen persönlichen Zugangslink zusätzlich per E-Mail. Bitte prüfe auch deinen Posteingang.',
-        closing: 'Viel Freude beim Entdecken und Anwenden. Ich hoffe, das Lernsystem hilft dir dabei, deine neuropsychologischen Muster besser zu verstehen und gezielt zu verändern.'
+        email: 'Du erhältst deinen persönlichen Zugangslink zusätzlich per E-Mail.',
+        posteingang: 'Bitte prüfe dazu auch deinen Posteingang und den Spam-Ordner.',
+        closing: 'Viel Freude beim Entdecken und Anwenden.<br>Ich hoffe, das Lernsystem hilft dir dabei, deine neuropsychologischen Muster besser zu verstehen und gezielt zu verändern.'
       }
     };
 
@@ -247,12 +252,12 @@
       $('success-intro').textContent = t.intro;
       $('download-btn').textContent = t.button;
       $('success-email').textContent = t.email;
-      $('success-closing').textContent = t.closing;
+      $('posteingang').textContent = t.posteingang;
+      $('success-closing').innerHTML = t.closing;
       downloadUrl = d.download_url || '';
     }
 
-    // Meta-Pixel-Purchase: nur bei erfolgreicher Live-Zahlung, nur einmal pro Zahlung,
-    // gleiche event_id wie die serverseitige CAPI-Meldung -> Meta dedupliziert.
+    // Meta-Pixel-Purchase
     function trackPurchase(d) {
       if (!hasConsent() || d.livemode !== true || !d.event_id) return;
       const key = 'nn_purchase_' + d.event_id;
@@ -325,7 +330,6 @@
     (function init() {
       const p = new URLSearchParams(location.search);
 
-      // Design-Vorschau: ?preview=success|processing|failed|invalid (zeigt nur die Oberfläche, gibt keinen Zugang)
       const preview = p.get('preview');
       if (preview && STATES.indexOf(preview) > -1) {
         if (preview === 'success') renderSuccess({ product_id: p.get('product') || 'analyse' });
