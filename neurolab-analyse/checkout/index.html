@@ -32,7 +32,6 @@
             align-items: center;
         }
 
-        /* Header & Logo Styling (1:1 von der LP) */
         .container {
             width: 100%;
             max-width: 1080px;
@@ -69,7 +68,6 @@
             box-sizing: border-box;
         }
 
-        /* Produkt-Header: Cover links, Texte rechts */
         .product-header {
             display: flex;
             align-items: flex-start;
@@ -128,7 +126,6 @@
             color: #ffffff;
         }
 
-        /* Trust-Zeilen mit Icons */
         .trust-facts-block {
             width: 100%;
             box-sizing: border-box;
@@ -187,7 +184,6 @@
         .legal { font-size:12px; color:#a1a1aa; margin-top:16px; line-height:1.5; }
         .legal a { color:#a1a1aa; }
 
-        /* Footer Styles – Variante 6: zentriert, reduziert, editorial */
         .site-footer {
             max-width: 420px;
             width: 100%;
@@ -250,7 +246,6 @@
     <div class="checkout-container">
   <div class="product-kicker">Neuropsychologische Analyse</div>
                 <h1 class="product-title">Rausch oder Realität?</h1>
-        <!-- Produkt-Header: Cover links, Texte daneben -->
         <div class="product-header">
             <div class="product-cover">
                 <img src="../cover_1.webp" alt="Analyse Cover" width="634" height="896">
@@ -264,7 +259,6 @@
             </div>
         </div>
 
-        <!-- Trust-Zeilen -->
         <div class="trust-facts-block">
             <div class="trust-fact-icon-line">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
@@ -282,7 +276,6 @@
 
         <div class="divider"></div>
 
-        <!-- Zahlung -->
         <div id="express-checkout"></div>
 
         <label class="field-label" for="name">Vollständiger Name</label>
@@ -319,25 +312,25 @@ const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cP
 const WORKER      = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
 const RETURN_URL  = 'https://www.neuronalnetwork.de/neurolab-analyse/zugang/?p=analyse';
 const PIXEL_ID    = '1988847275335071';
-// Nur zur Anzeige. Der echte Preis kommt immer vom Worker (Katalog).
 const PRODUCT     = { id: 'analyse', name: 'Rausch oder Realität?', amount: 1490, currency: 'eur' };
 
-// Zentrale Stelle für die Einwilligung. Aktuell immer "ja" (bewusste Entscheidung).
-function hasConsent() { return true; }
+// ?notrack=1 an die URL hängen -> für diesen Aufruf wird NICHTS an Meta gesendet
+// (weder Pixel noch CAPI). Praktisch für Testkäufe, die nicht in die echten Werbedaten einfließen sollen.
+function hasConsent() {
+  return new URLSearchParams(location.search).get('notrack') !== '1';
+}
 
 // ================= Tracking-Helfer =================
 function getCookie(name) {
   const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return m ? decodeURIComponent(m[2]) : '';
 }
-// _fbc-Cookie, sonst aus fbclid in der URL bauen
 function getFbc() {
   const c = getCookie('_fbc');
   if (c) return c;
   const id = new URLSearchParams(location.search).get('fbclid');
   return id ? 'fb.1.' + Date.now() + '.' + id : '';
 }
-// Beim Vorrendern (Speculation Rules) keine Events senden, erst bei echter Aktivierung
 function whenActive(fn) {
   if (document.prerendering) document.addEventListener('prerenderingchange', fn, { once: true });
   else fn();
@@ -351,12 +344,10 @@ function initPixel() {
   fbq('init', PIXEL_ID);
   fbq('track', 'PageView');
 }
-// Pixel erst nach dem Laden der Seite (keine Auswirkung auf FCP/LCP)
 window.addEventListener('load', function () {
   whenActive(function () { if (hasConsent()) initPixel(); });
 });
 
-// AddPaymentInfo: einmal pro Seitenaufruf, Pixel + Server (gleiche event_id -> Deduplizierung)
 let paymentInfoSent = false;
 function trackAddPaymentInfo() {
   if (paymentInfoSent || !hasConsent()) return;
@@ -400,9 +391,6 @@ const elements = stripe.elements({
   }
 });
 
-// Zahlungsarten (Karte, Klarna, Lastschrift ...). E-Mail kommt aus dem eigenen Feld.
-// Wird ZUERST gemountet, damit beim Aktivieren einer vorgerenderten Seite nicht alle
-// Zahlungs-iFrames (Karte + Wallets) im selben Moment anfragen, sondern gestaffelt.
 const payment = elements.create('payment', {
   layout: { type: 'accordion', defaultCollapsed: false, radios: true, spacedAccordionItems: false },
   fields: { billingDetails: { email: 'never' } }
@@ -410,11 +398,6 @@ const payment = elements.create('payment', {
 payment.mount('#payment-element');
 payment.on('change', function (e) { if (e.complete) trackAddPaymentInfo(); });
 
-// Express-Buttons (PayPal, Apple/Google Pay) erst einen Frame später mounten.
-// Grund: Chrome lädt Cross-Origin-iFrames in vorgerenderten Seiten ohnehin erst bei
-// Aktivierung (Klick) - das können wir nicht beschleunigen. Wir können aber verhindern,
-// dass Karte UND alle Wallets gleichzeitig im selben Moment ihre iFrames anfordern,
-// indem wir die Wallet-Buttons minimal später initialisieren als das Kartenformular.
 let express;
 requestAnimationFrame(function () {
   requestAnimationFrame(function () {
@@ -432,7 +415,6 @@ requestAnimationFrame(function () {
       }
     });
     express.mount('#express-checkout');
-    // Kein Wallet verfügbar -> leeren Bereich ausblenden
     express.on('ready', function (e) {
       if (!e.availablePaymentMethods) document.getElementById('express-checkout').style.display = 'none';
     });
@@ -488,8 +470,6 @@ btn.addEventListener('click', async function () {
   catch (e) { showError(e.message || 'Zahlung fehlgeschlagen.'); btn.disabled = false; }
 });
 
-// Express-Zahlung: E-Mail liefert das Wallet selbst (Funktion wird oben beim verzögerten
-// Mounten des Express-Checkout-Elements als 'confirm'-Handler registriert)
 async function onExpressConfirm(event) {
   try {
     const { error: submitError } = await elements.submit();
@@ -506,11 +486,6 @@ async function onExpressConfirm(event) {
 }
 
 // ================= Performance-Messung bei echten Besuchern (RUM) =================
-// Beantwortet die Frage "wie lange wartet der Nutzer wirklich vom Klick bis zum fertigen
-// Checkout" - und zwar bei JEDEM Besucher, nicht nur bei eigenen Tests. Funktioniert
-// unabhängig davon, ob Prerendering gegriffen hat oder nicht (Safari/iOS).
-// Steht bewusst GANZ UNTEN im Script, weil hier auf 'payment' und 'express' zugegriffen wird,
-// die weiter oben in diesem Script deklariert werden (sonst Fehler wegen Deklarationsreihenfolge).
 (function () {
   var DEBUG = new URLSearchParams(location.search).get('debug') === '1';
 
@@ -519,30 +494,18 @@ async function onExpressConfirm(event) {
     return (c && c.effectiveType) || 'unknown';
   }
 
-  // Diese Werte werden erst bei der echten Aktivierung gelesen. Beim Hintergrund-
-  // Prerender existiert der CTA-Klick aus der LP noch nicht.
   var clickTs = null;
   var wasPrerendered = false;
-
   var metrics = {};
-  var debugBox = null;
 
+  // Keine sichtbare Box mehr auf der Seite - nur noch stille Ausgabe in der Browser-Konsole
+  // (F12 -> Console), sichtbar für niemanden, der nicht gezielt danach sucht.
   function updateDebugBox() {
-    if (!DEBUG) return;
-    if (!debugBox) {
-      debugBox = document.createElement('div');
-      debugBox.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#4ade80;' +
-        'font:11px/1.5 monospace;padding:10px 12px;border:1px solid #333;border-radius:6px;max-width:280px;white-space:pre;';
-      document.body.appendChild(debugBox);
-    }
-    var lines = ['prerendered: ' + wasPrerendered, 'click_ts: ' + (clickTs ? 'ja' : 'nein (direkt geöffnet)')];
-    Object.keys(metrics).forEach(function (k) { lines.push(k + ': ' + metrics[k] + ' ms'); });
-    debugBox.textContent = lines.join('\n');
-    if (console.table) console.table(metrics);
+    if (!DEBUG || !console.table) return;
+    console.log('prerendered:', wasPrerendered, '| click_ts vorhanden:', !!clickTs);
+    console.table(metrics);
   }
 
-  // Nur sinnvoll, wenn wir einen echten Klick-Zeitpunkt von der LP haben (kein direkter
-  // Seitenaufruf, kein Bookmark) - sonst wären die Zahlen nicht aussagekräftig.
   function recordMetric(key, atMs) {
     if (!clickTs || metrics[key] != null) return;
     metrics[key] = Math.max(0, Math.round(atMs - clickTs));
@@ -566,8 +529,6 @@ async function onExpressConfirm(event) {
   }
 
   whenActive(function () {
-    // Erst jetzt ist der Checkout tatsächlich sichtbar/aktiviert. Daher existiert
-    // nun auch der CTA-Klick aus der LP im sessionStorage.
     try {
       var raw = sessionStorage.getItem('nn_cta_click_ts');
       if (raw) {
@@ -577,19 +538,15 @@ async function onExpressConfirm(event) {
       sessionStorage.removeItem('nn_cta_conn');
     } catch (e) {}
 
-    // activationStart ist erst NACH der Prerender-Aktivierung größer als 0.
     try {
       var nav = performance.getEntriesByType('navigation')[0];
       wasPrerendered = !!(nav && nav.activationStart > 0);
     } catch (e) {}
 
-    // Timeout ebenfalls erst ab dem echten sichtbaren Checkout starten.
     setTimeout(doSend, 8000);
 
-    // Direkter Aufruf ohne CTA-Klick: keine aussagekräftige Click-to-ready-Messung.
     if (!clickTs) { if (DEBUG) updateDebugBox(); return; }
 
-    // Sichtbarkeit dieser Seite (FCP), als absoluter Zeitpunkt, vergleichbar mit clickTs
     try {
       new PerformanceObserver(function (list) {
         list.getEntries().forEach(function (entry) {
@@ -600,10 +557,7 @@ async function onExpressConfirm(event) {
       }).observe({ type: 'paint', buffered: true });
     } catch (e) {}
 
-    // Kartenformular bedienbar
     payment.on('ready', function () { recordMetric('click_to_payment_ready_ms', Date.now()); sendIfReady(); });
-    // Wallet-Buttons bedienbar (werden leicht verzögert gemountet, siehe Mount-Staffelung oben).
-    // 'express' wird asynchron zugewiesen, deshalb kurz pollen, bis die Variable gesetzt ist.
     (function hookExpressReady() {
       if (!express) { setTimeout(hookExpressReady, 50); return; }
       express.on('ready', function () { recordMetric('click_to_express_ready_ms', Date.now()); sendIfReady(); });
