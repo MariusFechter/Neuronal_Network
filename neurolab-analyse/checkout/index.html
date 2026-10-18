@@ -396,7 +396,11 @@ const payment = elements.create('payment', {
   fields: { billingDetails: { email: 'never' } }
 });
 payment.mount('#payment-element');
-payment.on('change', function (e) { if (e.complete) trackAddPaymentInfo(); });
+
+payment.on('change', function (e) { if (!e.empty) trackAddPaymentInfo(); });
+['name', 'email'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', trackAddPaymentInfo, { once: true });
+});
 
 let express;
 requestAnimationFrame(function () {
