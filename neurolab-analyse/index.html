@@ -661,7 +661,45 @@ body {
         });
       });
     })();
+    
   </script>
+<script src="/neurolab-analyse/tracking.js"></script>
+<script>
+  NN.whenActive(function () {
+    NN.initPixel(true); // PageView sofort
 
+    let timeReached = false;
+    let userInteracted = false;
+    let tracked = false;
+
+    function checkAndTrack() {
+      if (timeReached && userInteracted && !tracked) {
+        tracked = true;
+        NN.track('ViewContent');
+      }
+    }
+
+    // Bedingung 1: 10 Sekunden sichtbare Zeit
+    NN.afterVisibleTime(10, function () {
+      timeReached = true;
+      checkAndTrack();
+    });
+
+    // Bedingung 2: Irgendeine Handlung (Scrollen, Touch, Klick, Keydown)
+    function onInteraction() {
+      userInteracted = true;
+      // Event-Listener direkt entfernen, wenn einmal eine Handlung erkannt wurde
+      ['scroll', 'touchstart', 'click'].forEach(function (e) {
+        window.removeEventListener(e, onInteraction);
+      });
+      checkAndTrack();
+    }
+
+    ['scroll', 'touchstart', 'click'].forEach(function (e) {
+      window.addEventListener(e, onInteraction, { passive: true, once: true });
+    });
+  });
+</script>
+  
 </body>
 </html>
