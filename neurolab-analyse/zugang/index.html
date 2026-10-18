@@ -206,14 +206,14 @@
 
   </div>
 
+  <!-- Gemeinsames Tracking (Pixel + CAPI) -->
+  <script src="/neurolab-analyse/tracking.js"></script>
+
   <script>
     // ================= Konfiguration =================
     const WORKER        = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
-    const CHECKOUT_URL  = '/neuropsychologische-analyse-checkout/'; 
+    const CHECKOUT_URL  = '/neurolab-analyse/checkout/';
     const LANDING_URL   = 'https://www.neuronalnetwork.de/neurolab-analyse/'; 
-    const PIXEL_ID      = '1988847275335071';
-
-    function hasConsent() { return true; }
 
     const TEXTS = {
       analyse: {
@@ -257,19 +257,14 @@
       downloadUrl = d.download_url || '';
     }
 
-    // Meta-Pixel-Purchase
+    // Meta-Pixel-Purchase (nur Livezahlungen). Der Webhook sendet dasselbe Event per CAPI,
+    // beide nutzen die PaymentIntent-ID als event_id -> Meta dedupliziert.
     function trackPurchase(d) {
-      if (!hasConsent() || d.livemode !== true || !d.event_id) return;
+      if (!NN.hasConsent() || d.livemode !== true || !d.event_id) return;
       const key = 'nn_purchase_' + d.event_id;
       try { if (localStorage.getItem(key)) return; } catch (e) {}
 
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-      document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-      fbq('init', PIXEL_ID);
+      if (!NN.initPixel(false)) return;
       fbq('track', 'Purchase', {
         value: d.amount,
         currency: (d.currency || 'eur').toUpperCase(),
@@ -296,10 +291,32 @@
     }
 
     // ================= Neuer Flow (PaymentIntent, ?payment_intent=...) =================
-    async function verify(attempt) {
+    // Die Rücksprung-URL enthält das client_secret der Zahlung. Damit es nicht an Dritte
+    // (z. B. als Seiten-URL an den Meta-Pixel) weitergegeben wird, merken wir uns die Werte nur
+    // für diesen Tab und entfernen sie sofort aus der Adresszeile. Ein Neuladen funktioniert weiter.
+    let creds = { pi: null, cs: null };
+    function loadCreds() {
       const p = new URLSearchParams(location.search);
-      const pi = p.get('payment_intent');
-      const cs = p.get('payment_intent_client_secret');
+      let pi = p.get('payment_intent');
+      let cs = p.get('payment_intent_client_secret');
+      try {
+        if (pi && cs) {
+          sessionStorage.setItem('nn_pi', pi);
+          sessionStorage.setItem('nn_cs', cs);
+        } else {
+          pi = sessionStorage.getItem('nn_pi');
+          cs = sessionStorage.getItem('nn_cs');
+        }
+      } catch (e) {}
+      creds = { pi: pi, cs: cs };
+      if (p.get('payment_intent') || p.get('payment_intent_client_secret')) {
+        try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      }
+    }
+
+    async function verify(attempt) {
+      const pi = creds.pi;
+      const cs = creds.cs;
       if (!pi || !cs) { show('invalid'); return; }
 
       try {
@@ -338,8 +355,10 @@
       }
 
       const sessionId = p.get('session_id');
-      if (sessionId) verifyLegacy(sessionId);
-      else verify(0);
+      if (sessionId) { verifyLegacy(sessionId); return; }
+
+      loadCreds();
+      verify(0);
     })();
   </script>
 </body>
