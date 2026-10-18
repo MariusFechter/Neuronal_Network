@@ -304,6 +304,9 @@
     <div class="footer-brand-name">Neuronal Network</div>
   </footer>
 
+<!-- Gemeinsames Tracking (Pixel + CAPI) -->
+<script src="/neurolab-analyse/tracking.js"></script>
+
 <script>
 // ================= Konfiguration =================
 // Für den Livegang: pk_test -> pk_live (und im Worker sk_test -> sk_live + neuer Live-Webhook)
@@ -311,63 +314,29 @@ const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cP
 
 const WORKER      = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
 const RETURN_URL  = 'https://www.neuronalnetwork.de/neurolab-analyse/zugang/';
-const PIXEL_ID    = '1988847275335071';
 const PRODUCT     = { id: 'analyse', name: 'Rausch oder Realität?', amount: 1490, currency: 'eur' };
 
-// ?notrack=1 an die URL hängen -> für diesen Aufruf wird NICHTS an Meta gesendet
-// (weder Pixel noch CAPI). Praktisch für Testkäufe, die nicht in die echten Werbedaten einfließen sollen.
-function hasConsent() {
-  return new URLSearchParams(location.search).get('notrack') !== '1';
-}
+// ?notrack=1 an die URL hängen -> für diesen Tab wird NICHTS an Meta gesendet (Pixel und CAPI).
+// Das regelt tracking.js (NN.hasConsent).
+const whenActive = NN.whenActive;
 
-// ================= Tracking-Helfer =================
-function getCookie(name) {
-  const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return m ? decodeURIComponent(m[2]) : '';
-}
-function getFbc() {
-  const c = getCookie('_fbc');
-  if (c) return c;
-  const id = new URLSearchParams(location.search).get('fbclid');
-  return id ? 'fb.1.' + Date.now() + '.' + id : '';
-}
-function whenActive(fn) {
-  if (document.prerendering) document.addEventListener('prerenderingchange', fn, { once: true });
-  else fn();
-}
-function initPixel() {
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-  document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', PIXEL_ID);
-  fbq('track', 'PageView');
-}
+// ================= Tracking =================
+// Seite wird aktiv (bei Prerendering erst beim echten Aufruf): PageView + InitiateCheckout
 window.addEventListener('load', function () {
-  whenActive(function () { if (hasConsent()) initPixel(); });
+  whenActive(function () {
+    if (NN.initPixel(true)) NN.track('InitiateCheckout');
+  });
 });
 
+// AddPaymentInfo: einmalig, sobald der Besucher irgendetwas einträgt (Name, E-Mail oder Zahlungsformular)
 let paymentInfoSent = false;
 function trackAddPaymentInfo() {
-  if (paymentInfoSent || !hasConsent()) return;
+  if (paymentInfoSent) return;
   paymentInfoSent = true;
-  const eventId = crypto.randomUUID();
-  if (typeof fbq === 'function') {
-    fbq('track', 'AddPaymentInfo', {
-      value: PRODUCT.amount / 100, currency: 'EUR',
-      content_ids: [PRODUCT.id], content_name: PRODUCT.name, content_type: 'product'
-    }, { eventID: eventId });
-  }
-  fetch(WORKER + '/track', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    keepalive: true,
-    body: JSON.stringify({
-      event_name: 'AddPaymentInfo', event_id: eventId, product_id: PRODUCT.id,
-      fbp: getCookie('_fbp'), fbc: getFbc(), event_source_url: location.href
-    })
-  }).catch(function () {});
+  NN.track('AddPaymentInfo', {
+    email: document.getElementById('email').value,
+    name: document.getElementById('name').value
+  });
 }
 
 // ================= Stripe Elements =================
@@ -397,6 +366,7 @@ const payment = elements.create('payment', {
 });
 payment.mount('#payment-element');
 
+// Feuert einmalig, sobald der Besucher irgendetwas einträgt
 payment.on('change', function (e) { if (!e.empty) trackAddPaymentInfo(); });
 ['name', 'email'].forEach(function (id) {
   document.getElementById(id).addEventListener('input', trackAddPaymentInfo, { once: true });
@@ -432,6 +402,7 @@ const showError = function (m) { errBox.textContent = m || ''; };
 const pageEventId = crypto.randomUUID();
 
 async function createIntent(email, name) {
+  const id = NN.identity(); // fbp, fbc, external_id (leer, falls Tracking aus)
   const r = await fetch(WORKER + '/create-payment-intent', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -440,8 +411,9 @@ async function createIntent(email, name) {
       email: email,
       name: name,
       event_id: pageEventId,
-      fbp: getCookie('_fbp'),
-      fbc: getFbc(),
+      fbp: id.fbp,
+      fbc: id.fbc,
+      external_id: id.external_id,
       event_source_url: location.href
     })
   });
