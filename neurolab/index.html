@@ -8,7 +8,7 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code (nur PageView) -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -19,22 +19,9 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
+    fbq('set', 'autoConfig', false, '1988847275335071'); // keine automatisch erkannten Events
     fbq('init', '1988847275335071');
     fbq('track', 'PageView');
-
-    setTimeout(function() {
-        fbq('track', 'ViewContent');
-    }, 10000);
-
-    function triggerPixelAndRedirect(event, url) {
-        if (event) event.preventDefault();
-        if (typeof fbq === 'function') {
-            fbq('track', 'InitiateCheckout');
-        }
-        setTimeout(function() {
-            window.location.href = url;
-        }, 150);
-    }
     </script>
     <noscript>
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1988847275335071&ev=PageView&noscript=1"/>
@@ -138,8 +125,7 @@
                 <p class="product-subtitle">Wie entsteht das, was wir als Realität erleben – und was passiert, wenn sich diese Verarbeitung verändert?</p>
                 <div class="card-footer">
                     <a href="http://www.neuronalnetwork.de/neuropsychologische-analyse" 
-                       class="checkout-btn" 
-                       onclick="triggerPixelAndRedirect(event, this.href);">Analyse ansehen</a>
+                       class="checkout-btn">Analyse ansehen</a>
                 </div>
             </div>
         </div>
@@ -155,9 +141,8 @@
                 <h2 class="product-title">Emotionale Muster verstehen, erkennen und verändern.</h2>
                 <p class="product-subtitle">Verstehe, warum du in bestimmten Situationen immer wieder gleich reagierst – und wie du deine Muster Schritt für Schritt veränderst.</p>
                 <div class="card-footer">
-                    <a href="https://lernsystem-emotionale-muster-neuronal-network.subscribepage.io/?fbclid=PAZnRzaATzmzlwZG9mAmZkaWQWUM23FVQWCNgicmg4AFyPrhNNi61ns2V4dG4DYWVtAjExAHNydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp5IWFEqFQUq1NJ9UuJr0j4Gq-lZhwteqHSbk1kUmBtAtQS0FVolodlgjPO3a_aem_cjuy88c6O2uo9CgJAW_GjQ&utm_id=97760_v0_s00_e0_tv6_a1denngjrp9jjx" 
-                       class="checkout-btn" 
-                       onclick="triggerPixelAndRedirect(event, this.href);">Kostenfrei eintragen</a>
+                    <a href="https://lernsystem-emotionale-muster-neuronal-network.subscribepage.io/"
+                       class="checkout-btn">Kostenfrei eintragen</a>
                 </div>
             </div>
         </div>
