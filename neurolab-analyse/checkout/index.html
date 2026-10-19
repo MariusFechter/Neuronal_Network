@@ -14,6 +14,8 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png.png">
 
     <script src="https://js.stripe.com/v3/"></script>
+    <!-- Cloudflare Turnstile API -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <style>
         html, body {
@@ -175,6 +177,13 @@
         #name::placeholder, #email::placeholder { color:#52525b; }
         #name:focus, #email:focus { outline:none; border-color:#3b82f6; }
         #express-checkout { margin-top:16px; margin-bottom:8px; }
+        
+        .cf-turnstile-container {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
         #pay-btn {
             width:100%; margin-top:20px; padding:16px; font-size:16px; font-weight:600;
             color:#0f172a; background:#f8fafc; border:0; border-radius:8px; cursor:pointer;
@@ -244,8 +253,8 @@
     </header>
 
     <div class="checkout-container">
-  <div class="product-kicker">Neuropsychologische Analyse</div>
-                <h1 class="product-title">Rausch oder Realität?</h1>
+        <div class="product-kicker">Neuropsychologische Analyse</div>
+        <h1 class="product-title">Rausch oder Realität?</h1>
         <div class="product-header">
             <div class="product-cover">
                 <img src="../cover_1.webp" alt="Analyse Cover" width="634" height="896">
@@ -254,8 +263,8 @@
                 <p class="trust-fact-price">25 Seiten digitale Analyse  </p>
                 <p class="trust-fact-text">  · Basierend auf 27 Studien <br> · Quellen im Anhang nachprüfbar</p>
                 <p class="trust-fact-price">14,90 € (inkl. MwSt.) </p>
-                     <p class="trust-fact-text">· kein Abo <br>· keine Folgekosten</p>
-                          <p class="trust-fact-price">Inklusive künftiger Erweiterungen </p>
+                <p class="trust-fact-text">· kein Abo <br>· keine Folgekosten</p>
+                <p class="trust-fact-price">Inklusive künftiger Erweiterungen </p>
             </div>
         </div>
 
@@ -287,48 +296,53 @@
         <label class="field-label">Zahlungsmethode</label>
         <div id="payment-element"></div>
 
+        <!-- Cloudflare Turnstile Widget (Managed Mode) -->
+        <div class="cf-turnstile-container">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAFbqnN9EihMihQvO" data-theme="dark" data-callback="onTs" data-expired-callback="onTsExpired"></div>
+        </div>
+
         <button id="pay-btn" type="button">Die Analyse Zahlungspflichtig freischalten</button>
         <div id="error" role="alert"></div>
         <p class="legal">Sicherer und verschlüsselter Bezahlvorgang über Stripe.</p>
     </div>
 
-  <footer class="site-footer">
-    <div class="footer-divider"></div>
-    <div class="footer-links-row">
-      <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
-      <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/">Datenschutz</a>&nbsp;&nbsp;
-      <a href="https://www.neuronalnetwork.de/agb/">AGB</a><br>
-      <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/">Widerrufsbelehrung</a>&nbsp;&nbsp;
-      <a href="#">Vertrag widerrufen</a>
-    </div>
-    <div class="footer-brand-name">Neuronal Network</div>
-  </footer>
+    <footer class="site-footer">
+        <div class="footer-divider"></div>
+        <div class="footer-links-row">
+            <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
+            <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/">Datenschutz</a>&nbsp;&nbsp;
+            <a href="https://www.neuronalnetwork.de/agb/">AGB</a><br>
+            <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/">Widerrufsbelehrung</a>&nbsp;&nbsp;
+            <a href="#">Vertrag widerrufen</a>
+        </div>
+        <div class="footer-brand-name">Neuronal Network</div>
+    </footer>
 
 <!-- Gemeinsames Tracking (Pixel + CAPI) -->
 <script src="/neurolab-analyse/tracking.js"></script>
 
 <script>
+// ================= Turnstile State =================
+let tsToken = "";
+window.onTs = function (t) { tsToken = t; };
+window.onTsExpired = function () { tsToken = ""; };
+
 // ================= Konfiguration =================
-// Für den Livegang: pk_test -> pk_live (und im Worker sk_test -> sk_live + neuer Live-Webhook)
 const stripe = Stripe('pk_test_51U4GDXADYxGMVTx4vvZvKafbHLQKBg2PHK22xJtCHrMkX6cPO7B3tbeeWQkj6hjaqcx4zgZbIuP6PMjIhXXO5WYz00GYNgSG1r');
 
 const WORKER      = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
 const RETURN_URL  = 'https://www.neuronalnetwork.de/neurolab-analyse/zugang/';
 const PRODUCT     = { id: 'analyse', name: 'Rausch oder Realität?', amount: 1490, currency: 'eur' };
 
-// ?notrack=1 an die URL hängen -> für diesen Tab wird NICHTS an Meta gesendet (Pixel und CAPI).
-// Das regelt tracking.js (NN.hasConsent).
 const whenActive = NN.whenActive;
 
 // ================= Tracking =================
-// Seite wird aktiv (bei Prerendering erst beim echten Aufruf): PageView + InitiateCheckout
 window.addEventListener('load', function () {
   whenActive(function () {
     if (NN.initPixel(true)) NN.track('InitiateCheckout');
   });
 });
 
-// AddPaymentInfo: einmalig, sobald der Besucher irgendetwas einträgt (Name, E-Mail oder Zahlungsformular)
 let paymentInfoSent = false;
 function trackAddPaymentInfo() {
   if (paymentInfoSent) return;
@@ -366,7 +380,6 @@ const payment = elements.create('payment', {
 });
 payment.mount('#payment-element');
 
-// Feuert einmalig, sobald der Besucher irgendetwas einträgt
 payment.on('change', function (e) { if (!e.empty) trackAddPaymentInfo(); });
 ['name', 'email'].forEach(function (id) {
   document.getElementById(id).addEventListener('input', trackAddPaymentInfo, { once: true });
@@ -402,7 +415,7 @@ const showError = function (m) { errBox.textContent = m || ''; };
 const pageEventId = crypto.randomUUID();
 
 async function createIntent(email, name) {
-  const id = NN.identity(); // fbp, fbc, external_id (leer, falls Tracking aus)
+  const id = NN.identity();
   const r = await fetch(WORKER + '/create-payment-intent', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -414,7 +427,8 @@ async function createIntent(email, name) {
       fbp: id.fbp,
       fbc: id.fbc,
       external_id: id.external_id,
-      event_source_url: location.href
+      event_source_url: location.href,
+      turnstileToken: tsToken // Übermittlung des Turnstile Tokens
     })
   });
   const out = await r.json().catch(function () { return {}; });
@@ -441,9 +455,16 @@ btn.addEventListener('click', async function () {
   const email = document.getElementById('email').value.trim();
   if (name.length < 2) { showError('Bitte gib deinen vollständigen Namen ein.'); return; }
   if (!/^\S+@\S+\.\S+$/.test(email)) { showError('Bitte gib eine gültige E-Mail-Adresse ein.'); return; }
+  
   showError(''); btn.disabled = true;
-  try { await pay(email, name); }
-  catch (e) { showError(e.message || 'Zahlung fehlgeschlagen.'); btn.disabled = false; }
+  try { 
+    await pay(email, name); 
+  } catch (e) { 
+    showError(e.message || 'Zahlung fehlgeschlagen.'); 
+    btn.disabled = false; 
+    tsToken = "";
+    if (window.turnstile) turnstile.reset(); // Turnstile bei Fehler neu laden
+  }
 });
 
 async function onExpressConfirm(event) {
@@ -458,10 +479,14 @@ async function onExpressConfirm(event) {
       elements, clientSecret, confirmParams: { return_url: RETURN_URL }
     });
     if (error) throw error;
-  } catch (e) { showError(e.message); }
+  } catch (e) { 
+    showError(e.message); 
+    tsToken = "";
+    if (window.turnstile) turnstile.reset();
+  }
 }
 
-// ================= Performance-Messung bei echten Besuchern (RUM) =================
+// ================= Performance-Messung (RUM) =================
 (function () {
   var DEBUG = new URLSearchParams(location.search).get('debug') === '1';
 
@@ -474,8 +499,6 @@ async function onExpressConfirm(event) {
   var wasPrerendered = false;
   var metrics = {};
 
-  // Keine sichtbare Box mehr auf der Seite - nur noch stille Ausgabe in der Browser-Konsole
-  // (F12 -> Console), sichtbar für niemanden, der nicht gezielt danach sucht.
   function updateDebugBox() {
     if (!DEBUG || !console.table) return;
     console.log('prerendered:', wasPrerendered, '| click_ts vorhanden:', !!clickTs);
@@ -541,6 +564,5 @@ async function onExpressConfirm(event) {
   });
 })();
 </script>
-
 </body>
 </html>
