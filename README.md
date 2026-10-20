@@ -1,1 +1,1 @@
-Neuronal Network – Neuropsychologisches, datengetriebenes & performantes Setup
+Neuronal Network – Neuropsychologisches, datengetriebenes & performantes Setup.
