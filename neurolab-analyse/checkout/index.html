@@ -8,14 +8,13 @@
     <meta name="color-scheme" content="dark">
     <title>Checkout | Neuronal Network | NeuroLab – Analyse</title>
 
-    
     <link rel="preload" as="image" href="../analyse_logo_neuronal_network.webp" type="image/webp">
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png.png">
 
     <script src="https://js.stripe.com/v3/"></script>
-
+    <!-- Cloudflare Turnstile API -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <style>
@@ -487,6 +486,7 @@ async function onExpressConfirm(event) {
   }
 }
 
+// ================= Performance-Messung (RUM) =================
 (function () {
   var DEBUG = new URLSearchParams(location.search).get('debug') === '1';
 
