@@ -185,20 +185,21 @@
         }
 
         /* 1:1 Anpassung an den CTA-Button der Landingpage */
-        #pay-btn {
-            width: 100%;
-            margin-top: 20px;
-            padding: 0.85rem 1.25rem;
-            font-size: 0.95rem;
-            font-weight: 850;
-            color: #ffffff;
-            background-color: #38b6ff;
-            border: 0;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
-            transition: transform 0.1s ease, background-color 0.15s ease;
-        }
+    #pay-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0.85rem 0.5rem; /* Oben/Unten bleibt 0.85rem, Links/Rechts von 1.25rem auf 0.5rem reduziert */
+    font-size: 0.95rem;       /* Schriftgröße bleibt unverändert */
+    font-weight: 850;
+    white-space: nowrap;      /* Verhindert Zeilenumbrüche absolut */
+    color: #ffffff;
+    background-color: #38b6ff;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+    transition: transform 0.1s ease, background-color 0.15s ease;
+}
 
         #pay-btn:active {
             transform: scale(0.98);
