@@ -788,5 +788,39 @@
   });
 </script>
 
+<!-- NEU: CTA-Tracking (Clarity + Meta InitiateCheckout + Worker-Statistik) -->
+<script>
+(function () {
+  var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
+  var WORKER = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
+  var last = 0;
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href="' + CHECKOUT_URL + '"]');
+    if (!a || !window.NN || !NN.hasConsent()) return;
+    var now = Date.now();
+    if (now - last < 1000) return; // Doppelklicks nicht doppelt zählen
+    last = now;
+
+    var pos = a.closest('.cta-top') ? 'upper' : 'lower';
+
+    try { clarity('event', pos + '_cta_click'); clarity('set', 'cta_position', pos); } catch (err) {}
+
+    var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'ic' + now + Math.random().toString(36).slice(2);
+    try { sessionStorage.setItem('nn_ic_event_id', id); } catch (err) {}
+    NN.track('InitiateCheckout', { eventId: id, cta_source: pos });
+
+    try {
+      fetch(WORKER + '/cta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({ position: pos })
+      }).catch(function () {});
+    } catch (err) {}
+  });
+})();
+</script>
+
 </body>
 </html>
