@@ -369,7 +369,9 @@ const whenActive = NN.whenActive;
 // ================= Tracking =================
 window.addEventListener('load', function () {
   whenActive(function () {
-    if (NN.initPixel(true)) NN.track('InitiateCheckout');
+    // InitiateCheckout wird ausschließlich beim CTA-Klick auf der Landingpage gesendet.
+    // Der Checkout selbst sendet hier nur seinen PageView.
+    NN.initPixel(true);
   });
 });
 
