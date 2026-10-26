@@ -793,20 +793,19 @@
 (function () {
   var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
   var WORKER = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
-  var lastClickTime = 0;
+  var last = 0;
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href="' + CHECKOUT_URL + '"]');
     if (!a || !window.NN || !NN.hasConsent()) return;
-
+    
     var now = Date.now();
-    // Verhindert doppelte Auslösungen innerhalb von 2 Sekunden für denselben Klick
-    if (now - lastClickTime < 2000) {
+    if (now - last < 1500) { // Erhöht auf 1.5 Sekunden als Schutz gegen Doppel-Fire
       e.preventDefault();
-      e.stopPropagation();
+      e.stopPropagation(); // <--- HIER EINBAUEN!
       return;
     }
-    lastClickTime = now;
+    last = now;
 
     var pos = a.closest('.cta-top') ? 'upper' : 'lower';
 
@@ -825,7 +824,7 @@
         body: JSON.stringify({ position: pos })
       }).catch(function () {});
     } catch (err) {}
-  }, { capture: true });
+  }, { capture: true }); // Nutzt den Capture-Phase-Listener, um Bubbling-Feuern zu verhindern!
 })();
 </script>
 </body>
