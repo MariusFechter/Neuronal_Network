@@ -788,36 +788,31 @@
   });
 </script>
 
+
+
 <!-- NEU: CTA-Tracking (Clarity + Meta InitiateCheckout + Worker-Statistik) -->
 <script>
 (function () {
   var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
   var WORKER = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
-  var isLocked = false;
+  var last = 0;
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href="' + CHECKOUT_URL + '"]');
     if (!a || !window.NN || !NN.hasConsent()) return;
-
-    // Harter Lock: Wenn innerhalb der letzten 500ms bereits ein Klick verarbeitet wurde, komplett abbrechen!
-    if (isLocked) {
+    
+    var now = Date.now();
+    if (now - last < 1500) { // Erhöht auf 1.5 Sekunden als Schutz gegen Doppel-Fire
       e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
       return;
     }
-    isLocked = true;
-    setTimeout(function () { isLocked = false; }, 500);
-
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
+    last = now;
 
     var pos = a.closest('.cta-top') ? 'upper' : 'lower';
 
     try { clarity('event', pos + '_cta_click'); clarity('set', 'cta_position', pos); } catch (err) {}
 
-    var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'ic' + Date.now() + Math.random().toString(36).slice(2);
+    var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'ic' + now + Math.random().toString(36).slice(2);
     try { sessionStorage.setItem('nn_ic_event_id', id); } catch (err) {}
     
     NN.track('InitiateCheckout', { eventId: id, cta_source: pos });
@@ -830,12 +825,7 @@
         body: JSON.stringify({ position: pos })
       }).catch(function () {});
     } catch (err) {}
-
-    // Saubere Weiterleitung nach kurzer Ausführung
-    setTimeout(function () {
-      window.location.href = CHECKOUT_URL;
-    }, 100);
-  }, { capture: true });
+  }, { capture: true }); // Nutzt den Capture-Phase-Listener, um Bubbling-Feuern zu verhindern!
 })();
 </script>
 </body>
