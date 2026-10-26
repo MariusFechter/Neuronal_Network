@@ -120,14 +120,14 @@
     opts = opts || {};
     var eventId = opts.eventId || uuid();
 
-    // NEU: CTA-Tracking – Checkout übernimmt die Event-ID vom LP-Klick (Deduplizierung)
+    // NEU: CTA-Tracking – wurde InitiateCheckout schon auf der LP gesendet, hier nicht nochmal
     if (!opts.eventId && eventName === 'InitiateCheckout') {
       try {
         var shared = sessionStorage.getItem('nn_ic_event_id');
-        if (shared) { eventId = shared; sessionStorage.removeItem('nn_ic_event_id'); }
+        if (shared) { sessionStorage.removeItem('nn_ic_event_id'); return shared; }
       } catch (e) {}
     }
-
+    
     var id = identity();
     if (!pixelReady) initPixel(false);
 
