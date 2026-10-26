@@ -788,35 +788,50 @@
   });
 </script>
 
-
-
-<!-- NEU: CTA-Tracking (Clarity + Meta InitiateCheckout + Worker-Statistik) -->
+<!-- CTA-Tracking: Clarity + Meta InitiateCheckout + CTA-Statistik -->
 <script>
 (function () {
   var CHECKOUT_URL = 'https://www.neuronalnetwork.de/neurolab-analyse/checkout/';
   var WORKER = 'https://stripe-checkout-bridge.theneuronalnetwork.workers.dev';
-  var last = 0;
+  var isLocked = false;
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href="' + CHECKOUT_URL + '"]');
     if (!a || !window.NN || !NN.hasConsent()) return;
-    
-    var now = Date.now();
-    if (now - last < 1500) { // Erhöht auf 1.5 Sekunden als Schutz gegen Doppel-Fire
+
+    // Schutz gegen sehr schnelle Doppelklicks
+    if (isLocked) {
       e.preventDefault();
       return;
     }
-    last = now;
+
+    isLocked = true;
+    setTimeout(function () {
+      isLocked = false;
+    }, 500);
+
+    // Die Navigation kurz anhalten, damit Tracking starten kann.
+    // Kein stopPropagation: Die Performance-Messung darf den Klick weiter erhalten.
+    e.preventDefault();
 
     var pos = a.closest('.cta-top') ? 'upper' : 'lower';
 
-    try { clarity('event', pos + '_cta_click'); clarity('set', 'cta_position', pos); } catch (err) {}
+    try {
+      clarity('event', pos + '_cta_click');
+      clarity('set', 'cta_position', pos);
+    } catch (err) {}
 
-    var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'ic' + now + Math.random().toString(36).slice(2);
-    try { sessionStorage.setItem('nn_ic_event_id', id); } catch (err) {}
-    
-    NN.track('InitiateCheckout', { eventId: id, cta_source: pos });
+    // Eine gemeinsame ID für Pixel und serverseitiges CAPI-Event
+    var id = (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'ic' + Date.now() + Math.random().toString(36).slice(2);
 
+    NN.track('InitiateCheckout', {
+      eventId: id,
+      cta_source: pos
+    });
+
+    // Reine interne CTA-Statistik – kein weiteres Meta-Event
     try {
       fetch(WORKER + '/cta', {
         method: 'POST',
@@ -825,7 +840,12 @@
         body: JSON.stringify({ position: pos })
       }).catch(function () {});
     } catch (err) {}
-  }, { capture: true }); // Nutzt den Capture-Phase-Listener, um Bubbling-Feuern zu verhindern!
+
+    // Weiterleitung nach Start der Tracking-Requests
+    setTimeout(function () {
+      window.location.href = CHECKOUT_URL;
+    }, 100);
+  }, { capture: true });
 })();
 </script>
 </body>
