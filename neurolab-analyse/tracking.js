@@ -119,19 +119,6 @@
     if (!hasConsent()) return null;
     opts = opts || {};
     var eventId = opts.eventId || uuid();
-
-
-    // NEU: CTA-Tracking – Checkout übernimmt die Event-ID vom LP-Klick
-if (!opts.eventId && eventName === 'InitiateCheckout') {
-    try {
-        var shared = sessionStorage.getItem('nn_ic_event_id');
-        if (shared) { 
-            opts.eventId = shared; // Übergibt die ID an das Event
-            sessionStorage.removeItem('nn_ic_event_id'); 
-            // WICHTIG: Kein 'return shared;' hier, damit der Code normal weiterläuft!
-        }
-    } catch (e) {}
-}
     
     var id = identity();
     if (!pixelReady) initPixel(false);
