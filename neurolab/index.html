@@ -46,7 +46,6 @@
         .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; background-color: #000000; }
         .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
 
-
         .card-badge {
             position: absolute;
             top: 10px;
@@ -63,44 +62,61 @@
 
         .card-content { padding: 14px; display: flex; flex-direction: column; flex: 1; }
         
-
         .tag { font-size: 0.55rem; font-weight: 700; color: #8F8F96; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 6px; display: block; }
         
- 
         .product-title { font-size: 0.9rem; font-weight: 700; color: #38b6ff; margin-bottom: 4px; white-space: normal; line-height: 1.2; }
         
-       
         .product-subtitle { font-size: 0.7rem; color: #d9d9d9; margin-bottom: 14px; line-height: 1.3; }
-        .site-footer {
-  text-align: center;
-}
-
-.footer-links-row {
-  font-size: 0.656rem;
-  font-weight: 500;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #8a909c;
-  line-height: 2.1;
-}
-
-.footer-links-row a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer-links-row a:hover {
-  color: #ffffff;
-}
-
-.footer-brand-name {
-  margin-top: 16px;
-  font-size: 0.625rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #4b5563;
-}
         
+        /* Neuer Button-Style */
+        .card-footer { margin-top: auto; }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            background-color: #38b6ff;
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 10px 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #2399e5;
+        }
+
+        .site-footer {
+          text-align: center;
+          margin-top: 40px;
+        }
+
+        .footer-links-row {
+          font-size: 0.656rem;
+          font-weight: 500;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+          color: #8a909c;
+          line-height: 2.1;
+        }
+
+        .footer-links-row a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .footer-links-row a:hover {
+          color: #ffffff;
+        }
+
+        .footer-brand-name {
+          margin-top: 16px;
+          font-size: 0.625rem;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: #4b5563;
+        }
     </style>
 </head>
 <body>
@@ -109,7 +125,6 @@
         <h1><span class="brand-light">NEUROLAB</span><span class="separator">|</span><span class="brand-bold">NEURONAL NETWORK</span></h1>
         <p class="subline">Neuropsychologie & Muster</p>
     </div>
-
 
 <div class="product-grid">
 
@@ -125,38 +140,40 @@
         <div class="card-footer">
             <a href="https://www.neuronalnetwork.de/neurolab-analyse" 
                class="checkout-btn" 
-               aria-label="Analyse Rausch oder Realität ansehen">Analyse ansehen</a>
+               aria-label="Analyse Rausch oder Realität ansehen">Analyse<br> ansehen</a>
         </div>
     </div>
 </div>
 
-
-        <div class="product-card">
-            <div class="card-image-wrapper">
-                <img src="lernsystem_cover.webp" alt="Neuropsychologisches Lernsystem" class="card-image">
-                <span class="card-badge">Kostenfrei</span>
-            </div>
-            <div class="card-content">
-                <span class="tag">Neuropsychologisches Lernsystem</span>
-                <h2 class="product-title">Emotionale Muster verstehen, erkennen und verändern.</h2>
-                <p class="product-subtitle">Verstehe, warum du in bestimmten Situationen immer wieder gleich reagierst – und wie du deine Muster Schritt für Schritt veränderst.</p>
-                <div class="card-footer">
-                    <a href="https://lernsystem-emotionale-muster-neuronal-network.subscribepage.io/"
-                       class="checkout-btn">Kostenfrei eintragen</a>
-                </div>
-            </div>
+<div class="product-card">
+    <div class="card-image-wrapper">
+        <img src="lernsystem_cover.webp" alt="Neuropsychologisches Lernsystem" class="card-image">
+        <span class="card-badge">Kostenfrei</span>
+    </div>
+    <div class="card-content">
+        <span class="tag">Neuropsychologisches Lernsystem</span>
+        <h2 class="product-title">Emotionale Muster verstehen, erkennen und verändern.</h2>
+        <p class="product-subtitle">Verstehe, warum du in bestimmten Situationen immer wieder gleich reagierst – und wie du deine Muster Schritt für Schritt veränderst.</p>
+        <div class="card-footer">
+            <a href="https://lernsystem-emotionale-muster-neuronal-network.subscribepage.io/"
+               class="checkout-btn">Kostenfrei <br>eintragen</a>
         </div>
     </div>
-    <footer class="site-footer">
+</div>
+
+</div>
+
+<footer class="site-footer">
     <div class="footer-divider"></div>
     <div class="footer-links-row">
       <a href="https://www.neuronalnetwork.de/impressum/">Impressum</a>&nbsp;&nbsp;
       <a href="https://www.neuronalnetwork.de/datenschutzerklaerung/">Datenschutz</a>&nbsp;&nbsp;
       <a href="https://www.neuronalnetwork.de/agb/">AGB</a><br>
       <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/">Widerrufsbelehrung</a>&nbsp;&nbsp;
-    <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/vertrag-widerrufen/">Vertrag widerrufen</a>
+      <a href="https://www.neuronalnetwork.de/widerrufsbelehrung/vertrag-widerrufen/">Vertrag widerrufen</a>
     </div>
     <div class="footer-brand-name">Neuronal Network</div>
-  </footer>
+</footer>
+
 </body>
 </html>
