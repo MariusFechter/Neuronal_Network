@@ -35,12 +35,12 @@
         .header-container { width: 100%; max-width: 800px; margin: 0 auto 30px auto; text-align: left; }
         
         /* Header Style */
-        h1 { font-size: 1.2rem; text-transform: uppercase; }
+        h1 { font-size: 1.2rem; text-transform: uppercase;letter-spacing: 0.03em }
         .brand-light { font-weight: 400; color: #ff7517; }
         .separator { color: #5ce1e6; margin: 0 6px; }
         .brand-bold { font-weight: 800; color: #ff7517; }
         
-        p.subline { font-size: 0.65rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+        p.subline { font-size: 0.74rem; color: #d9d9d9; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 6px; }
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 800px; margin: 0 auto; }
         .product-card { background-color: #080808; border: 2px solid #333333; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; flex-direction: column; height: 100%; }
         .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; background-color: #000000; }
@@ -120,12 +120,23 @@
           text-transform: uppercase;
           color: #4b5563;
         }
+
+.separator {
+    display: inline-block;
+    width: 1.5px;                   /* Dicke des Strichs */
+    height: 1.3rem;               /* Höhe des Strichs */
+    background-color: #5ce1e6;    /* Farbe des Strichs */
+    margin: 0 8px;                /* Abstand links und rechts */
+    vertical-align: middle;       /* Zentriert ihn exakt mit dem Text */
+    position: relative;
+    top: -2px;                    /* Feinjustierung für den optischen Mittelpunkt */
+}
     </style>
 </head>
 <body>
 
     <div class="header-container">
-        <h1><span class="brand-light">NEUROLAB</span><span class="separator">|</span><span class="brand-bold">NEURONAL NETWORK</span></h1>
+    <h1><span class="brand-light">NEUROLAB</span><span class="separator"></span><span class="brand-bold">NEURONAL NETWORK</span></h1>
         <p class="subline">Neuropsychologie & Muster</p>
     </div>
 
