@@ -46,6 +46,7 @@
         .card-image-wrapper { width: 100%; padding-top: 130%; position: relative; background-color: #000000; }
         .card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
 
+        /* Preis-Bubble: kleiner, schlanker, feine Kontur */
         .card-badge {
             position: absolute;
             top: 10px;
@@ -53,20 +54,22 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(4px);
             color: #ffffff;
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
+            font-size: 0.58rem;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 3px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 999px;
             z-index: 2;
         }
 
         .card-content { padding: 14px; display: flex; flex-direction: column; flex: 1; }
         
-        .tag { font-size: 0.55rem; font-weight: 700; color: #8F8F96; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 6px; display: block; }
+        .tag { font-size: 0.55rem; font-weight: 700; color: #8A96A6; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 6px; display: block; }
         
-        .product-title { font-size: 0.9rem; font-weight: 700; color: #38b6ff; margin-bottom: 4px; white-space: normal; line-height: 1.2; }
+        .product-title { font-size: 0.9rem; font-weight: 700; color: #E6EBF1; margin-bottom: 4px; white-space: normal; line-height: 1.2; }
         
-        .product-subtitle { font-size: 0.7rem; color: #d9d9d9; margin-bottom: 14px; line-height: 1.3; }
+        .product-subtitle { font-size: 0.7rem; color: #B4BECB; margin-bottom: 14px; line-height: 1.3; }
         
         /* Neuer Button-Style */
         .card-footer { margin-top: auto; }
